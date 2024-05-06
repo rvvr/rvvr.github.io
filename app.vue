@@ -1,5 +1,16 @@
 <template>
-  <div class="h-screen w-screen flex justify-center items-center">
+  <div class="pt-8 w-screen flex justify-center items-center">
+    <div v-if="user">
+      <img
+        :src="`https://api.crashgame247.io/users/profile-picture?id=${id}`"
+        class="mt-10 w-20 h-20 inline-block shadow-xl rounded-full"
+      />
+
+      <div class="mt-10 text-xl font-bold">{{ username }}</div>
+      <div class="mt-2">{{ first_name }}</div>
+      <div class="mt-2">{{ id }}</div>
+    </div>
+
     <button id="connect"></button>
   </div>
 </template>
@@ -8,7 +19,15 @@
 import { TonConnectUI } from "@tonconnect/ui";
 
 export default {
-  mounted() {
+  data() {
+    return {
+      username: "",
+      first_name: "",
+      id: "",
+      user: null
+    };
+  },
+  async mounted() {
     const tonConnectUI = new TonConnectUI({
       manifestUrl: "https://rvvr.github.io/tonconnect-manifest.json",
       buttonRootId: "connect"
@@ -17,6 +36,14 @@ export default {
     tonConnectUI.uiOptions = {
       twaReturnUrl: "https://t.me/bullfights_bot"
     };
+
+    const user = window.Telegram.WebApp.initDataUnsafe.user;
+    if (user) {
+      this.user = user;
+      this.username = user.username;
+      this.first_name = user.first_name;
+      this.id = user.id;
+    }
   }
 };
 </script>

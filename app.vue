@@ -6,7 +6,7 @@
         class="mt-10 w-20 h-20 inline-block shadow-xl rounded-full"
       />
 
-      <div class="mt-10 text-xl font-bold">{{ first_name }}</div>
+      <div class="mt-5 mb-10 text-xl font-bold">{{ first_name }}</div>
     </div>
 
     <button id="connect"></button>

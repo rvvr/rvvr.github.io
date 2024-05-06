@@ -13,6 +13,10 @@ export default {
       manifestUrl: "https://rvvr.github.io/tonconnect-manifest.json",
       buttonRootId: "connect"
     });
+
+    tonConnectUI.uiOptions = {
+      twaReturnUrl: "https://t.me/bullfights_bot"
+    };
   }
 };
 </script>

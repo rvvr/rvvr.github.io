@@ -1,14 +1,12 @@
 <template>
-  <div class="pt-8 w-screen flex justify-center items-center">
+  <div class="pt-8 w-screen flex justify-center items-center flex-col">
     <div v-if="user">
       <img
         :src="`https://api.crashgame247.io/users/profile-picture?id=${id}`"
         class="mt-10 w-20 h-20 inline-block shadow-xl rounded-full"
       />
 
-      <div class="mt-10 text-xl font-bold">{{ username }}</div>
-      <div class="mt-2">{{ first_name }}</div>
-      <div class="mt-2">{{ id }}</div>
+      <div class="mt-10 text-xl font-bold">{{ first_name }}</div>
     </div>
 
     <button id="connect"></button>

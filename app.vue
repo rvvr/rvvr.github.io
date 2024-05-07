@@ -6,10 +6,14 @@
         class="mt-10 w-20 h-20 inline-block shadow-xl rounded-full"
       />
 
-      <div class="mt-5 mb-10 text-xl font-bold text-center">{{ first_name }}</div>
+      <div class="mt-5 text-xl font-bold text-center">
+        {{ first_name }}
+      </div>
     </div>
 
     <button id="connect"></button>
+
+    <div class="text-center mt-5 mb-10" v-if="balance">{{ balance }} <b>TON</b></div>
   </div>
 </template>
 
@@ -22,7 +26,8 @@ export default {
       username: "",
       first_name: "",
       id: "",
-      user: null
+      user: null,
+      balance: null
     };
   },
   async mounted() {
@@ -30,11 +35,20 @@ export default {
       manifestUrl: "https://rvvr.github.io/tonconnect-manifest.json",
       buttonRootId: "connect"
     });
-
     tonConnectUI.uiOptions = {
       twaReturnUrl: "https://t.me/bullfights_bot"
     };
 
+    const unsubscribe = tonConnectUI.onStatusChange(async walletAndwalletInfo => {
+      if (walletAndwalletInfo) {
+        const theB = await $fetch(
+          "https://toncenter.com/api/v2/getAddressBalance?address=" + walletAndwalletInfo.account.address
+        );
+        this.balance = theB.result / 1000000000;
+      }
+    });
+
+    // raw data from telegram. should be checked
     const user = window.Telegram.WebApp.initDataUnsafe.user;
     if (user) {
       this.user = user;

@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    "prettier-plugin-organize-attributes",
+    "prettier-plugin-tailwindcss"
+  ],
+  "attributeGroups": [
+    "^(v-if|v-else|v-for)$",
+    "^v-model",
+    "^@",
+    "^:",
+    "^class$",
+    "^(id|name)$",
+    "$DEFAULT",
+    "^aria-"
+  ],
+  "attributeSort": "ASC",
+  "tabWidth": 2,
+  "printWidth": 110,
+  "semi": false,
+  "singleQuote": true
+}

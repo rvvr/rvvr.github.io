@@ -17,6 +17,9 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "daisyui": "^4.11.1"
+    "daisyui": "^4.11.1",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.14"
   }
 }

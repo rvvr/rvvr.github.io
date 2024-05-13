@@ -4,6 +4,6 @@ module.exports = {
   plugins: [daisyui],
 
   daisyui: {
-    themes: ["synthwave"]
+    themes: ["synthwave", "halloween", "luxury"]
   }
 };

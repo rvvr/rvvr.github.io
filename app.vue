@@ -30,7 +30,7 @@
               </div>
               <li><a>Profile</a></li>
               <li><a>Settings</a></li>
-              <li><a @click="exit">exit</a></li>
+              <li><a @click="exit">Logout</a></li>
             </ul>
           </div>
         </div>

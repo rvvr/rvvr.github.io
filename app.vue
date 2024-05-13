@@ -4,23 +4,16 @@
       <div class="flex-1">
         <a class="btn btn-ghost text-xl">Bullfights</a>
       </div>
-
-      <div class="flex-none">
-        <template v-if="user">
-          <div class="dropdown dropdown-end mr-4">{{ first_name }} ({{ balance }} TON)</div>
-          <div class="dropdown dropdown-end mr-4">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-              <div class="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  :src="`https://api.crashgame247.io/users/profile-picture?id=${id}`"
-                />
-              </div>
+      <div class="flex-none gap-2">
+        <div>
+          <button id="connect" class="h-10"></button>
+        </div>
+        <div role="button" class="btn btn-ghost btn-circle avatar">
+          <label v-if="avatar" for="my-drawer-4">
+            <div class="p-1 w-10 h-10 rounded-full overflow-hidden cursor-pointer bg-black">
+              <img alt="Tailwind CSS Navbar component" :src="avatar" />
             </div>
-          </div>
-        </template>
-        <div class="dropdown dropdown-end">
-          <button id="connect" class="mr-4"></button>
+          </label>
         </div>
       </div>
     </div>
@@ -33,7 +26,6 @@
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi.
             In deleniti eaque aut repudiandae et a id nisi.
           </p>
-          <button class="btn btn-primary">Get Started</button>
         </div>
       </div>
     </div>
@@ -89,6 +81,63 @@
         <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
       </aside>
     </footer>
+
+    <div class="drawer drawer-end">
+      <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-side">
+        <div class="menu min-h-full bg-base-200 text-base-content p-4 pt-3 w-80">
+          <div class="flex items-center">
+            <div class="p-1 w-10 h-10 rounded-full overflow-hidden bg-black">
+              <img v-if="avatar" alt="Tailwind CSS Navbar component" :src="avatar" />
+            </div>
+            <div class="ml-4">
+              <span v-if="first_name">{{ first_name }}</span>
+              <span v-if="balance !== null">
+                <b>{{ balance }}</b> TON
+              </span>
+            </div>
+          </div>
+
+          <label
+            for="my-drawer-4"
+            aria-label="close sidebar"
+            class="drawer-overlay absolute top-4 right-4 cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="24"
+              height="24"
+              viewBox="0,0,300,150"
+            >
+              <g
+                fill="#ffffff"
+                fill-rule="nonzero"
+                stroke="none"
+                stroke-width="1"
+                stroke-linecap="butt"
+                stroke-linejoin="miter"
+                stroke-miterlimit="10"
+                stroke-dasharray=""
+                stroke-dashoffset="0"
+                font-family="none"
+                font-weight="none"
+                font-size="none"
+                text-anchor="none"
+                style="mix-blend-mode: normal"
+              >
+                <g transform="scale(8.53333,8.53333)">
+                  <path
+                    d="M7,4c-0.25587,0 -0.51203,0.09747 -0.70703,0.29297l-2,2c-0.391,0.391 -0.391,1.02406 0,1.41406l7.29297,7.29297l-7.29297,7.29297c-0.391,0.391 -0.391,1.02406 0,1.41406l2,2c0.391,0.391 1.02406,0.391 1.41406,0l7.29297,-7.29297l7.29297,7.29297c0.39,0.391 1.02406,0.391 1.41406,0l2,-2c0.391,-0.391 0.391,-1.02406 0,-1.41406l-7.29297,-7.29297l7.29297,-7.29297c0.391,-0.39 0.391,-1.02406 0,-1.41406l-2,-2c-0.391,-0.391 -1.02406,-0.391 -1.41406,0l-7.29297,7.29297l-7.29297,-7.29297c-0.1955,-0.1955 -0.45116,-0.29297 -0.70703,-0.29297z"
+                  ></path>
+                </g>
+              </g>
+            </svg>
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -105,40 +154,62 @@ export default {
   },
   data() {
     return {
-      username: "",
-      first_name: "",
-      id: "",
-      user: null,
-      balance: null
+      first_name: null,
+      id: null,
+      balance: null,
+      ip: null,
+      avatar: null,
+      isGuest: null,
+      tonConnectUI: null
     };
   },
+  methods: {
+    getAvatar() {
+      this.avatar = this.ip
+        ? `https://robohash.org/${this.ip}.png?set=set3`
+        : `https://api.crashgame247.io/users/profile-picture?id=${this.id}`;
+    },
+    async getIp() {
+      let res = await fetch("https://checkip.amazonaws.com/");
+      this.ip = await res.text();
+    },
+    getUser() {
+      const user = window.Telegram.WebApp.initDataUnsafe.user;
+      if (user) {
+        this.first_name = user.first_name;
+        this.id = user.id;
+      }
+    },
+    async getBalance(wallet) {
+      console.log("🚀 ~ getBalance ~ wallet:", wallet);
+      const { result } = await $fetch(
+        "https://toncenter.com/api/v2/getAddressBalance?address=" + wallet.account.address
+      );
+      this.balance = result / 1000000000;
+    }
+  },
   async mounted() {
-    const tonConnectUI = new TonConnectUI({
+    this.getUser();
+    if (!this.id) await this.getIp();
+    this.getAvatar();
+
+    this.tonConnectUI = new TonConnectUI({
       manifestUrl: "https://rvvr.github.io/tonconnect-manifest.json",
       buttonRootId: "connect"
     });
-
-    tonConnectUI.uiOptions = {
+    this.tonConnectUI.uiOptions = {
       twaReturnUrl: "https://t.me/bullfights_bot"
     };
 
-    // raw data from telegram. should be checked
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    console.log("🚀 ~ mounted ~ user:", user);
-    if (user) {
-      console.log("user");
-      this.user = user;
-      this.username = user.username;
-      this.first_name = user.first_name;
-      this.id = user.id;
-    }
+    // const restored = await this.tonConnectUI.connectionRestored;
+    // this.isGuest = !restored;
 
-    const unsubscribe = tonConnectUI.onStatusChange(async walletAndwalletInfo => {
-      if (walletAndwalletInfo) {
-        const theB = await $fetch(
-          "https://toncenter.com/api/v2/getAddressBalance?address=" + walletAndwalletInfo.account.address
-        );
-        this.balance = theB.result / 1000000000;
+    const unsubscribe = this.tonConnectUI.onStatusChange(async wallet => {
+      if (wallet) {
+        this.isGuest = false;
+        await this.getBalance(wallet);
+      } else {
+        this.balance = null;
       }
     });
   }

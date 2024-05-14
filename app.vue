@@ -2,7 +2,7 @@
   <div class="flex min-h-screen flex-col justify-between">
     <div class="navbar bg-base-200">
       <div class="flex-1">
-        <a class="btn btn-ghost text-xl">Bullfights</a>
+        <a class="btn btn-ghost px-2 text-xl">Bullfights</a>
       </div>
       <div class="flex-none gap-2">
         <div>
@@ -37,14 +37,40 @@
       </div>
     </div>
 
-    <div class="hero flex-1">
-      <div class="hero-content text-center">
-        <div class="max-w-md">
-          <h1 class="text-5xl font-bold">Hello there</h1>
-          <p class="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi.
-            In deleniti eaque aut repudiandae et a id nisi.
-          </p>
+    <div class="font-oswald flex-1">
+      <div class="flex items-center justify-between p-4">
+        <div class="text-lime-400">
+          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+          <div class="font-black">
+            <span class="text-2xl">17.7</span>
+            <span class="text-1xl pl-1">(0.0)</span>
+          </div>
+          <div class="text-lg font-medium">177%</div>
+        </div>
+        <div
+          @click="startTimer"
+          :class="timerColor"
+          :style="`--size: 6rem; --thickness: 4px; --value: ` + timerProgress"
+          class="radial-progress border-4 border-base-300 bg-base-300 transition-all duration-[5000ms]"
+          role="progressbar"
+        >
+          <div class="flex flex-col text-center">
+            <div class="flex items-baseline font-mono">
+              <span class="leading-2 text-4xl">
+                {{ timerDisplay }}
+              </span>
+              <span class="text-sm" v-show="timerProgress > 75">.{{ timerDecimals }}</span>
+            </div>
+            <span class="leading-6 text-white">sec</span>
+          </div>
+        </div>
+        <div class="text-right text-red-500">
+          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+          <div class="font-black">
+            <span class="text-2xl">17.7</span>
+            <span class="text-1xl pl-1">(0.0)</span>
+          </div>
+          <div class="text-lg font-medium">177%</div>
         </div>
       </div>
     </div>
@@ -65,16 +91,17 @@
 
 <script>
 import { TonConnectUI } from '@tonconnect/ui'
+import { setInterval } from './node_modules/nuxt/dist/app/compat/interval'
 
 export default {
-  setup() {
-    useHead({
-      htmlAttrs: {
-        'data-theme': 'luxury',
-        // "data-theme": "synthwave"
-      },
-    })
-  },
+  // setup() {
+  //   useHead({
+  //     htmlAttrs: {
+  //       'data-theme': 'acid',
+  //       // "data-theme": "synthwave"
+  //     },
+  //   })
+  // },
   data() {
     return {
       first_name: null,
@@ -84,9 +111,40 @@ export default {
       avatar: null,
       isGuest: null,
       tonConnectUI: null,
+      time: 20000,
+      timer: 20000,
     }
   },
+  computed: {
+    timerDisplay() {
+      return Math.floor(this.timer / 1000)
+    },
+    timerProgress() {
+      const percent = this.time / 100
+      return 100 - this.timer / percent
+    },
+    timerDecimals() {
+      return `${(this.timer + 1000) % 10000}`[1]
+    },
+    timerColor() {
+      const colors = ['text-lime-500', 'text-amber-300', 'text-red-500']
+      console.log(~~(this.timerProgress / 33.3))
+      return colors[~~(this.timerProgress / 33.3)]
+    },
+  },
   methods: {
+    startTimer() {
+      const startTime = Date.now()
+
+      const interval = setInterval(() => {
+        var elapsedTime = Date.now() - startTime
+        this.timer = this.time - elapsedTime
+        if (this.timer < 0) {
+          clearInterval(interval)
+          this.timer = this.time
+        }
+      }, 10)
+    },
     async exit() {
       this.isGuest = null
       this.balance = null
@@ -151,3 +209,19 @@ export default {
   },
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.font-oswald {
+  font-family: 'Oswald', sans-serif;
+  font-optical-sizing: auto;
+}
+</style>

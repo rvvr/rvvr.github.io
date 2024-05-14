@@ -1,9 +1,9 @@
-import daisyui from "daisyui";
+import daisyui from 'daisyui'
 
 module.exports = {
   plugins: [daisyui],
 
   daisyui: {
-    themes: ["synthwave", "halloween", "luxury"]
-  }
-};
+    themes: ['luxury'], //'synthwave', 'acid',
+  },
+}

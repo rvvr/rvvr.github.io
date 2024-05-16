@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-base-300" ref="graph">
+  <div class="flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="layer">
@@ -108,6 +108,7 @@ export default {
     },
     initStage() {
       this.stage.width = this.$refs.graph.clientWidth
+      this.stage.height = this.$refs.graph.clientHeight
     },
     doStep() {
       if (this.layerEndsX) this.moveLayerX()

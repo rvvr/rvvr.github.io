@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-full flex-col justify-between">
+  <div class="flex min-h-dvh flex-col justify-between">
     <div class="navbar bg-base-200">
       <div class="flex-1">
         <a class="btn btn-ghost px-2 text-xl">Bullfights</a>
@@ -40,53 +40,53 @@
         </div>
       </div>
     </div>
-    <div>
-      <div class="font-oswald flex-1">
-        <div class="flex items-center justify-between p-4">
-          <div class="text-lime-400">
-            <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
-            <div class="font-black">
-              <span class="text-2xl">17.7</span>
-              <span class="text-1xl pl-1">(0.0)</span>
-            </div>
-            <div class="text-lg font-medium">177%</div>
-          </div>
 
-          <Timer></Timer>
-
-          <div class="text-right text-red-500">
-            <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
-            <div class="font-black">
-              <span class="text-2xl">17.7</span>
-              <span class="text-1xl pl-1">(0.0)</span>
-            </div>
-            <div class="text-lg font-medium">177%</div>
+    <div class="font-oswald">
+      <div class="flex items-center justify-between p-4">
+        <div class="text-lime-400">
+          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+          <div class="font-black">
+            <span class="text-2xl">17.7</span>
+            <span class="text-1xl pl-1">(0.0)</span>
           </div>
+          <div class="text-lg font-medium">177%</div>
+        </div>
+
+        <Timer></Timer>
+
+        <div class="text-right text-red-500">
+          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+          <div class="font-black">
+            <span class="text-2xl">17.7</span>
+            <span class="text-1xl pl-1">(0.0)</span>
+          </div>
+          <div class="text-lg font-medium">177%</div>
         </div>
       </div>
-      <Graph></Graph>
-      <div class="grid grid-cols-2 gap-4 p-4">
-        <button
-          class="btn h-16 border-2 border-lime-700 bg-lime-500 text-xl font-bold uppercase text-white shadow-md shadow-lime-300"
-        >
-          Up
-        </button>
-        <button
-          class="btn h-16 border-2 border-red-700 bg-red-500 text-xl font-bold uppercase text-white shadow-md shadow-red-300"
-        >
-          Down
-        </button>
-      </div>
-      <div class="grid grid-cols-7 gap-2 p-4 pt-0">
-        <button
-          v-for="item in [5, 10, 15, 25, 50, 100, 200]"
-          :class="[item === 5 ? 'text-white' : 'btn-outline']"
-          :key="item"
-          class="font-oswald btn btn-success border-2"
-        >
-          {{ item }}
-        </button>
-      </div>
+    </div>
+
+    <Graph></Graph>
+    <div class="grid grid-cols-2 gap-4 p-4">
+      <button
+        class="btn h-16 border-2 border-lime-700 bg-lime-500 text-xl font-bold uppercase text-white shadow-md shadow-lime-300"
+      >
+        Up
+      </button>
+      <button
+        class="btn h-16 border-2 border-red-700 bg-red-500 text-xl font-bold uppercase text-white shadow-md shadow-red-300"
+      >
+        Down
+      </button>
+    </div>
+    <div class="grid grid-cols-7 gap-2 p-4 pt-0">
+      <button
+        v-for="item in [5, 10, 15, 25, 50, 100, 200]"
+        :class="[item === 5 ? 'text-white' : 'btn-outline']"
+        :key="item"
+        class="font-oswald btn btn-success border-2"
+      >
+        {{ item }}
+      </button>
     </div>
 
     <!-- <footer class="footer footer-center rounded bg-base-200 p-10 text-base-content">

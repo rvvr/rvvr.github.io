@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen flex-col justify-between">
+  <div class="flex min-h-full flex-col justify-between">
     <div class="navbar bg-base-200">
       <div class="flex-1">
         <a class="btn btn-ghost px-2 text-xl">Bullfights</a>
@@ -30,6 +30,10 @@
               </div>
               <li><a>Profile</a></li>
               <li><a>Settings</a></li>
+              <li><a class="link-hover link">About us</a></li>
+              <li><a class="link-hover link">Contact</a></li>
+              <li><a class="link-hover link">Jobs</a></li>
+              <li><a class="link-hover link">Press kit</a></li>
               <li><a @click="exit">Logout</a></li>
             </ul>
           </div>
@@ -47,6 +51,7 @@
             </div>
             <div class="text-lg font-medium">177%</div>
           </div>
+
           <div
             @click="startTimer"
             :class="timerColor"
@@ -64,6 +69,7 @@
               <span class="leading-6 text-white">sec</span>
             </div>
           </div>
+
           <div class="text-right text-red-500">
             <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
             <div class="font-black">
@@ -75,9 +81,31 @@
         </div>
       </div>
       <Graph></Graph>
+      <div class="grid grid-cols-2 gap-4 p-4">
+        <button
+          class="btn h-16 border-2 border-lime-700 bg-lime-500 text-xl font-bold uppercase text-white shadow-md shadow-lime-300"
+        >
+          Up
+        </button>
+        <button
+          class="btn h-16 border-2 border-red-700 bg-red-500 text-xl font-bold uppercase text-white shadow-md shadow-red-300"
+        >
+          Down
+        </button>
+      </div>
+      <div class="grid grid-cols-7 gap-2 p-4 pt-0">
+        <button
+          v-for="item in [5, 10, 15, 25, 50, 100, 200]"
+          :class="[item === 5 ? 'text-white' : 'btn-outline']"
+          :key="item"
+          class="font-oswald btn btn-success border-2"
+        >
+          {{ item }}
+        </button>
+      </div>
     </div>
 
-    <footer class="footer footer-center rounded bg-base-200 p-10 text-base-content">
+    <!-- <footer class="footer footer-center rounded bg-base-200 p-10 text-base-content">
       <nav class="grid grid-flow-col gap-4">
         <a class="link-hover link">About us</a>
         <a class="link-hover link">Contact</a>
@@ -87,7 +115,7 @@
       <aside>
         <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
       </aside>
-    </footer>
+    </footer> -->
   </div>
 </template>
 

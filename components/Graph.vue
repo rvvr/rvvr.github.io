@@ -12,7 +12,7 @@
 
 <script>
 const step = 1
-const period = 200
+const period = 500
 const lineConf = {
   stroke: 'red',
   strokeWidth: 4,
@@ -27,9 +27,9 @@ export default {
   data() {
     return {
       currentX: 0,
-      points: [0, 100, 0, 100],
+      points: [0, 200, 0, 200],
       layer: { x: 0, y: 0 },
-      stage: { width: 200, height: 200 },
+      stage: { width: 200, height: 400 },
     }
   },
   computed: {
@@ -58,19 +58,30 @@ export default {
     const interval = setInterval(() => {
       this.doStep()
       let y = this.getRandomY(from, to)
+      // let y = this.currentY + 1
 
-      // if (-y + 50 > this.layer.y) {
-      //   this.layer.y = -y + 50
-      // }
+      const offsetTop = -y + 50
+      if (offsetTop > this.layer.y) {
+        for (let i = 0; i < this.points.length; i++) {
+          if (i % 2) this.points[i] += offsetTop
+        }
+        // this.points = this.points.map((c, i) => (i % 2 ? (c += offsetTop) : c))
+        // this.layer.offsetY = offsetTop
+      }
 
-      // if (y + 50 - 200 > this.layer.y) {
-      //   this.layer.y = -(y + 50 - 200)
-      // }
+      const offsetBottom = y + 50 - this.stage.height
+      if (offsetBottom > this.layer.y) {
+        for (let i = 0; i < this.points.length; i++) {
+          if (i % 2) this.points[i] -= offsetBottom
+        }
+        // this.points = this.points.map((c, i) => (i % 2 ? (c -= offsetBottom) : c))
+        // this.layer.offsetY = offsetBottom
+      }
 
       if (Date.now() - startTime > period) {
         this.addPoint(this.currentX, y)
         startTime = Date.now()
-      } else if (!((Date.now() - startTime) % (period / 20))) {
+      } else if (!((Date.now() - startTime) % (period / 200))) {
         this.setLastPointEnd(this.currentX, y)
       } else {
         this.setLastPointEnd(this.currentX, this.currentY)

@@ -1,11 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"],
+  devtools: { enabled: false },
+  modules: ['@nuxtjs/tailwindcss'],
+
+  plugins: ['~/plugins/init.client.js'],
 
   app: {
     head: {
-      script: [{ hid: "stripe", src: "https://telegram.org/js/telegram-web-app.js", defer: true }]
-    }
-  }
-});
+      script: [{ hid: 'stripe', src: 'https://telegram.org/js/telegram-web-app.js', defer: true }],
+    },
+  },
+})

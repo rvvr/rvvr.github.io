@@ -36,43 +36,45 @@
         </div>
       </div>
     </div>
-
-    <div class="font-oswald flex-1">
-      <div class="flex items-center justify-between p-4">
-        <div class="text-lime-400">
-          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
-          <div class="font-black">
-            <span class="text-2xl">17.7</span>
-            <span class="text-1xl pl-1">(0.0)</span>
-          </div>
-          <div class="text-lg font-medium">177%</div>
-        </div>
-        <div
-          @click="startTimer"
-          :class="timerColor"
-          :style="`--size: 6rem; --thickness: 4px; --value: ` + timerProgress"
-          class="radial-progress border-4 border-base-300 bg-base-300 transition-all duration-[5000ms]"
-          role="progressbar"
-        >
-          <div class="flex flex-col text-center">
-            <div class="flex items-baseline font-mono">
-              <span class="leading-2 text-4xl">
-                {{ timerDisplay }}
-              </span>
-              <span class="text-sm" v-show="timerProgress > 75">.{{ timerDecimals }}</span>
+    <div>
+      <div class="font-oswald flex-1">
+        <div class="flex items-center justify-between p-4">
+          <div class="text-lime-400">
+            <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+            <div class="font-black">
+              <span class="text-2xl">17.7</span>
+              <span class="text-1xl pl-1">(0.0)</span>
             </div>
-            <span class="leading-6 text-white">sec</span>
+            <div class="text-lg font-medium">177%</div>
           </div>
-        </div>
-        <div class="text-right text-red-500">
-          <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
-          <div class="font-black">
-            <span class="text-2xl">17.7</span>
-            <span class="text-1xl pl-1">(0.0)</span>
+          <div
+            @click="startTimer"
+            :class="timerColor"
+            :style="`--size: 6rem; --thickness: 4px; --value: ` + timerProgress"
+            class="radial-progress border-4 border-base-300 bg-base-300 transition-all duration-[5000ms]"
+            role="progressbar"
+          >
+            <div class="flex flex-col text-center">
+              <div class="flex items-baseline font-mono">
+                <span class="leading-2 text-4xl">
+                  {{ timerDisplay }}
+                </span>
+                <span class="text-sm" v-show="timerProgress > 75">.{{ timerDecimals }}</span>
+              </div>
+              <span class="leading-6 text-white">sec</span>
+            </div>
           </div>
-          <div class="text-lg font-medium">177%</div>
+          <div class="text-right text-red-500">
+            <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
+            <div class="font-black">
+              <span class="text-2xl">17.7</span>
+              <span class="text-1xl pl-1">(0.0)</span>
+            </div>
+            <div class="text-lg font-medium">177%</div>
+          </div>
         </div>
       </div>
+      <Graph></Graph>
     </div>
 
     <footer class="footer footer-center rounded bg-base-200 p-10 text-base-content">
@@ -128,7 +130,6 @@ export default {
     },
     timerColor() {
       const colors = ['text-lime-500', 'text-amber-300', 'text-red-500']
-      console.log(~~(this.timerProgress / 33.3))
       return colors[~~(this.timerProgress / 33.3)]
     },
   },
@@ -168,7 +169,6 @@ export default {
       }
     },
     async getBalance(wallet) {
-      console.log('🚀 ~ getBalance ~ wallet:', wallet)
       const { result } = await $fetch(
         'https://toncenter.com/api/v2/getAddressBalance?address=' + wallet.account.address,
       )

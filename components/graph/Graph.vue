@@ -8,6 +8,7 @@
           <v-line :config="line"></v-line>
           <v-line :config="delimiter"></v-line>
           <v-circle :config="lineEnd"></v-circle>
+          <v-text :config="topText"></v-text>
         </v-layer>
       </v-stage>
     </client-only>
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-import { lineConf, lineEndConf, delimiterConf, rectConf, topRectConf, bottomRectConf } from './graph'
+import { lineConf, lineEndConf, delimiterConf, topText, topRectConf, bottomRectConf } from './graph'
 
 const step = 1
 const period = 500
@@ -24,9 +25,9 @@ export default {
   data() {
     return {
       currentX: 0,
-      points: [0, 200, 0, 200],
+      points: [0, 0, 0, 0],
       layer: { x: 0, y: 0 },
-      stage: { width: 0, height: 400 },
+      stage: { width: 0, height: 0 },
     }
   },
   computed: {
@@ -69,6 +70,9 @@ export default {
         ...bottomRectConf,
       }
     },
+    topText() {
+      return { ...topText, x: this.stage.width / 2 - 100 }
+    },
   },
   mounted() {
     this.initStage()
@@ -109,6 +113,8 @@ export default {
     initStage() {
       this.stage.width = this.$refs.graph.clientWidth
       this.stage.height = this.$refs.graph.clientHeight
+      const center = [0, this.stage.height / 2]
+      this.points = [...center, ...center]
     },
     doStep() {
       if (this.layerEndsX) this.moveLayerX()

@@ -33,3 +33,14 @@ export const bottomRectConf = {
   fillLinearGradientColorStops: [0, colors.red['500'], 1, '#09090b'],
   ...rectConf,
 }
+
+export const topText = {
+  y: 0,
+  width: 200,
+  text: 'UP OR DOWN?\nPLACE YOUR TRADE!',
+  fontSize: 18,
+  fontFamily: 'Oswald',
+  fill: 'yellow',
+  align: 'center',
+  fontStyle: 'bold',
+}

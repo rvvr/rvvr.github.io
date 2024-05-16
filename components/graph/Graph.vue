@@ -3,7 +3,11 @@
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="layer">
+          <v-rect :config="bottomRect"></v-rect>
+          <v-rect :config="topRect"></v-rect>
           <v-line :config="line"></v-line>
+          <v-line :config="delimiter"></v-line>
+          <v-circle :config="lineEnd"></v-circle>
         </v-layer>
       </v-stage>
     </client-only>
@@ -11,25 +15,18 @@
 </template>
 
 <script>
+import { lineConf, lineEndConf, delimiterConf, rectConf, topRectConf, bottomRectConf } from './graph'
+
 const step = 1
 const period = 500
-const lineConf = {
-  stroke: 'red',
-  strokeWidth: 4,
-  lineCap: 'round',
-  lineJoin: 'round',
-  shadowColor: 'white',
-  shadowBlur: 10,
-  shadowOffset: { x: -10, y: 0 },
-  shadowOpacity: 0.5,
-}
+
 export default {
   data() {
     return {
       currentX: 0,
       points: [0, 200, 0, 200],
       layer: { x: 0, y: 0 },
-      stage: { width: 200, height: 400 },
+      stage: { width: 0, height: 400 },
     }
   },
   computed: {
@@ -48,6 +45,30 @@ export default {
     currentY() {
       return this.lastPointEnd[1]
     },
+
+    // ui
+    lineEnd() {
+      return { x: this.currentX, y: this.currentY, ...lineEndConf }
+    },
+    delimiter() {
+      return { points: [0, this.currentY, this.stage.width, this.currentY], ...delimiterConf }
+    },
+    topRect() {
+      return {
+        width: this.stage.width,
+        height: this.currentY,
+        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
+        ...topRectConf,
+      }
+    },
+    bottomRect() {
+      return {
+        width: this.stage.width,
+        height: this.stage.height,
+        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
+        ...bottomRectConf,
+      }
+    },
   },
   mounted() {
     this.initStage()
@@ -58,24 +79,17 @@ export default {
     const interval = setInterval(() => {
       this.doStep()
       let y = this.getRandomY(from, to)
-      // let y = this.currentY + 1
 
+      // check top overflow
       const offsetTop = -y + 50
       if (offsetTop > this.layer.y) {
-        for (let i = 0; i < this.points.length; i++) {
-          if (i % 2) this.points[i] += offsetTop
-        }
-        // this.points = this.points.map((c, i) => (i % 2 ? (c += offsetTop) : c))
-        // this.layer.offsetY = offsetTop
+        for (let i = 0; i < this.points.length; i++) if (i % 2) this.points[i] += offsetTop
       }
 
+      // check bottom overflow
       const offsetBottom = y + 50 - this.stage.height
       if (offsetBottom > this.layer.y) {
-        for (let i = 0; i < this.points.length; i++) {
-          if (i % 2) this.points[i] -= offsetBottom
-        }
-        // this.points = this.points.map((c, i) => (i % 2 ? (c -= offsetBottom) : c))
-        // this.layer.offsetY = offsetBottom
+        for (let i = 0; i < this.points.length; i++) if (i % 2) this.points[i] -= offsetBottom
       }
 
       if (Date.now() - startTime > period) {
@@ -97,13 +111,10 @@ export default {
     },
     doStep() {
       if (this.layerEndsX) this.moveLayerX()
-      this.currentX += step
+      else this.currentX += step
     },
     moveLayerX() {
-      this.layer.x -= step
-    },
-    getLastPointStart() {
-      return this.points.slice(-4, 2)
+      for (let i = 0; i < this.points.length; i++) if (!(i % 2)) this.points[i] -= step
     },
     setLastPointEnd(x, y) {
       this.points = this.points.slice(0, -2).concat([x, y])

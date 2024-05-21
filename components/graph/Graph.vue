@@ -5,10 +5,8 @@
         <v-layer :config="layer">
           <v-rect :config="bottomRect"></v-rect>
           <v-rect :config="topRect"></v-rect>
-
           <v-line v-for="i in xLinesCount" :config="xLines[i]" key="i"></v-line>
           <v-text v-for="i in xLinesCount" :config="xLinesLabels[i]" key="i"></v-text>
-
           <v-line :config="delimiter"></v-line>
           <v-line :config="line"></v-line>
           <v-circle :config="lineEnd"></v-circle>
@@ -35,59 +33,46 @@ import {
   livePriceTextRect,
   livePriceRateText,
   livePriceRateTextRect,
+  xLine,
+  xLinesLabel,
 } from './graphData'
 
 const step = 1
-const period = 700
+const period = 500
 
 export default {
   data() {
     return {
-      xLinesCount: 100,
+      rate: 70000,
       currentX: 0,
       points: [0, 0, 0, 0],
       layer: { x: 0, y: 0 },
       stage: { width: 0, height: 0 },
+      // lines
+      xLinesCount: 100,
+      xLines: [],
+      xLinesLabels: [],
+      xLinesOffset: 0,
     }
   },
   computed: {
-    xLinesLabels() {
-      return [...Array(this.xLinesCount)].map((c, i) => {
-        const y = (i * this.stage.height) / 5.75 + 1 - 5
-        const x = this.stage.width - 70 + 5
-        return {
-          x,
-          y,
-          width: 200,
-          text: this.xLinesCount * 100 - i * 100,
-          fontSize: 12,
-          fontFamily: 'Oswald',
-          fill: '#fff',
-          opacity: 0.2,
-        }
-      })
-    },
-    xLines() {
-      return [...Array(this.xLinesCount)].map((c, i) => {
-        const y = (i * this.stage.height) / 5.75 + 1
-        const x = this.stage.width - 70
-        return {
-          lineCap: 'round',
-          stroke: 'white',
-          strokeWidth: 1,
-          opacity: 0.2,
-          points: [0, y, x, y],
-        }
-      })
-    },
+    // xLinesLabels() {
+    //   const start = this.rate - this.xLinesCount * 10
+    //   return [...Array(this.xLinesCount)].map((c, i) => {
+    //     return {
+    //       width: this.stage.width,
+    //       // price per pixel
+    //       y: (i * this.stage.height) / 8 + 4,
+
+    //       text: start + i * 10,
+
+    //       ...xLinesLabels,
+    //     }
+    //   })
+    // },
+
     line() {
       return { ...lineConf, points: this.points }
-    },
-    layerEndsX() {
-      return this.currentX >= this.stage.width / 2
-    },
-    lastPointStart() {
-      return this.points.slice(-4, 2)
     },
     lastPointEnd() {
       return this.points.slice(-2)
@@ -140,7 +125,7 @@ export default {
         ...livePriceRateText,
         x: this.livePriceX,
         y: this.livePriceY + 1,
-        text: this.currentY,
+        text: this.rate.toFixed(4),
       }
     },
     livePriceTextRect() {
@@ -161,47 +146,66 @@ export default {
   mounted() {
     this.initStage()
     let startTime = Date.now()
-    let from = -10
-    let to = 10
 
     const interval = setInterval(() => {
+      let newRate = this.rate + this.randomize(0, 0)
+      const change = this.rate - newRate
+      let y = this.currentY + change
+      this.rate = newRate
       this.doStep()
-      let y = this.getRandomY(from, to)
-
-      // check top overflow
-      const offsetTop = -y + 50
-      if (offsetTop > this.layer.y) {
-        for (let i = 0; i < this.points.length; i++) if (i % 2) this.points[i] += offsetTop
-      }
-
-      // check bottom overflow
-      const offsetBottom = y + 50 - this.stage.height
-      if (offsetBottom > this.layer.y) {
-        for (let i = 0; i < this.points.length; i++) if (i % 2) this.points[i] -= offsetBottom
-      }
 
       if (Date.now() - startTime > period) {
         this.addPoint(this.currentX, y)
         startTime = Date.now()
-      } else if (!((Date.now() - startTime) % (period / 200))) {
-        this.setLastPointEnd(this.currentX, y)
-      } else {
-        this.setLastPointEnd(this.currentX, this.currentY)
+      }
+      // funny animations
+      // else if (!((Date.now() - startTime) % (period / 200))) {
+      //   this.setLastPointEnd(this.currentX, y)
+      // } else {
+      //   this.setLastPointEnd(this.currentX, this.currentY)
+      // }
+
+      if (y < 100 || y > this.stage.height - 100) {
+        for (let i = 0; i < this.points.length; i++) {
+          if (i % 2) {
+            this.points[i] -= change
+          }
+        }
       }
     }, 50)
   },
   methods: {
-    getRandomY(min, max) {
-      return this.currentY + Math.floor(Math.random() * (max - min + 1) + min)
+    randomize(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min)
     },
     initStage() {
       this.stage.width = this.$refs.graph.clientWidth
       this.stage.height = this.$refs.graph.clientHeight
       const center = [0, this.stage.height / 2]
       this.points = [...center, ...center]
+
+      // lines
+      const startPrice = this.rate - (this.xLinesCount / 2) * 10
+      const startY = center[1] - (this.xLinesCount / 2) * 10
+      this.xLines = [...Array(this.xLinesCount)].map((c, i) => {
+        let y = startY + i * 10
+        return {
+          points: [0, y, this.stage.width, y],
+          ...xLine,
+        }
+      })
+      this.xLinesLabels = [...Array(this.xLinesCount)].map((c, i) => {
+        return {
+          width: this.stage.width,
+          y: startY + i * 10,
+          text: startPrice + i * 10,
+          ...xLinesLabel,
+        }
+      })
     },
     doStep() {
-      if (this.layerEndsX) this.moveLayerX()
+      const layerEndsX = this.currentX >= this.stage.width / 2
+      if (layerEndsX) this.moveLayerX()
       else this.currentX += step
     },
     moveLayerX() {
@@ -216,5 +220,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

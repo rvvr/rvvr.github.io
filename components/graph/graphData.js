@@ -90,3 +90,20 @@ export const livePriceRateTextRect = {
   shadowOpacity: 0.5,
   cornerRadius: 7,
 }
+
+export const xLine = {
+  lineCap: 'round',
+  stroke: 'white',
+  strokeWidth: 1,
+  opacity: 0.2,
+}
+
+export const xLinesLabel = {
+  x: 0,
+  fontSize: 12,
+  fontFamily: 'Oswald',
+  fill: '#fff',
+  opacity: 0.2,
+  align: 'right',
+  offsetX: 16,
+}

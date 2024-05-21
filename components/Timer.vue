@@ -58,7 +58,7 @@ export default {
     },
   },
   mounted() {
-    this.startTimer()
+    // this.startTimer()
   },
 }
 </script>

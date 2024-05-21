@@ -134,23 +134,23 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      let newRate = this.rate + this.randomize(-30000, 30000)
+      let newRate = this.rate + this.randomize(-10000, 10000)
       const change = this.rate - newRate
       let y = this.currentY + (change / 10000) * ratio
       this.rate = newRate
       this.doStep()
 
-      if (Date.now() - startTime > period) {
-        this.addPoint(this.currentX, y)
-        startTime = Date.now()
-      }
+      // if (Date.now() - startTime > period) {
+      this.addPoint(this.currentX, y)
+      // startTime = Date.now()
+      // }
 
       // animations
-      else if (!((Date.now() - startTime) % (period / 200))) {
-        this.setLastPointEnd(this.currentX, y)
-      } else {
-        this.setLastPointEnd(this.currentX, this.currentY)
-      }
+      // else if (!((Date.now() - startTime) % (period / 200))) {
+      //   this.setLastPointEnd(this.currentX, y)
+      // } else {
+      //   this.setLastPointEnd(this.currentX, this.currentY)
+      // }
 
       if (y < 100 || y > this.stage.height - 100) {
         // graph
@@ -212,7 +212,12 @@ export default {
       else this.currentX += step
     },
     moveLayerX() {
-      for (let i = 0; i < this.points.length; i++) if (!(i % 2)) this.points[i] -= step
+      for (let i = 0; i < this.points.length; i++) {
+        if (!(i % 2)) {
+          this.points[i] -= step
+        }
+      }
+      this.points = this.points.slice(4)
     },
     setLastPointEnd(x, y) {
       this.points = this.points.slice(0, -2).concat([x, y])

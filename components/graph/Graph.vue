@@ -5,8 +5,8 @@
         <v-layer :config="layer">
           <v-rect :config="bottomRect"></v-rect>
           <v-rect :config="topRect"></v-rect>
-          <v-line v-for="i in xLinesCount" :config="xLines[i]" key="i"></v-line>
-          <v-text v-for="i in xLinesCount" :config="xLinesLabels[i]" key="i"></v-text>
+          <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i"></v-line>
+          <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i"></v-text>
           <v-line :config="delimiter"></v-line>
           <v-line :config="line"></v-line>
           <v-circle :config="lineEnd"></v-circle>
@@ -37,40 +37,26 @@ import {
   xLinesLabel,
 } from './graphData'
 
-const step = 1
+const step = 2
 const period = 500
+const ratio = 5 // pixels for dollar
+const xLinesCount = 9
 
 export default {
   data() {
     return {
-      rate: 70000,
+      rate: 700000000,
       currentX: 0,
       points: [0, 0, 0, 0],
       layer: { x: 0, y: 0 },
       stage: { width: 0, height: 0 },
       // lines
-      xLinesCount: 100,
       xLines: [],
       xLinesLabels: [],
       xLinesOffset: 0,
     }
   },
   computed: {
-    // xLinesLabels() {
-    //   const start = this.rate - this.xLinesCount * 10
-    //   return [...Array(this.xLinesCount)].map((c, i) => {
-    //     return {
-    //       width: this.stage.width,
-    //       // price per pixel
-    //       y: (i * this.stage.height) / 8 + 4,
-
-    //       text: start + i * 10,
-
-    //       ...xLinesLabels,
-    //     }
-    //   })
-    // },
-
     line() {
       return { ...lineConf, points: this.points }
     },
@@ -125,7 +111,7 @@ export default {
         ...livePriceRateText,
         x: this.livePriceX,
         y: this.livePriceY + 1,
-        text: this.rate.toFixed(4),
+        text: (this.rate / 10000).toFixed(4),
       }
     },
     livePriceTextRect() {
@@ -148,9 +134,9 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      let newRate = this.rate + this.randomize(0, 0)
+      let newRate = this.rate + this.randomize(-20000, 20000)
       const change = this.rate - newRate
-      let y = this.currentY + change
+      let y = this.currentY + (change / 10000) * ratio
       this.rate = newRate
       this.doStep()
 
@@ -158,21 +144,22 @@ export default {
         this.addPoint(this.currentX, y)
         startTime = Date.now()
       }
-      // funny animations
-      // else if (!((Date.now() - startTime) % (period / 200))) {
-      //   this.setLastPointEnd(this.currentX, y)
-      // } else {
-      //   this.setLastPointEnd(this.currentX, this.currentY)
-      // }
+
+      // animations
+      else if (!((Date.now() - startTime) % (period / 200))) {
+        this.setLastPointEnd(this.currentX, y)
+      } else {
+        this.setLastPointEnd(this.currentX, this.currentY)
+      }
 
       if (y < 100 || y > this.stage.height - 100) {
         for (let i = 0; i < this.points.length; i++) {
           if (i % 2) {
-            this.points[i] -= change
+            this.points[i] -= (change / 10000) * ratio
           }
         }
       }
-    }, 50)
+    }, 100)
   },
   methods: {
     randomize(min, max) {
@@ -185,21 +172,26 @@ export default {
       this.points = [...center, ...center]
 
       // lines
-      const startPrice = this.rate - (this.xLinesCount / 2) * 10
-      const startY = center[1] - (this.xLinesCount / 2) * 10
-      this.xLines = [...Array(this.xLinesCount)].map((c, i) => {
-        let y = startY + i * 10
-        return {
-          points: [0, y, this.stage.width, y],
-          ...xLine,
-        }
-      })
-      this.xLinesLabels = [...Array(this.xLinesCount)].map((c, i) => {
+      const tempo = Math.floor(xLinesCount / 2)
+      const pixelsBetween = ratio * 10
+      const startY = center[1] - tempo * pixelsBetween
+      const arrLines = [...Array(xLinesCount)].map((c, i) => ({
+        y: startY + i * pixelsBetween,
+      }))
+
+      this.xLines = arrLines.map((c, i) => ({
+        points: [0, c.y, this.stage.width, c.y],
+        ...xLine,
+      }))
+
+      const moneyBetween = 100000
+      const startPrice = this.rate + tempo * moneyBetween
+      this.xLinesLabels = arrLines.map((c, i) => {
         return {
           width: this.stage.width,
-          y: startY + i * 10,
-          text: startPrice + i * 10,
+          text: ((startPrice - i * moneyBetween) / 10000).toFixed(4),
           ...xLinesLabel,
+          ...c,
         }
       })
     },

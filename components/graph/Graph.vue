@@ -40,7 +40,8 @@ import {
 const step = 2
 const period = 500
 const ratio = 5 // pixels for dollar
-const xLinesCount = 9
+const xLinesCount = 50
+const moneyBetween = 200000
 
 export default {
   data() {
@@ -134,32 +135,33 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      let newRate = this.rate + this.randomize(-20000, 20000)
+      let newRate = this.rate + 10000
+      // let newRate = this.rate + this.randomize(-20000, 20000)
       const change = this.rate - newRate
       let y = this.currentY + (change / 10000) * ratio
       this.rate = newRate
       this.doStep()
 
-      if (Date.now() - startTime > period) {
-        this.addPoint(this.currentX, y)
-        startTime = Date.now()
-      }
+      // if (Date.now() - startTime > period) {
+      this.addPoint(this.currentX, y)
+      startTime = Date.now()
+      // }
 
       // animations
-      else if (!((Date.now() - startTime) % (period / 200))) {
-        this.setLastPointEnd(this.currentX, y)
-      } else {
-        this.setLastPointEnd(this.currentX, this.currentY)
-      }
+      // else if (!((Date.now() - startTime) % (period / 200))) {
+      //   this.setLastPointEnd(this.currentX, y)
+      // } else {
+      //   this.setLastPointEnd(this.currentX, this.currentY)
+      // }
 
-      if (y < 100 || y > this.stage.height - 100) {
+      if (y < 50 || y > this.stage.height - 50) {
         for (let i = 0; i < this.points.length; i++) {
           if (i % 2) {
             this.points[i] -= (change / 10000) * ratio
           }
         }
       }
-    }, 100)
+    }, 500)
   },
   methods: {
     randomize(min, max) {
@@ -173,7 +175,8 @@ export default {
 
       // lines
       const tempo = Math.floor(xLinesCount / 2)
-      const pixelsBetween = ratio * 10
+
+      const pixelsBetween = (moneyBetween / 10000) * ratio
       const startY = center[1] - tempo * pixelsBetween
       const arrLines = [...Array(xLinesCount)].map((c, i) => ({
         y: startY + i * pixelsBetween,
@@ -184,7 +187,6 @@ export default {
         ...xLine,
       }))
 
-      const moneyBetween = 100000
       const startPrice = this.rate + tempo * moneyBetween
       this.xLinesLabels = arrLines.map((c, i) => {
         return {

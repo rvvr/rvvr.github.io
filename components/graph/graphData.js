@@ -96,7 +96,7 @@ export const xLine = {
   stroke: 'white',
   strokeWidth: 1,
   opacity: 0.2,
-  offsetX: 75,
+  offsetX: 68,
 }
 
 export const xLinesLabel = {
@@ -106,7 +106,7 @@ export const xLinesLabel = {
   fill: '#fff',
   opacity: 0.3,
   align: 'right',
-  offsetX: 16,
+  offsetX: 8,
   offsetY: 5,
   shadowColor: '#000',
   shadowBlur: 0,

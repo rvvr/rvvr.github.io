@@ -3,9 +3,10 @@
     @click="startTimer"
     :class="timerColor"
     :style="`--size: 6rem; --thickness: 4px; --value: ` + timerProgress"
-    class="radial-progress border-4 border-base-300 bg-base-300 transition-all duration-[5000ms]"
+    class="radial-progress min-h-[96px] min-w-[96px] border-4 border-base-300 bg-base-300 duration-[5000ms]"
     role="progressbar"
   >
+    <!-- transition-all -->
     <div class="flex flex-col text-center">
       <div class="flex items-baseline font-mono">
         <span class="leading-2 text-4xl">

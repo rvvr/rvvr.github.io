@@ -48,7 +48,7 @@
       </div>
       <div class="avatar-group justify-end -space-x-3 rtl:space-x-reverse">
         <div v-for="i in 4" class="avatar border-base-100 bg-base-300">
-          <div class="w-8">
+          <div class="h-8 w-8">
             <img :src="`https://robohash.org/${i}.png?set=set3`" />
           </div>
         </div>

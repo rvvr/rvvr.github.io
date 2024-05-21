@@ -37,11 +37,11 @@ import {
   xLinesLabel,
 } from './graphData'
 
-const step = 2
+const step = 3
 const period = 500
-const ratio = 5 // pixels for dollar
-const xLinesCount = 50
-const moneyBetween = 200000
+const ratio = 20 // pixels for dollar
+const xLinesCount = 25
+const moneyBetween = 50000
 
 export default {
   data() {
@@ -54,7 +54,6 @@ export default {
       // lines
       xLines: [],
       xLinesLabels: [],
-      xLinesOffset: 0,
     }
   },
   computed: {
@@ -135,33 +134,43 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      let newRate = this.rate + 10000
-      // let newRate = this.rate + this.randomize(-20000, 20000)
+      let newRate = this.rate + this.randomize(-30000, 30000)
       const change = this.rate - newRate
       let y = this.currentY + (change / 10000) * ratio
       this.rate = newRate
       this.doStep()
 
-      // if (Date.now() - startTime > period) {
-      this.addPoint(this.currentX, y)
-      startTime = Date.now()
-      // }
+      if (Date.now() - startTime > period) {
+        this.addPoint(this.currentX, y)
+        startTime = Date.now()
+      }
 
       // animations
-      // else if (!((Date.now() - startTime) % (period / 200))) {
-      //   this.setLastPointEnd(this.currentX, y)
-      // } else {
-      //   this.setLastPointEnd(this.currentX, this.currentY)
-      // }
+      else if (!((Date.now() - startTime) % (period / 200))) {
+        this.setLastPointEnd(this.currentX, y)
+      } else {
+        this.setLastPointEnd(this.currentX, this.currentY)
+      }
 
-      if (y < 50 || y > this.stage.height - 50) {
+      if (y < 100 || y > this.stage.height - 100) {
+        // graph
         for (let i = 0; i < this.points.length; i++) {
           if (i % 2) {
             this.points[i] -= (change / 10000) * ratio
           }
         }
+
+        // lines
+        for (let i = 0; i < this.xLines.length; i++) {
+          this.xLinesLabels[i].y -= (change / 10000) * ratio
+
+          for (let j = 0; j < this.xLines[i].points.length; j++)
+            if (j % 2) {
+              this.xLines[i].points[j] -= (change / 10000) * ratio
+            }
+        }
       }
-    }, 500)
+    }, 50)
   },
   methods: {
     randomize(min, max) {

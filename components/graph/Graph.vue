@@ -38,7 +38,7 @@ import {
 } from './graphData'
 
 const step = 3
-const period = 500
+const period = 800
 const ratio = 20 // pixels for dollar
 const xLinesCount = 25
 const moneyBetween = 50000
@@ -134,23 +134,24 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      let newRate = this.rate + this.randomize(-10000, 10000)
-      const change = this.rate - newRate
-      let y = this.currentY + (change / 10000) * ratio
-      this.rate = newRate
       this.doStep()
 
-      // if (Date.now() - startTime > period) {
-      this.addPoint(this.currentX, y)
-      // startTime = Date.now()
-      // }
+      let newRate = this.rate + this.randomize(-20000, 20000)
+      const change = this.rate - newRate
+      let y = this.currentY + (change / 10000) * ratio
+
+      if (Date.now() - startTime > period) {
+        this.rate = newRate
+        this.addPoint(this.currentX, y)
+        startTime = Date.now()
+      }
 
       // animations
-      // else if (!((Date.now() - startTime) % (period / 200))) {
-      //   this.setLastPointEnd(this.currentX, y)
-      // } else {
-      //   this.setLastPointEnd(this.currentX, this.currentY)
-      // }
+      else if (!((Date.now() - startTime) % (period / 100))) {
+        this.setLastPointEnd(this.currentX, y)
+      } else {
+        this.setLastPointEnd(this.currentX, this.currentY)
+      }
 
       if (y < 100 || y > this.stage.height - 100) {
         // graph
@@ -217,7 +218,9 @@ export default {
           this.points[i] -= step
         }
       }
-      this.points = this.points.slice(4)
+      if (this.points.length > 100) {
+        this.points = this.points.slice(4)
+      }
     },
     setLastPointEnd(x, y) {
       this.points = this.points.slice(0, -2).concat([x, y])

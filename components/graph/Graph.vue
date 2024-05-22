@@ -76,16 +76,8 @@ export default {
       // check overflow
       const isOverflow = y > this.stage.height - overflowSpace || y < overflowSpace
       if (isOverflow) {
-        // graph
-        for (let i = 1; i < this.points.length; i += 2) {
-          this.points[i] -= yOffset
-        }
-        // lines
-        for (let i = 0; i < this.xLines.length; i++) {
-          this.xLinesLabels[i].y -= yOffset
-          this.xLines[i].points[1] -= yOffset
-          this.xLines[i].points[3] -= yOffset
-        }
+        this.moveLayer(1, yOffset)
+        this.moveLines(yOffset)
       }
     }, 100)
   },
@@ -124,15 +116,26 @@ export default {
     },
     doStep() {
       const layerEndsX = this.currentX >= this.stage.width / 2
-      if (layerEndsX) this.moveLayerX()
-      else this.currentX += step
-    },
-    moveLayerX() {
-      for (let i = 0; i < this.points.length; i += 2) {
-        this.points[i] -= step
+      if (layerEndsX) {
+        this.moveLayer(0, step)
+
+        if (this.points.length > 100) {
+          this.points = this.points.slice(4)
+        }
+      } else {
+        this.currentX += step
       }
-      if (this.points.length > 100) {
-        this.points = this.points.slice(4)
+    },
+    moveLayer(start, offset) {
+      for (let i = start; i < this.points.length; i += 2) {
+        this.points[i] -= offset
+      }
+    },
+    moveLines(yOffset) {
+      for (let i = 0; i < this.xLines.length; i++) {
+        this.xLinesLabels[i].y -= yOffset
+        this.xLines[i].points[1] -= yOffset
+        this.xLines[i].points[3] -= yOffset
       }
     },
     setLastPointEnd(x, y) {

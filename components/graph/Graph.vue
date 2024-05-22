@@ -2,7 +2,7 @@
   <div class="flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
-        <v-layer :config="layer">
+        <v-layer :config="{ x: 0, y: 0 }">
           <GraphBottomRect :stage="stage"></GraphBottomRect>
           <GraphTopRect :currentY="currentY" :stage="stage"></GraphTopRect>
           <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i"></v-line>
@@ -26,6 +26,7 @@ const period = 800
 const ratio = 20 // pixels for dollar
 const xLinesCount = 100
 const moneyBetween = 50000
+const overflowSpace = 100
 
 export default {
   data() {
@@ -33,7 +34,6 @@ export default {
       rate: 700000000,
       currentX: 0,
       points: [0, 0, 0, 0],
-      layer: { x: 0, y: 0 },
       stage: { width: 0, height: 0 },
       // lines
       xLines: [],
@@ -53,16 +53,17 @@ export default {
     let startTime = Date.now()
 
     const interval = setInterval(() => {
-      this.doStep()
-
       let newRate = this.rate + this.randomize(-20000, 20000)
-      const change = this.rate - newRate
-      let y = this.currentY + (change / 10000) * ratio
+
+      this.doStep()
+      const yOffset = ((this.rate - newRate) / 10000) * ratio
+
+      let y = this.currentY + yOffset
 
       // if (Date.now() - startTime > period) {
       this.rate = newRate
       this.addPoint(this.currentX, y)
-      startTime = Date.now()
+      // startTime = Date.now()
       // }
 
       // animations
@@ -72,22 +73,18 @@ export default {
       //   this.setLastPointEnd(this.currentX, this.currentY)
       // }
 
-      if (y < 100 || y > this.stage.height - 100) {
+      // check overflow
+      const isOverflow = y > this.stage.height - overflowSpace || y < overflowSpace
+      if (isOverflow) {
         // graph
-        for (let i = 0; i < this.points.length; i++) {
-          if (i % 2) {
-            this.points[i] -= (change / 10000) * ratio
-          }
+        for (let i = 1; i < this.points.length; i += 2) {
+          this.points[i] -= yOffset
         }
-
         // lines
         for (let i = 0; i < this.xLines.length; i++) {
-          this.xLinesLabels[i].y -= (change / 10000) * ratio
-
-          for (let j = 0; j < this.xLines[i].points.length; j++)
-            if (j % 2) {
-              this.xLines[i].points[j] -= (change / 10000) * ratio
-            }
+          this.xLinesLabels[i].y -= yOffset
+          this.xLines[i].points[1] -= yOffset
+          this.xLines[i].points[3] -= yOffset
         }
       }
     }, 100)
@@ -104,7 +101,6 @@ export default {
 
       // lines
       const tempo = Math.floor(xLinesCount / 2)
-
       const pixelsBetween = (moneyBetween / 10000) * ratio
       const startY = center[1] - tempo * pixelsBetween
       const arrLines = [...Array(xLinesCount)].map((c, i) => ({
@@ -132,10 +128,8 @@ export default {
       else this.currentX += step
     },
     moveLayerX() {
-      for (let i = 0; i < this.points.length; i++) {
-        if (!(i % 2)) {
-          this.points[i] -= step
-        }
+      for (let i = 0; i < this.points.length; i += 2) {
+        this.points[i] -= step
       }
       if (this.points.length > 100) {
         this.points = this.points.slice(4)

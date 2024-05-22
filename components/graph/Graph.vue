@@ -11,7 +11,12 @@
           <GraphLine :points="points" :stage="stage"></GraphLine>
           <GraphLineEnd :currentX="currentX" :currentY="currentY"></GraphLineEnd>
           <GraphTopText :stage="stage" :text="`UP OR DOWN\nPLACE YOUR TRADE!`"></GraphTopText>
-          <GraphLivePrice :currentY="currentY" :rate="rate" :stage="stage"></GraphLivePrice>
+          <GraphLivePrice
+            :currentY="currentY"
+            :price="livePrice"
+            :rate="rate"
+            :stage="stage"
+          ></GraphLivePrice>
         </v-layer>
       </v-stage>
     </client-only>
@@ -27,6 +32,7 @@ const ratio = 20 // pixels for dollar
 const xLinesCount = 100
 const moneyBetween = 50000
 const overflowSpace = 100
+const divider = 10000
 
 export default {
   data() {
@@ -47,6 +53,9 @@ export default {
     currentY() {
       return this.lastPointEnd[1]
     },
+    livePrice() {
+      return this.convert(this.rate).toFixed(4)
+    },
   },
   mounted() {
     this.initStage()
@@ -56,7 +65,7 @@ export default {
       let newRate = this.rate + this.randomize(-20000, 20000)
 
       this.doStep()
-      const yOffset = ((this.rate - newRate) / 10000) * ratio
+      const yOffset = this.convert(this.rate - newRate) * ratio
 
       let y = this.currentY + yOffset
 
@@ -93,8 +102,9 @@ export default {
 
       // lines
       const tempo = Math.floor(xLinesCount / 2)
-      const pixelsBetween = (moneyBetween / 10000) * ratio
+      const pixelsBetween = this.convert(moneyBetween) * ratio
       const startY = center[1] - tempo * pixelsBetween
+
       const arrLines = [...Array(xLinesCount)].map((c, i) => ({
         y: startY + i * pixelsBetween,
       }))
@@ -108,7 +118,7 @@ export default {
       this.xLinesLabels = arrLines.map((c, i) => {
         return {
           width: this.stage.width,
-          text: ((startPrice - i * moneyBetween) / 10000).toFixed(4),
+          text: this.convert(startPrice - i * moneyBetween).toFixed(4),
           ...xLinesLabel,
           ...c,
         }
@@ -143,6 +153,9 @@ export default {
     },
     addPoint(x, y) {
       this.points = this.points.concat([...this.lastPointEnd, x, y])
+    },
+    convert(num) {
+      return num / divider
     },
   },
 }

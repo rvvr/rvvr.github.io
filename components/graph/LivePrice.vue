@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  props: ['stage', 'currentY', 'rate', 'text'],
+  props: ['stage', 'currentY', 'rate', 'price'],
   computed: {
     livePriceX() {
       return this.stage.width - 120
@@ -40,7 +40,7 @@ export default {
         fontFamily: 'Oswald',
         fontSize: 21,
         text: '70,982.1337',
-        text: (this.rate / 10000).toFixed(4),
+        text: this.price,
         width: 110,
         x: this.livePriceX,
         y: this.livePriceY + 1,

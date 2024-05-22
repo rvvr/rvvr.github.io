@@ -3,18 +3,15 @@
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="layer">
-          <v-rect :config="bottomRect"></v-rect>
-          <v-rect :config="topRect"></v-rect>
+          <GraphBottomRect :stage="stage"></GraphBottomRect>
+          <GraphTopRect :currentY="currentY" :stage="stage"></GraphTopRect>
           <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i"></v-line>
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i"></v-text>
-          <v-line :config="delimiter"></v-line>
-          <v-line :config="line"></v-line>
-          <v-circle :config="lineEnd"></v-circle>
-          <v-text :config="topText"></v-text>
-          <v-rect :config="livePriceRateTextRect"></v-rect>
-          <v-text :config="livePriceRateText"></v-text>
-          <v-rect :config="livePriceTextRect"></v-rect>
-          <v-text :config="livePriceText"></v-text>
+          <GraphDelimiter :currentY="currentY" :stage="stage"></GraphDelimiter>
+          <GraphLine :points="points" :stage="stage"></GraphLine>
+          <GraphLineEnd :currentX="currentX" :currentY="currentY"></GraphLineEnd>
+          <GraphTopText :stage="stage" :text="`UP OR DOWN\nPLACE YOUR TRADE!`"></GraphTopText>
+          <GraphLivePrice :currentY="currentY" :rate="rate" :stage="stage"></GraphLivePrice>
         </v-layer>
       </v-stage>
     </client-only>
@@ -22,25 +19,12 @@
 </template>
 
 <script>
-import {
-  lineConf,
-  lineEndConf,
-  delimiterConf,
-  topText,
-  topRectConf,
-  bottomRectConf,
-  livePriceText,
-  livePriceTextRect,
-  livePriceRateText,
-  livePriceRateTextRect,
-  xLine,
-  xLinesLabel,
-} from './graphData'
+import { xLine, xLinesLabel } from './graphData'
 
 const step = 3
 const period = 800
 const ratio = 20 // pixels for dollar
-const xLinesCount = 25
+const xLinesCount = 100
 const moneyBetween = 50000
 
 export default {
@@ -57,76 +41,11 @@ export default {
     }
   },
   computed: {
-    line() {
-      return { ...lineConf, points: this.points }
-    },
     lastPointEnd() {
       return this.points.slice(-2)
     },
     currentY() {
       return this.lastPointEnd[1]
-    },
-
-    // ui
-    lineEnd() {
-      return { x: this.currentX, y: this.currentY, ...lineEndConf }
-    },
-    delimiter() {
-      return { points: [0, this.currentY, this.stage.width, this.currentY], ...delimiterConf }
-    },
-    topRect() {
-      return {
-        width: this.stage.width,
-        height: this.currentY,
-        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
-        ...topRectConf,
-      }
-    },
-    bottomRect() {
-      return {
-        width: this.stage.width,
-        height: this.stage.height,
-        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
-        ...bottomRectConf,
-      }
-    },
-    topText() {
-      return { ...topText, x: this.stage.width / 2 - 100 }
-    },
-    livePriceX() {
-      return this.stage.width - 120
-    },
-    livePriceY() {
-      return this.currentY - 10
-    },
-    livePriceRateTextRect() {
-      return {
-        x: this.livePriceX,
-        y: this.livePriceY - 5,
-        ...livePriceRateTextRect,
-      }
-    },
-    livePriceRateText() {
-      return {
-        ...livePriceRateText,
-        x: this.livePriceX,
-        y: this.livePriceY + 1,
-        text: (this.rate / 10000).toFixed(4),
-      }
-    },
-    livePriceTextRect() {
-      return {
-        x: this.livePriceX + 5,
-        y: this.livePriceY - 20 - 5,
-        ...livePriceTextRect,
-      }
-    },
-    livePriceText() {
-      return {
-        x: this.livePriceX + 5,
-        y: this.livePriceY - 20,
-        ...livePriceText,
-      }
     },
   },
   mounted() {
@@ -140,18 +59,18 @@ export default {
       const change = this.rate - newRate
       let y = this.currentY + (change / 10000) * ratio
 
-      if (Date.now() - startTime > period) {
-        this.rate = newRate
-        this.addPoint(this.currentX, y)
-        startTime = Date.now()
-      }
+      // if (Date.now() - startTime > period) {
+      this.rate = newRate
+      this.addPoint(this.currentX, y)
+      startTime = Date.now()
+      // }
 
       // animations
-      else if (!((Date.now() - startTime) % (period / 100))) {
-        this.setLastPointEnd(this.currentX, y)
-      } else {
-        this.setLastPointEnd(this.currentX, this.currentY)
-      }
+      // else if (!((Date.now() - startTime) % (period / 100))) {
+      //   this.setLastPointEnd(this.currentX, y)
+      // } else {
+      //   this.setLastPointEnd(this.currentX, this.currentY)
+      // }
 
       if (y < 100 || y > this.stage.height - 100) {
         // graph
@@ -171,7 +90,7 @@ export default {
             }
         }
       }
-    }, 50)
+    }, 100)
   },
   methods: {
     randomize(min, max) {

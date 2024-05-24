@@ -9,7 +9,7 @@
       </div>
 
       <div class="dropdown dropdown-end">
-        <div class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
+        <div v-if="isGuest === false" class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
           <div v-if="avatar" class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
             <img :src="avatar" class="rounded-full" alt="Tailwind CSS Navbar component" />
           </div>
@@ -99,7 +99,6 @@ export default {
     }
 
     const restored = await this.tonConnectUI.connectionRestored
-    this.isGuest = !restored
     if (restored) {
       this.isGuest = false
       await this.getBalance(this.tonConnectUI.wallet)

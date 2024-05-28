@@ -28,16 +28,16 @@ import { xLine, xLinesLabel } from './graphData'
 
 const step = 3
 const period = 800
-const ratio = 20 // pixels for dollar
 const xLinesCount = 100
-const moneyBetween = 50000
+const ratio = 20 // pixels for unit
+const moneyBetween = 5_0000
 const overflowSpace = 100
-const divider = 10000
+const divider = 1_0000 // how much decimals
 
 export default {
   data() {
     return {
-      rate: 700000000,
+      rate: 70_000_0000,
       currentX: 0,
       points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },

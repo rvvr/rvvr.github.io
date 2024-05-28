@@ -59,36 +59,7 @@ export default {
   },
   mounted() {
     this.initStage()
-    let startTime = Date.now()
-
-    const interval = setInterval(() => {
-      let newRate = this.rate + this.randomize(-20000, 20000)
-
-      this.doStep()
-      const yOffset = this.convert(this.rate - newRate) * ratio
-
-      let y = this.currentY + yOffset
-
-      // if (Date.now() - startTime > period) {
-      this.rate = newRate
-      this.addPoint(this.currentX, y)
-      // startTime = Date.now()
-      // }
-
-      // animations
-      // else if (!((Date.now() - startTime) % (period / 100))) {
-      //   this.setLastPointEnd(this.currentX, y)
-      // } else {
-      //   this.setLastPointEnd(this.currentX, this.currentY)
-      // }
-
-      // check overflow
-      const isOverflow = y > this.stage.height - overflowSpace || y < overflowSpace
-      if (isOverflow) {
-        this.moveLayer(1, yOffset)
-        this.moveLines(yOffset)
-      }
-    }, 100)
+    this.$bus.on('nanoSec', this.manageGraph)
   },
   methods: {
     randomize(min, max) {
@@ -102,7 +73,7 @@ export default {
 
       // lines
       const tempo = Math.floor(xLinesCount / 2)
-      const pixelsBetween = this.convert(moneyBetween) * ratio
+      const pixelsBetween = this.calcRateToPixels(moneyBetween)
       const startY = center[1] - tempo * pixelsBetween
 
       const arrLines = [...Array(xLinesCount)].map((c, i) => ({
@@ -125,10 +96,8 @@ export default {
       })
     },
     doStep() {
-      const layerEndsX = this.currentX >= this.stage.width / 2
-      if (layerEndsX) {
+      if (this.currentX >= this.stage.width / 2) {
         this.moveLayer(0, step)
-
         if (this.points.length > 100) {
           this.points = this.points.slice(4)
         }
@@ -156,6 +125,33 @@ export default {
     },
     convert(num) {
       return num / divider
+    },
+    handleYOverflow() {
+      let needMove
+      const leftToBottom = this.stage.height - overflowSpace - this.currentY
+      const leftToTop = this.currentY - overflowSpace
+      if (leftToBottom < 0) {
+        needMove = -leftToBottom
+      } else if (leftToTop < 0) {
+        needMove = leftToTop
+      }
+      if (needMove) {
+        this.moveLayer(1, needMove)
+        this.moveLines(needMove)
+      }
+    },
+    pushData() {
+      let newRate = this.rate + this.randomize(-20000, 20000)
+      this.addPoint(this.currentX, this.currentY + this.calcRateToPixels(this.rate - newRate))
+      this.rate = newRate
+    },
+    manageGraph() {
+      this.doStep()
+      this.pushData()
+      this.handleYOverflow()
+    },
+    calcRateToPixels(rate) {
+      return this.convert(rate) * ratio
     },
   },
 }

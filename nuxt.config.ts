@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss'],
 
-  plugins: ['~/plugins/init.client.js'],
+  plugins: ['~/plugins/init.client.js', '~/plugins/events.client.js', '~/plugins/timer.client.js'],
 
   app: {
     head: {

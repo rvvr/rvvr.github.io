@@ -2,7 +2,7 @@
   <div
     @click="startTimer"
     :class="timerColor"
-    :style="`--size: 6rem; --thickness: 4px; --value: ` + timerProgress"
+    :style="`--size: 6rem; --thickness: 1px; --value: ` + timerProgress"
     class="radial-progress min-h-[96px] min-w-[96px] border-4 border-base-300 bg-base-300 duration-[5000ms]"
     role="progressbar"
   >
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       time: 20000,
-      timer: 20000,
+      timer: 5000,
     }
   },
   computed: {
@@ -44,21 +44,19 @@ export default {
     },
   },
   methods: {
+    countDown() {
+      this.timer -= 100
+      if (this.timer < 0) {
+        this.timer = this.time
+        this.$bus.off('nanoSec', this.countDown)
+      }
+    },
     startTimer() {
-      const startTime = Date.now()
-
-      const interval = setInterval(() => {
-        var elapsedTime = Date.now() - startTime
-        this.timer = this.time - elapsedTime
-        if (this.timer < 0) {
-          clearInterval(interval)
-          this.timer = this.time
-        }
-      }, 10)
+      this.$bus.on('nanoSec', this.countDown)
     },
   },
   mounted() {
-    // this.startTimer()
+    this.startTimer()
   },
 }
 </script>

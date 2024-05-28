@@ -7,13 +7,25 @@
 
 <script>
 export default {
+  data() {
+    return {
+      y: 0,
+    }
+  },
   props: ['stage', 'currentY', 'rate', 'price'],
+  watch: {
+    currentY(val, old) {
+      if (Math.abs(this.y - val) > 75) {
+        this.y = val
+      }
+    },
+  },
   computed: {
     livePriceX() {
       return this.stage.width - 120
     },
     livePriceY() {
-      return this.currentY - 10
+      return this.y - 10
     },
     livePriceRateTextRect() {
       return {
@@ -35,14 +47,14 @@ export default {
     },
     livePriceRateText() {
       return {
-        align: 'center',
+        align: 'left',
         fill: '#f4d56f',
         fontFamily: 'Oswald',
         fontSize: 21,
         text: '70,982.1337',
         text: this.price,
         width: 110,
-        x: this.livePriceX,
+        x: this.livePriceX + 7,
         y: this.livePriceY + 1,
       }
     },

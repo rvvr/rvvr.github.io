@@ -32,7 +32,6 @@
 import { xLine, xLinesLabel } from './graphData'
 
 const step = 3
-const period = 800
 const xLinesCount = 100
 const ratio = 20 // pixels for unit
 const moneyBetween = 5_0000

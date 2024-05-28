@@ -9,7 +9,7 @@ export default {
     config() {
       return {
         x: 0,
-        y: 0,
+        y: 4,
         text: 'UP OR DOWN?\nPLACE YOUR TRADE!',
         fontSize: 18,
         fontFamily: 'Oswald',

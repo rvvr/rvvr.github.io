@@ -5,11 +5,16 @@
         <v-layer :config="{ x: 0, y: 0 }">
           <GraphBottomRect :stage="stage"></GraphBottomRect>
           <GraphTopRect :currentY="currentY" :stage="stage"></GraphTopRect>
+          <GraphBack :stage="stage"></GraphBack>
           <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i"></v-line>
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i"></v-text>
           <GraphDelimiter :currentY="currentY" :stage="stage"></GraphDelimiter>
           <GraphLine :points="points" :stage="stage"></GraphLine>
           <GraphLineEnd :currentX="currentX" :currentY="currentY"></GraphLineEnd>
+
+          <!-- <GraphTopShadow :stage="stage"></GraphTopShadow>
+          <GraphBottomShadow :stage="stage"></GraphBottomShadow> -->
+
           <GraphTopText :stage="stage" :text="`UP OR DOWN\nPLACE YOUR TRADE!`"></GraphTopText>
           <GraphLivePrice
             :currentY="currentY"
@@ -46,6 +51,10 @@ export default {
       xLinesLabels: [],
     }
   },
+  mounted() {
+    this.initStage()
+    this.$bus.on('nanoSec', this.manageGraph)
+  },
   computed: {
     lastPointEnd() {
       return this.points.slice(-2)
@@ -56,10 +65,6 @@ export default {
     livePrice() {
       return this.convert(this.rate).toFixed(4)
     },
-  },
-  mounted() {
-    this.initStage()
-    this.$bus.on('nanoSec', this.manageGraph)
   },
   methods: {
     randomize(min, max) {

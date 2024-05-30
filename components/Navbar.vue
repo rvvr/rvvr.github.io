@@ -1,9 +1,16 @@
 <template>
-  <div class="navbar bg-base-200">
-    <div class="flex-1">
-      <a class="btn btn-ghost px-2 text-xl">Bullfights</a>
+  <div class="navbar grid grid-cols-3 gap-2 bg-base-200">
+    <div>
+      <a class="btn btn-ghost min-w-0 px-2 text-xl">Bullfights</a>
     </div>
-    <div class="flex-none gap-2">
+    <div class="flex justify-center">
+      <div class="btn btn-neutral -mt-8 flex items-center justify-center bg-info-content pt-2">
+        <IconsWallet class="h-4 w-4 text-neutral-content" />
+        <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">19.92</span
+        ><IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" />
+      </div>
+    </div>
+    <div class="flex-none justify-end gap-2">
       <div>
         <button class="h-10" id="connect" v-show="isGuest"></button>
       </div>
@@ -27,11 +34,19 @@
                 <b>{{ balance }}</b> TON
               </div>
             </div>
-            <li><a>Profile</a></li>
+
+            <div class="my-1 flex items-center justify-between px-3">
+              <div>Profile</div>
+              <div>
+                <button @click="exit">
+                  <IconsExit />
+                </button>
+              </div>
+            </div>
+
             <li><a>Settings</a></li>
             <li><a class="link-hover link">About us</a></li>
             <li><a class="link-hover link">Contact</a></li>
-            <li><a @click="exit">Logout</a></li>
           </ul>
         </div>
       </div>

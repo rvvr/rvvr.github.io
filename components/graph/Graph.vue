@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1" ref="graph">
+  <div class="graph-wrap flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
@@ -12,8 +12,8 @@
           <GraphLine :points="points" :stage="stage"></GraphLine>
           <GraphLineEnd :currentX="currentX" :currentY="currentY"></GraphLineEnd>
 
-          <!-- <GraphTopShadow :stage="stage"></GraphTopShadow>
-          <GraphBottomShadow :stage="stage"></GraphBottomShadow> -->
+          <GraphTopShadow :stage="stage"></GraphTopShadow>
+          <GraphBottomShadow :stage="stage"></GraphBottomShadow>
 
           <GraphTopText :stage="stage" :text="`UP OR DOWN\nPLACE YOUR TRADE!`"></GraphTopText>
           <GraphLivePrice
@@ -145,7 +145,7 @@ export default {
       }
     },
     pushData() {
-      let newRate = this.rate + this.randomize(-20000, 20000)
+      let newRate = this.rate + this.randomize(20000, -20000)
       this.addPoint(this.currentX, this.currentY + this.calcRateToPixels(this.rate - newRate))
       this.rate = newRate
     },
@@ -160,3 +160,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.graph-wrap {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+</style>

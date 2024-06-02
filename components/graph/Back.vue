@@ -22,7 +22,7 @@ export default {
       return {
         width: size,
         height: size,
-        opacity: 0.03,
+        opacity: 0.05,
         image: this.image,
         x: size - offset,
         y: this.stage.height / 2 - offset,

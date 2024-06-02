@@ -27,7 +27,7 @@
 
     <Graph />
 
-    <div class="font-oswald grid grid-cols-4 gap-4 px-4 py-1 uppercase">
+    <div class="font-oswald grid grid-cols-4 gap-4 px-4 pb-1 pt-3 uppercase">
       <div class="">3 players</div>
       <div class="text-right font-bold text-lime-500">30.0</div>
       <div class="font-bold text-red-500">60.0</div>

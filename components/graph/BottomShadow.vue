@@ -10,7 +10,7 @@ export default {
       return {
         width: this.stage.width,
         fillLinearGradientEndPoint: { x: 20, y: 20 },
-        fillLinearGradientColorStops: [0, 'transparent', 0.5, '#09090b'],
+        fillLinearGradientColorStops: [0, 'transparent', 0.5, 'rgba(9, 9, 11, .3)'],
         fillLinearGradientStartPoint: { x: 20, y: 0 },
         height: 20,
         x: 0,

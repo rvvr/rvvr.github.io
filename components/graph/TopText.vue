@@ -9,7 +9,7 @@ export default {
     config() {
       return {
         x: 0,
-        y: 4,
+        y: 16,
         text: 'UP OR DOWN?\nPLACE YOUR TRADE!',
         fontSize: 18,
         fontFamily: 'Oswald',
@@ -18,6 +18,10 @@ export default {
         fontStyle: 'bold',
         width: this.stage.width,
         text: this.text,
+        stroke: '#000',
+
+        strokeWidth: 1,
+        fillAfterStrokeEnabled: true,
       }
     },
   },

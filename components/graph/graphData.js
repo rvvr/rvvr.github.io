@@ -2,8 +2,9 @@ export const xLine = {
   lineCap: 'round',
   stroke: 'white',
   strokeWidth: 1,
-  opacity: 0.2,
+  opacity: 0.12,
   offsetX: 68,
+  dash: [6, 6],
 }
 
 export const xLinesLabel = {

@@ -1,13 +1,9 @@
 <template>
   <div class="font-oswald grid grid-cols-2 gap-4 px-4 py-1">
-    <button
-      class="btn h-16 border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase text-white shadow-md shadow-lime-300"
-    >
+    <button class="up btn h-16 border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase text-white">
       Up
     </button>
-    <button
-      class="btn h-16 border-2 border-red-700 bg-red-500 text-3xl font-bold uppercase text-white shadow-md shadow-red-300"
-    >
+    <button class="down btn h-16 border-2 border-red-700 bg-red-500 text-3xl font-bold uppercase text-white">
       Down
     </button>
   </div>
@@ -35,4 +31,15 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.down {
+  box-shadow:
+    0 3px 0 0px rgba(190, 31, 31, 0.95),
+    0 4px 0 0px rgb(119, 0, 0);
+}
+.up {
+  box-shadow:
+    0 3px 0 0px rgba(88, 145, 30, 0.95),
+    0 4px 0 0px rgb(50, 71, 21);
+}
+</style>

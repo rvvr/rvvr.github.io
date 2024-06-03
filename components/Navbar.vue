@@ -38,18 +38,9 @@
               </div>
             </div> -->
 
-            <div class="my-1 flex items-center justify-between px-3">
-              <div>Profile</div>
-              <!-- <div>
-                <button @click="exit">
-                  <IconsExit />
-                </button>
-              </div> -->
-            </div>
             <li>
               <NuxtLink to="/wallet/deposit/">Wallet</NuxtLink>
             </li>
-            <li><a>Settings</a></li>
             <li><a class="link-hover link">About us</a></li>
             <li><a @click="exit" class="link-hover link">Logout</a></li>
           </ul>

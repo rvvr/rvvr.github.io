@@ -1,56 +1,67 @@
 <template>
-  <div class="navbar grid grid-cols-3 gap-2 bg-base-200">
-    <div>
-      <a class="btn btn-ghost min-w-0 px-2 text-xl">Bullfights</a>
-    </div>
-    <div class="flex justify-center">
+  <div :class="[isLogged && isIndex ? 'grid-cols-3' : 'grid-cols-2']" class="navbar grid gap-2 bg-base-200">
+    <!-- logo -->
+    <NuxtLink class="btn btn-ghost w-14 px-2 text-xl" to="/">
+      <img class="h-10 w-10" alt="" src="/favicon.png" />
+    </NuxtLink>
+    <!-- wallet -->
+    <NuxtLink v-if="isLogged" v-show="isIndex" class="flex justify-center" to="/wallet/deposit/">
       <div class="btn btn-neutral -mt-8 flex items-center justify-center bg-info-content pt-2">
         <IconsWallet class="h-4 w-4 text-neutral-content" />
-        <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">19.92</span
-        ><IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" />
+        <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">19.92</span>
+        <!-- <IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" /> -->
       </div>
-    </div>
-    <div class="flex-none justify-end gap-2">
+    </NuxtLink>
+    <!-- profile -->
+    <div v-show="isIndex" class="flex-none justify-end gap-2">
       <div>
-        <button class="h-10" id="connect" v-show="isGuest"></button>
+        <button v-show="isGuest" class="h-10" id="connect"></button>
       </div>
 
-      <div class="dropdown dropdown-end">
-        <div v-if="isGuest === false" class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
+      <div class="dropdown dropdown-end h-12">
+        <div v-if="isLogged" class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
           <div v-if="avatar" class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
             <img :src="avatar" class="rounded-full" alt="Tailwind CSS Navbar component" />
           </div>
         </div>
         <div
-          v-if="isGuest === false"
+          v-if="isLogged"
           class="menu dropdown-content menu-sm z-[1] mt-3 w-64 rounded-box bg-base-200 p-2 shadow"
           tabindex="0"
         >
           <ul>
             <div v-if="first_name" class="my-1 px-3">{{ first_name }}</div>
-            <div v-if="balance !== null" class="my-1 flex justify-between px-3">
+            <!-- <div v-if="balance !== null" class="my-1 flex justify-between px-3">
               <div>Balance</div>
               <div>
                 <b>{{ balance }}</b> TON
               </div>
-            </div>
+            </div> -->
 
             <div class="my-1 flex items-center justify-between px-3">
               <div>Profile</div>
-              <div>
+              <!-- <div>
                 <button @click="exit">
                   <IconsExit />
                 </button>
-              </div>
+              </div> -->
             </div>
-
+            <li>
+              <NuxtLink to="/wallet/deposit/">Wallet</NuxtLink>
+            </li>
             <li><a>Settings</a></li>
             <li><a class="link-hover link">About us</a></li>
-            <li><a class="link-hover link">Contact</a></li>
+            <li><a @click="exit" class="link-hover link">Logout</a></li>
           </ul>
         </div>
       </div>
     </div>
+    <!-- close icon -->
+    <NuxtLink v-show="!isIndex" class="flex-none justify-end gap-2" to="/">
+      <button class="btn btn-circle bg-base-300">
+        <IconsCross class="w-10"></IconsCross>
+      </button>
+    </NuxtLink>
   </div>
 </template>
 
@@ -68,6 +79,15 @@ export default {
       isGuest: null,
       tonConnectUI: null,
     }
+  },
+
+  computed: {
+    isIndex() {
+      return this.$route.name === 'index'
+    },
+    isLogged() {
+      return this.isGuest === false
+    },
   },
 
   methods: {

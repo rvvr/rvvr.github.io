@@ -4,7 +4,7 @@
     "prettier-plugin-tailwindcss"
   ],
   "attributeGroups": [
-    "^(v-if|v-else|v-for)$",
+    "^(v-if|v-else|v-for|v-show)$",
     "^v-model",
     "^@",
     "^:",

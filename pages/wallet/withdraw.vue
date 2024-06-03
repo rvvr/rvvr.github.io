@@ -3,7 +3,7 @@
     <IconsUsb class="mr-1 h-4" />
     Withdraw through Blockchain
   </div>
-  <p>Direct withdrawal trough blockchain can take up to 10 minutes. Please be patient!</p>
+  <p class="pl-5">Direct withdrawal trough blockchain can take up to 10 minutes. Please be patient!</p>
 
   <label class="form-control mt-4 w-full">
     <div class="label">

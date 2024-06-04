@@ -42,7 +42,6 @@ export default {
         width: 110,
         x: this.livePriceX,
         y: this.livePriceY - 5,
-        zIndex: 1,
       }
     },
     livePriceRateText() {

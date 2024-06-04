@@ -8,7 +8,7 @@ export default {
   computed: {
     config() {
       return {
-        stroke: 'white',
+        stroke: '#ffe7a3',
         strokeWidth: 1,
         points: [0, this.currentY, this.stage.width, this.currentY],
       }

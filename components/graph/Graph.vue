@@ -1,30 +1,37 @@
 <template>
-  <div class="graph-wrap flex-1" ref="graph">
+  <div class="graph-wrap relative flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
-          <GraphBottomRect :stage="stage"></GraphBottomRect>
-          <GraphTopRect :currentY="currentY" :stage="stage"></GraphTopRect>
-          <GraphBack :stage="stage"></GraphBack>
-          <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i"></v-line>
-          <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i"></v-text>
-          <GraphDelimiter :currentY="currentY" :stage="stage"></GraphDelimiter>
-          <GraphLine :points="points" :stage="stage"></GraphLine>
-          <GraphLineEnd :currentX="currentX" :currentY="currentY"></GraphLineEnd>
+          <GraphBottomRect :stage="stage" />
+          <GraphTopRect :currentY="currentY" :stage="stage" />
+          <GraphBack :stage="stage" />
 
-          <GraphTopShadow :stage="stage"></GraphTopShadow>
-          <GraphBottomShadow :stage="stage"></GraphBottomShadow>
+          <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i" />
+          <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i" />
 
-          <GraphTopText :stage="stage" :text="`UP OR DOWN\nPLACE YOUR TRADE!`"></GraphTopText>
-          <GraphLivePrice
-            :currentY="currentY"
-            :price="livePrice"
-            :rate="rate"
-            :stage="stage"
-          ></GraphLivePrice>
+          <!-- <GraphYLine :stage="stage" :x="155" /> -->
+
+          <GraphDelimiter :currentY="currentY" :stage="stage" />
+          <GraphLine :points="points" :stage="stage" />
+          <GraphLineEnd :currentX="currentX" :currentY="currentY" />
+
+          <!-- can be one as it top level -->
+          <GraphTopShadow :stage="stage" />
+          <GraphBottomShadow :stage="stage" />
+
+          <GraphLivePrice :currentY="currentY" :price="livePrice" :rate="rate" :stage="stage" />
         </v-layer>
       </v-stage>
     </client-only>
+
+    <div class="absolute -top-10 w-full text-center">
+      <span
+        class="font-oswald inline-block rounded-lg bg-base-100 bg-opacity-70 px-3 py-2 text-2xl font-bold text-[#f4d56f]"
+      >
+        UP OR DOWN?<br />PLACE YOUR TRADE!
+      </span>
+    </div>
   </div>
 </template>
 
@@ -100,7 +107,7 @@ export default {
       })
     },
     doStep() {
-      if (this.currentX >= this.stage.width / 2) {
+      if (this.currentX >= this.stage.width / 1.6) {
         this.moveLayer(0, step)
         if (this.points.length > 100) {
           this.points = this.points.slice(4)

@@ -1,19 +1,24 @@
 <template>
-  <div
-    @click="startTimer"
-    :class="timerColor"
-    :style="`--size: 6rem; --thickness: 1px; --value: ` + timerProgress"
-    class="radial-progress min-h-[96px] min-w-[96px] border-4 border-base-300 bg-base-300 duration-[5000ms]"
-    role="progressbar"
-  >
-    <div class="flex flex-col text-center">
-      <div class="flex items-baseline font-mono">
-        <span class="leading-2 text-4xl">
-          {{ timerDisplay }}
-        </span>
-        <span class="text-sm" v-show="timerProgress > 75">.{{ timerDecimals }}</span>
+  <div>
+    <div v-show="!time" class="flex h-[100px] w-[100px] items-center justify-center rounded-full bg-base-300">
+      <span class="loading loading-ring loading-lg"></span>
+    </div>
+    <div
+      v-show="time"
+      :class="timerColor"
+      :style="'--size: 6rem; --thickness: 1px; --value:' + timerProgress"
+      class="radial-progress h-24 w-24 border-2 border-base-300 bg-base-300"
+      role="progressbar"
+    >
+      <div v-show="time" class="-mt-2 flex flex-col text-center">
+        <div class="flex items-baseline font-mono">
+          <span class="text-4xl leading-none">
+            {{ timerDisplay }}
+          </span>
+          <span v-show="timerProgress > 75" class="text-sm">.{{ timerDecimals }}</span>
+        </div>
+        <span class="leading-none text-white">sec</span>
       </div>
-      <span class="leading-6 text-white">sec</span>
     </div>
   </div>
 </template>
@@ -22,9 +27,13 @@
 export default {
   data() {
     return {
-      time: 20000,
-      timer: 5000,
+      time: null,
+      timer: null,
+      busy: false,
     }
+  },
+  mounted() {
+    this.$bus.on('start', this.startTimer)
   },
   computed: {
     timerDisplay() {
@@ -44,18 +53,20 @@ export default {
   },
   methods: {
     countDown() {
+      this.busy = true
       this.timer -= 100
       if (this.timer < 0) {
-        this.timer = this.time
+        // this.timer = this.time
+        this.timer = this.time = null
+        this.busy = false
         this.$bus.off('nanoSec', this.countDown)
       }
     },
-    startTimer() {
+    startTimer(sec) {
+      if (this.busy) return
+      this.timer = this.time = sec * 1000
       this.$bus.on('nanoSec', this.countDown)
     },
-  },
-  mounted() {
-    this.startTimer()
   },
 }
 </script>

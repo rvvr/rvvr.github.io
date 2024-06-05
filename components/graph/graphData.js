@@ -3,7 +3,7 @@ export const xLine = {
   stroke: 'white',
   strokeWidth: 1,
   opacity: 0.12,
-  offsetX: 68,
+  offsetX: 70,
   dash: [6, 6],
 }
 

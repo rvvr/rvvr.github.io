@@ -17,14 +17,14 @@ export default {
   },
   computed: {
     config() {
-      const size = this.stage.width / 2
+      const size = this.stage.height / 2
       const offset = size / 2
       return {
         width: size,
         height: size,
         opacity: 0.05,
         image: this.image,
-        x: size - offset,
+        x: this.stage.width / 2 - offset,
         y: this.stage.height / 2 - offset,
       }
     },

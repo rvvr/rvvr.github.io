@@ -1,5 +1,5 @@
 <template>
-  <div class="font-oswald">
+  <div class="font-oswald relative">
     <div class="flex items-center justify-between p-4">
       <div class="text-lime-400">
         <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
@@ -9,7 +9,7 @@
         <div class="text-2xl font-medium">177<span class="text-base font-normal">%</span></div>
       </div>
 
-      <Timer @click="start"></Timer>
+      <Timer :state="state"></Timer>
 
       <div class="text-right text-red-500">
         <div class="text-1xl font-bold uppercase opacity-75">Up pool payout</div>
@@ -20,9 +20,11 @@
         <div class="text-2xl font-medium">177<span class="text-base font-normal">%</span></div>
       </div>
     </div>
+
+    <MessageBox :state="state" />
   </div>
 
-  <Graph />
+  <Graph :state="state" />
 
   <div class="font-oswald grid grid-cols-4 gap-4 px-4 pb-1 pt-3 uppercase">
     <div class="">3 players</div>
@@ -57,15 +59,47 @@
 
 <script>
 export default {
-  methods: {
-    start() {
-      this.$bus.emit('start', 10)
-    },
+  data() {
+    return {
+      state: {},
+      counter: 0, //remove
+    }
   },
   mounted() {
-    setTimeout(() => {
-      this.start()
-    }, 5000)
+    this.$bus.on('sec', () => {
+      if (this.counter === 0) {
+        this.state = {
+          mode: 'before',
+          time: 20000,
+          left: 20000,
+        }
+        this.$bus.emit('start')
+      }
+
+      if (this.counter === 20) {
+        this.state = {
+          mode: 'active',
+          time: 10000,
+          left: 10000,
+        }
+        this.$bus.emit('start')
+      }
+
+      if (this.counter === 30) {
+        this.state = {
+          mode: 'after',
+          time: null,
+          left: null,
+        }
+        this.$bus.emit('start')
+      }
+
+      if (this.counter === 40) {
+        this.counter = 0
+      } else {
+        this.counter++
+      }
+    })
   },
 }
 </script>

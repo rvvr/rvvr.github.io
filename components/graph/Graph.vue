@@ -1,37 +1,26 @@
 <template>
-  <div class="graph-wrap relative flex-1" ref="graph">
+  <div class="graph-wrap flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
           <GraphBottomRect :stage="stage" />
-          <GraphTopRect :currentY="currentY" :stage="stage" />
+          <GraphTopRect :currentY="freezeY || currentY" :stage="stage" />
           <GraphBack :stage="stage" />
 
           <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i" />
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i" />
 
-          <!-- <GraphYLine :stage="stage" :x="155" /> -->
-
-          <GraphDelimiter :currentY="currentY" :stage="stage" />
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <!-- can be one as it top level -->
-          <GraphTopShadow :stage="stage" />
-          <GraphBottomShadow :stage="stage" />
-
+          <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" />
+          <GraphStart :stage="stage" :x="startX || -50" />
+          <GraphFinish :stage="stage" :x="finishX || -50" />
           <GraphLivePrice :currentY="currentY" :price="livePrice" :rate="rate" :stage="stage" />
+          <!-- <GraphShadow :stage="stage" /> -->
         </v-layer>
       </v-stage>
     </client-only>
-
-    <div class="absolute -top-10 w-full text-center">
-      <span
-        class="font-oswald inline-block rounded-lg bg-base-100 bg-opacity-70 px-3 py-2 text-2xl font-bold text-[#f4d56f]"
-      >
-        UP OR DOWN?<br />PLACE YOUR TRADE!
-      </span>
-    </div>
   </div>
 </template>
 
@@ -42,10 +31,11 @@ const step = 3
 const xLinesCount = 100
 const ratio = 20 // pixels for unit
 const moneyBetween = 5_0000
-const overflowSpace = 100
+const overflowSpace = 50
 const divider = 1_0000 // how much decimals
 
 export default {
+  props: ['state'],
   data() {
     return {
       rate: 70_000_0000,
@@ -55,13 +45,21 @@ export default {
       // lines
       xLines: [],
       xLinesLabels: [],
+      freezeY: null,
+      startX: null,
+      finishX: null,
+      freezeDelimiter: null,
     }
   },
   mounted() {
     this.initStage()
     this.$bus.on('nanoSec', this.manageGraph)
+    this.$bus.on('start', this.manageEvent)
   },
   computed: {
+    message() {
+      return false
+    },
     lastPointEnd() {
       return this.points.slice(-2)
     },
@@ -107,8 +105,12 @@ export default {
       })
     },
     doStep() {
-      if (this.currentX >= this.stage.width / 1.6) {
+      if (this.currentX >= this.stage.width / 2) {
         this.moveLayer(0, step)
+
+        if (this.startX && this.startX > -50) this.startX -= step
+        if (this.finishX && this.finishX > -50) this.finishX -= step
+
         if (this.points.length > 100) {
           this.points = this.points.slice(4)
         }
@@ -149,10 +151,13 @@ export default {
       if (needMove) {
         this.moveLayer(1, needMove)
         this.moveLines(needMove)
+
+        if (this.freezeY) this.freezeY -= needMove
+        if (this.freezeDelimiter) this.freezeDelimiter -= needMove
       }
     },
     pushData() {
-      let newRate = this.rate + this.randomize(20000, -20000)
+      let newRate = this.rate + this.randomize(10000, -10000)
       this.addPoint(this.currentX, this.currentY + this.calcRateToPixels(this.rate - newRate))
       this.rate = newRate
     },
@@ -163,6 +168,21 @@ export default {
     },
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
+    },
+    manageEvent() {
+      if (this.state.mode === 'before') {
+        this.freezeY = null
+        this.freezeDelimiter = null
+
+        this.startX = this.currentX + (this.state.left / 100) * step
+        this.finishX = this.startX + 100 * step
+      }
+      if (this.state.mode === 'active') {
+        this.freezeY = this.currentY
+      }
+      if (this.state.mode === 'after') {
+        this.freezeDelimiter = this.currentY
+      }
     },
   },
 }

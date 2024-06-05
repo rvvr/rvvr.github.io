@@ -25,11 +25,11 @@
 
 <script>
 export default {
+  props: ['state'],
   data() {
     return {
       time: null,
       timer: null,
-      busy: false,
     }
   },
   mounted() {
@@ -53,18 +53,16 @@ export default {
   },
   methods: {
     countDown() {
-      this.busy = true
       this.timer -= 100
       if (this.timer < 0) {
-        // this.timer = this.time
         this.timer = this.time = null
-        this.busy = false
         this.$bus.off('nanoSec', this.countDown)
       }
     },
-    startTimer(sec) {
-      if (this.busy) return
-      this.timer = this.time = sec * 1000
+    startTimer() {
+      this.$bus.off('nanoSec', this.countDown)
+      this.time = this.state.time
+      this.timer = this.state.left
       this.$bus.on('nanoSec', this.countDown)
     },
   },

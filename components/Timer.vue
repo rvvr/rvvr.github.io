@@ -6,7 +6,7 @@
     <div
       v-show="time"
       :class="timerColor"
-      :style="'--size: 6rem; --thickness: 1px; --value:' + timerProgress"
+      :style="'--size: 6rem; --thickness: 2px; --value:' + timerProgress"
       class="radial-progress h-24 w-24 border-2 border-base-300 bg-base-300"
       role="progressbar"
     >
@@ -53,7 +53,10 @@ export default {
   },
   methods: {
     countDown() {
-      this.timer -= 100
+      this.timer -= 50
+      setTimeout(() => {
+        this.timer -= 50
+      }, 50)
       if (this.timer < 0) {
         this.timer = this.time = null
         this.$bus.off('nanoSec', this.countDown)

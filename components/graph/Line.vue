@@ -10,11 +10,11 @@ export default {
       return {
         points: this.points,
         stroke: 'yellow',
-        strokeWidth: 4,
+        strokeWidth: 2,
         lineCap: 'round',
         lineJoin: 'round',
         shadowColor: '#151513',
-        shadowOffset: { x: -2, y: 0 },
+        shadowOffset: { x: -1, y: 0 },
       }
     },
   },

@@ -27,11 +27,11 @@
 <script>
 import { xLine, xLinesLabel } from './graphData'
 
-const step = 3
+const step = 2
 const xLinesCount = 100
 const ratio = 20 // pixels for unit
 const moneyBetween = 5_0000
-const overflowSpace = 50
+const overflowSpace = 75
 const divider = 1_0000 // how much decimals
 
 export default {
@@ -106,10 +106,23 @@ export default {
     },
     doStep() {
       if (this.currentX >= this.stage.width / 2) {
-        this.moveLayer(0, step)
+        this.moveLayer(0, step / 2)
+        setTimeout(() => {
+          this.moveLayer(0, step / 2)
+        }, 50)
 
-        if (this.startX && this.startX > -50) this.startX -= step
-        if (this.finishX && this.finishX > -50) this.finishX -= step
+        if (this.startX && this.startX > -50) {
+          this.startX -= step / 2
+          setTimeout(() => {
+            this.startX -= step / 2
+          }, 50)
+        }
+        if (this.finishX && this.finishX > -50) {
+          this.finishX -= step / 2
+          setTimeout(() => {
+            this.finishX -= step / 2
+          }, 50)
+        }
 
         if (this.points.length > 100) {
           this.points = this.points.slice(4)
@@ -118,9 +131,9 @@ export default {
         this.currentX += step
       }
     },
-    moveLayer(start, offset) {
+    moveLayer(start, step) {
       for (let i = start; i < this.points.length; i += 2) {
-        this.points[i] -= offset
+        this.points[i] -= step
       }
     },
     moveLines(yOffset) {

@@ -44,6 +44,7 @@ export default {
           mode: 'before',
           time: 20000, //optional?
           left: 20000,
+          next: 10000, // ?
         }
         this.$bus.emit('start')
       }
@@ -68,7 +69,7 @@ export default {
         this.$bus.emit('start')
       }
 
-      if (this.counter === 35) {
+      if (this.counter === 40) {
         this.counter = 0
       } else {
         this.counter++

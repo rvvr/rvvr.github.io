@@ -40,12 +40,13 @@ export default {
 
   mounted() {
     this.$bus.on('winner', (isUp) => {
-      this.up = this.down = 'transition-opacity duration-1000 ease-in opacity-0 delay-[4s]'
-      this[isUp ? 'up' : 'down'] += ' animate-bounce'
+      this[isUp ? 'up' : 'down'] = 'animate-bounce'
+    })
 
-      setTimeout(() => {
+    this.$bus.on('start', () => {
+      if (this.state.mode === 'before') {
         this.up = this.down = ''
-      }, 5000)
+      }
     })
   },
 }

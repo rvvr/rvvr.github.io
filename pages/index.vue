@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <Bets />
+  <Bets :state="state" />
 </template>
 
 <script>

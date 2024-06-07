@@ -25,35 +25,7 @@
   </div>
 
   <Graph :state="state" />
-
-  <div class="font-oswald grid grid-cols-4 gap-4 px-4 pb-1 pt-3 uppercase">
-    <div class="">3 players</div>
-    <div class="text-right font-bold text-lime-500">30.0</div>
-    <div class="font-bold text-red-500">60.0</div>
-    <div class="text-right">4 players</div>
-  </div>
-  <div class="grid grid-cols-2 gap-4 px-4 py-1">
-    <div class="avatar-group -space-x-3 rtl:space-x-reverse">
-      <div v-for="i in 5" class="avatar h-10 w-10 border-base-100 bg-base-300">
-        <div class="h-8 w-8">
-          <img :src="`https://robohash.org/${i}.png?set=set3`" />
-        </div>
-      </div>
-      <div class="avatar placeholder h-10 w-10">
-        <div class="h-8 w-8 bg-neutral text-neutral-content">
-          <span>+9</span>
-        </div>
-      </div>
-    </div>
-    <div class="avatar-group justify-end -space-x-3 rtl:space-x-reverse">
-      <div v-for="i in 4" class="avatar h-10 w-10 border-base-100 bg-base-300">
-        <div class="h-8 w-8">
-          <img :src="`https://robohash.org/${i}.png?set=set3`" />
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <Players :state="state" />
   <Bets :state="state" />
 </template>
 
@@ -70,22 +42,22 @@ export default {
       if (this.counter === 0) {
         this.state = {
           mode: 'before',
-          time: 20000,
-          left: 20000,
+          time: 5000,
+          left: 5000,
         }
         this.$bus.emit('start')
       }
 
-      if (this.counter === 20) {
+      if (this.counter === 5) {
         this.state = {
           mode: 'active',
-          time: 10000,
-          left: 10000,
+          time: 5000,
+          left: 5000,
         }
         this.$bus.emit('start')
       }
 
-      if (this.counter === 30) {
+      if (this.counter === 10) {
         this.state = {
           mode: 'after',
           time: null,
@@ -94,7 +66,7 @@ export default {
         this.$bus.emit('start')
       }
 
-      if (this.counter === 40) {
+      if (this.counter === 15) {
         this.counter = 0
       } else {
         this.counter++

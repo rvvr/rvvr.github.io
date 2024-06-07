@@ -188,12 +188,13 @@ export default {
         this.freezeDelimiter = null
 
         this.startX = this.currentX + (this.state.left / 100) * step
-        this.finishX = this.startX + 100 * step
+        this.finishX = this.startX + 50 * step
       }
       if (this.state.mode === 'active') {
         this.freezeY = this.currentY
       }
       if (this.state.mode === 'after') {
+        this.$bus.emit('winner', this.freezeY > this.currentY)
         this.freezeDelimiter = this.currentY
       }
     },

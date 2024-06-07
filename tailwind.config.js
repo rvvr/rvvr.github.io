@@ -1,7 +1,25 @@
 import daisyui from 'daisyui'
+import plugin from 'tailwindcss/plugin'
 
 module.exports = {
-  plugins: [daisyui],
+  plugins: [
+    daisyui,
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          'animation-iteration-count': (value) => {
+            return {
+              'animation-iteration-count': value,
+            }
+          },
+        },
+        {
+          values: theme('transitionDelay'),
+        },
+      )
+    }),
+  ],
 
   daisyui: {
     themes: ['luxury'], //'synthwave', 'acid',

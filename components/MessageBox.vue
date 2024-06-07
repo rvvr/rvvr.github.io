@@ -24,7 +24,7 @@ export default {
     animationClass() {
       const animations = {
         before: 'animate-pulse',
-        after: 'animate-bounce',
+        after: 'animate-pulse',
       }
       return animations[this.state.mode] || null
     },

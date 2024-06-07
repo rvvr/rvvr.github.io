@@ -1,15 +1,13 @@
 <template>
   <div class="font-oswald grid grid-cols-2 gap-4 px-4 py-1">
     <button
-      :class="upClasses"
-      :disabled="upDisabled"
+      :disabled="disabled"
       class="up btn h-16 border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase text-white"
     >
       Up
     </button>
     <button
-      :class="downClasses"
-      :disabled="downDisabled"
+      :disabled="disabled"
       class="down btn h-16 border-2 border-red-700 bg-red-500 text-3xl font-bold uppercase text-white"
     >
       Down
@@ -20,7 +18,6 @@
       v-for="bet in bets"
       @click="betRate = bet"
       :class="[bet === betRate ? 'text-white' : 'btn-outline']"
-      :disabled="disabled"
       :key="bet"
       class="font-oswald btn btn-success border-2 text-lg"
     >
@@ -36,10 +33,6 @@ export default {
   props: ['state'],
   data() {
     return {
-      upClasses: '',
-      downClasses: '',
-      upDisabled: false,
-      downDisabled: false,
       disabled: false,
       betRate: 5,
       bets: [5, 10, 15, 25, 50, 100, 200],
@@ -48,13 +41,12 @@ export default {
   mounted() {
     this.$bus.on('start', () => {
       if (this.state.mode === 'before') {
-        this.upDisabled = false
-        this.downDisabled = false
         this.disabled = false
       }
       if (this.state.mode === 'active') {
-        this.upDisabled = true
-        this.downDisabled = true
+        this.disabled = true
+      }
+      if (this.state.mode === 'after') {
         this.disabled = true
       }
     })
@@ -62,19 +54,11 @@ export default {
     this.$bus.on('winner', (isUp) => {
       const x = isUp ? 0.25 : 0.75
       confetti({
-        particleCount: 50,
+        particleCount: 100,
         spread: 30,
         origin: { x, y: 0.8 },
         gravity: 4,
       })
-
-      this[isUp ? 'upClasses' : 'downClasses'] = 'animate-bounce'
-      this[!isUp ? 'upClasses' : 'downClasses'] = ''
-      this[!isUp ? 'downDisabled' : 'upDisabled'] = false
-
-      setTimeout(() => {
-        this.upClasses = this.downClasses = ''
-      }, 5000)
     })
   },
 }

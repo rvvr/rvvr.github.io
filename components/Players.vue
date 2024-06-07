@@ -1,9 +1,9 @@
 <template>
   <div class="font-oswald grid grid-cols-4 gap-4 px-4 pt-3 uppercase">
-    <div class="">3 players</div>
-    <div class="text-right font-bold text-lime-500">30.0</div>
-    <div class="font-bold text-red-500">60.0</div>
-    <div class="text-right">4 players</div>
+    <div :class="up" class="">3 players</div>
+    <div :class="up" class="text-right font-bold text-lime-500">30.0</div>
+    <div :class="down" class="font-bold text-red-500">60.0</div>
+    <div :class="down" class="text-right">4 players</div>
   </div>
   <div class="grid grid-cols-2 gap-4 px-4 pb-1">
     <div :class="up" class="avatar-group -space-x-3 pt-2 rtl:space-x-reverse">
@@ -40,8 +40,9 @@ export default {
 
   mounted() {
     this.$bus.on('winner', (isUp) => {
-      this[isUp ? 'up' : 'down'] = 'animate-bounce'
-      this[!isUp ? 'up' : 'down'] = ''
+      this.up = this.down = 'transition-opacity duration-1000 ease-in opacity-0 delay-[4s]'
+      this[isUp ? 'up' : 'down'] += ' animate-bounce'
+
       setTimeout(() => {
         this.up = this.down = ''
       }, 5000)

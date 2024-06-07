@@ -42,31 +42,33 @@ export default {
       if (this.counter === 0) {
         this.state = {
           mode: 'before',
-          time: 5000,
-          left: 5000,
+          time: 20000, //optional?
+          left: 20000,
         }
         this.$bus.emit('start')
       }
 
-      if (this.counter === 5) {
+      if (this.counter === 20) {
         this.state = {
           mode: 'active',
-          time: 5000,
-          left: 5000,
+          time: 10000,
+          left: 10000,
+          players: [], //and other info
         }
         this.$bus.emit('start')
       }
 
-      if (this.counter === 10) {
+      if (this.counter === 30) {
         this.state = {
           mode: 'after',
           time: null,
           left: null,
+          upWins: true,
         }
         this.$bus.emit('start')
       }
 
-      if (this.counter === 15) {
+      if (this.counter === 35) {
         this.counter = 0
       } else {
         this.counter++

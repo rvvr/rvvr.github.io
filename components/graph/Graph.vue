@@ -188,7 +188,7 @@ export default {
         this.freezeDelimiter = null
 
         this.startX = this.currentX + (this.state.left / 100) * step
-        this.finishX = this.startX + 50 * step
+        this.finishX = this.startX + 100 * step
       }
       if (this.state.mode === 'active') {
         this.freezeY = this.currentY

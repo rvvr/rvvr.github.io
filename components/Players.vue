@@ -1,6 +1,6 @@
 <template>
   <div class="font-oswald grid grid-cols-4 gap-4 px-4 pt-3 uppercase">
-    <div :class="up" class="">3 players</div>
+    <div :class="up">3 players</div>
     <div :class="up" class="text-right font-bold text-lime-500">30.0</div>
     <div :class="down" class="font-bold text-red-500">60.0</div>
     <div :class="down" class="text-right">4 players</div>

@@ -41,8 +41,8 @@
             <li>
               <NuxtLink to="/wallet/deposit/">Wallet</NuxtLink>
             </li>
-            <li><a class="link-hover link">About us</a></li>
-            <li><a @click="exit" class="link-hover link">Logout</a></li>
+            <li><a>About us</a></li>
+            <li><a @click="exit">Logout</a></li>
           </ul>
         </div>
       </div>

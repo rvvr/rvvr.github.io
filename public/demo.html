@@ -1,3 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask-SocketIO Test</title>
+    <script
+      crossorigin="anonymous"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+    <script
+      crossorigin="anonymous"
+      integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"
+    ></script>
+    <script charset="utf-8" type="text/javascript">
+      $(document).ready(function () {
+        // Connect to the Socket.IO server.
+        // The connection URL has the following format, relative to the current page:
+        //     http[s]://<domain>:<port>[/<namespace>]
+        let token = (Math.random() + 1).toString(36).substring(7)
+        var socket = io({
+          auth: {
+            token: token,
+          },
+        })
 
-<!-- saved from url=(0039)https://game.demo.cryptobull.io/ws/demo -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="color-scheme" content="light dark"></head><body><div class="line-gutter-backdrop"></div><form autocomplete="off"><label class="line-wrap-control">Перенос по словам<input type="checkbox" aria-label="Перенос по словам"></label></form><table><tbody><tr><td class="line-number" value="1"></td><td class="line-content"><span class="html-doctype">&lt;!DOCTYPE HTML&gt;</span></td></tr><tr><td class="line-number" value="2"></td><td class="line-content"><span class="html-tag">&lt;html&gt;</span></td></tr><tr><td class="line-number" value="3"></td><td class="line-content"><span class="html-tag">&lt;head&gt;</span></td></tr><tr><td class="line-number" value="4"></td><td class="line-content">    <span class="html-tag">&lt;title&gt;</span>Flask-SocketIO Test<span class="html-tag">&lt;/title&gt;</span></td></tr><tr><td class="line-number" value="5"></td><td class="line-content">    <span class="html-tag">&lt;script <span class="html-attribute-name">src</span>="<a class="html-attribute-value html-resource-link" target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" rel="noreferrer noopener">https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js</a>" <span class="html-attribute-name">integrity</span>="<span class="html-attribute-value">sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==</span>" <span class="html-attribute-name">crossorigin</span>="<span class="html-attribute-value">anonymous</span>"&gt;</span><span class="html-tag">&lt;/script&gt;</span></td></tr><tr><td class="line-number" value="6"></td><td class="line-content">    <span class="html-tag">&lt;script <span class="html-attribute-name">src</span>="<a class="html-attribute-value html-resource-link" target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" rel="noreferrer noopener">https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js</a>" <span class="html-attribute-name">integrity</span>="<span class="html-attribute-value">sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==</span>" <span class="html-attribute-name">crossorigin</span>="<span class="html-attribute-value">anonymous</span>"&gt;</span><span class="html-tag">&lt;/script&gt;</span></td></tr><tr><td class="line-number" value="7"></td><td class="line-content">    <span class="html-tag">&lt;script <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text/javascript</span>" <span class="html-attribute-name">charset</span>="<span class="html-attribute-value">utf-8</span>"&gt;</span></td></tr><tr><td class="line-number" value="8"></td><td class="line-content">        $(document).ready(function() {</td></tr><tr><td class="line-number" value="9"></td><td class="line-content">            // Connect to the Socket.IO server.</td></tr><tr><td class="line-number" value="10"></td><td class="line-content">            // The connection URL has the following format, relative to the current page:</td></tr><tr><td class="line-number" value="11"></td><td class="line-content">            //     http[s]://&lt;domain&gt;:&lt;port&gt;[/&lt;namespace&gt;]</td></tr><tr><td class="line-number" value="12"></td><td class="line-content">            let token = (Math.random() + 1).toString(36).substring(7);</td></tr><tr><td class="line-number" value="13"></td><td class="line-content">            var socket = io(</td></tr><tr><td class="line-number" value="14"></td><td class="line-content">                {</td></tr><tr><td class="line-number" value="15"></td><td class="line-content">                  auth: {</td></tr><tr><td class="line-number" value="16"></td><td class="line-content">                    token: token</td></tr><tr><td class="line-number" value="17"></td><td class="line-content">                  }</td></tr><tr><td class="line-number" value="18"></td><td class="line-content">                }</td></tr><tr><td class="line-number" value="19"></td><td class="line-content">                );</td></tr><tr><td class="line-number" value="20"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="21"></td><td class="line-content">            // Event handler for new connections.</td></tr><tr><td class="line-number" value="22"></td><td class="line-content">            // The callback function is invoked when a connection with the</td></tr><tr><td class="line-number" value="23"></td><td class="line-content">            // server is established.</td></tr><tr><td class="line-number" value="24"></td><td class="line-content">            socket.on('connect', function() {</td></tr><tr><td class="line-number" value="25"></td><td class="line-content">                socket.emit('my_event', {data: 'I\'m connected!'});</td></tr><tr><td class="line-number" value="26"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="27"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="28"></td><td class="line-content">            // Event handler for server sent data.</td></tr><tr><td class="line-number" value="29"></td><td class="line-content">            // The callback function is invoked whenever the server emits data</td></tr><tr><td class="line-number" value="30"></td><td class="line-content">            // to the client. The data is then displayed in the "Received"</td></tr><tr><td class="line-number" value="31"></td><td class="line-content">            // section of the page.</td></tr><tr><td class="line-number" value="32"></td><td class="line-content">            socket.on('my_response', function(msg, cb) {</td></tr><tr><td class="line-number" value="33"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("my_event:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="34"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="35"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="36"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="37"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="38"></td><td class="line-content">            socket.on('round_info', function(msg, cb) {</td></tr><tr><td class="line-number" value="39"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("round_status:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="40"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="41"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="42"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="43"></td><td class="line-content">            socket.on('game_start', function(msg, cb) {</td></tr><tr><td class="line-number" value="44"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("game_start:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="45"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="46"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="47"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="48"></td><td class="line-content">            socket.on('ticker_event', function(msg, cb) {</td></tr><tr><td class="line-number" value="49"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("ticker_event:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="50"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="51"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="52"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="53"></td><td class="line-content">            socket.on('trade_event', function(msg, cb) {</td></tr><tr><td class="line-number" value="54"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("trade_event:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="55"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="56"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="57"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="58"></td><td class="line-content">            socket.on('change_order_status_event', function(msg, cb) {</td></tr><tr><td class="line-number" value="59"></td><td class="line-content">                $('#log').append('&lt;br&gt;' + $('&lt;div/&gt;').text("change_order_status_event:" + JSON.stringify(msg.data)).html());</td></tr><tr><td class="line-number" value="60"></td><td class="line-content">                if (cb)</td></tr><tr><td class="line-number" value="61"></td><td class="line-content">                    cb();</td></tr><tr><td class="line-number" value="62"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="63"></td><td class="line-content">            // Interval function that tests message latency by sending a "ping"</td></tr><tr><td class="line-number" value="64"></td><td class="line-content">            // message. The server then responds with a "pong" message and the</td></tr><tr><td class="line-number" value="65"></td><td class="line-content">            // round trip time is measured.</td></tr><tr><td class="line-number" value="66"></td><td class="line-content">            var ping_pong_times = [];</td></tr><tr><td class="line-number" value="67"></td><td class="line-content">            var start_time;</td></tr><tr><td class="line-number" value="68"></td><td class="line-content">            window.setInterval(function() {</td></tr><tr><td class="line-number" value="69"></td><td class="line-content">                start_time = (new Date).getTime();</td></tr><tr><td class="line-number" value="70"></td><td class="line-content">                $('#transport').text(socket.io.engine.transport.name);</td></tr><tr><td class="line-number" value="71"></td><td class="line-content">                socket.emit('my_ping');</td></tr><tr><td class="line-number" value="72"></td><td class="line-content">            }, 10000);</td></tr><tr><td class="line-number" value="73"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="74"></td><td class="line-content">            // Handler for the "pong" message. When the pong is received, the</td></tr><tr><td class="line-number" value="75"></td><td class="line-content">            // time from the ping is stored, and the average of the last 30</td></tr><tr><td class="line-number" value="76"></td><td class="line-content">            // samples is average and displayed.</td></tr><tr><td class="line-number" value="77"></td><td class="line-content">            socket.on('my_pong', function() {</td></tr><tr><td class="line-number" value="78"></td><td class="line-content">                var latency = (new Date).getTime() - start_time;</td></tr><tr><td class="line-number" value="79"></td><td class="line-content">                ping_pong_times.push(latency);</td></tr><tr><td class="line-number" value="80"></td><td class="line-content">                ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples</td></tr><tr><td class="line-number" value="81"></td><td class="line-content">                var sum = 0;</td></tr><tr><td class="line-number" value="82"></td><td class="line-content">                for (var i = 0; i &lt; ping_pong_times.length; i++)</td></tr><tr><td class="line-number" value="83"></td><td class="line-content">                    sum += ping_pong_times[i];</td></tr><tr><td class="line-number" value="84"></td><td class="line-content">                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);</td></tr><tr><td class="line-number" value="85"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="86"></td><td class="line-content"><br></td></tr><tr><td class="line-number" value="87"></td><td class="line-content">            // Handlers for the different forms in the page.</td></tr><tr><td class="line-number" value="88"></td><td class="line-content">            // These accept data from the user and send it to the server in a</td></tr><tr><td class="line-number" value="89"></td><td class="line-content">            // variety of ways</td></tr><tr><td class="line-number" value="90"></td><td class="line-content">            $('form#emit').submit(function(event) {</td></tr><tr><td class="line-number" value="91"></td><td class="line-content">                socket.emit('my_event', {data: $('#emit_data').val()});</td></tr><tr><td class="line-number" value="92"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="93"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="94"></td><td class="line-content">            $('form#broadcast').submit(function(event) {</td></tr><tr><td class="line-number" value="95"></td><td class="line-content">                socket.emit('my_broadcast_event', {data: $('#broadcast_data').val()});</td></tr><tr><td class="line-number" value="96"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="97"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="98"></td><td class="line-content">            $('form#join').submit(function(event) {</td></tr><tr><td class="line-number" value="99"></td><td class="line-content">                socket.emit('join', {room: $('#join_room').val()});</td></tr><tr><td class="line-number" value="100"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="101"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="102"></td><td class="line-content">            $('form#leave').submit(function(event) {</td></tr><tr><td class="line-number" value="103"></td><td class="line-content">                socket.emit('leave', {room: $('#leave_room').val()});</td></tr><tr><td class="line-number" value="104"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="105"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="106"></td><td class="line-content">            $('form#send_room').submit(function(event) {</td></tr><tr><td class="line-number" value="107"></td><td class="line-content">                socket.emit('my_room_event', {room: $('#room_name').val(), data: $('#room_data').val()});</td></tr><tr><td class="line-number" value="108"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="109"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="110"></td><td class="line-content">            $('form#close').submit(function(event) {</td></tr><tr><td class="line-number" value="111"></td><td class="line-content">                socket.emit('close_room', {room: $('#close_room').val()});</td></tr><tr><td class="line-number" value="112"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="113"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="114"></td><td class="line-content">            $('form#disconnect').submit(function(event) {</td></tr><tr><td class="line-number" value="115"></td><td class="line-content">                socket.emit('disconnect_request');</td></tr><tr><td class="line-number" value="116"></td><td class="line-content">                return false;</td></tr><tr><td class="line-number" value="117"></td><td class="line-content">            });</td></tr><tr><td class="line-number" value="118"></td><td class="line-content">        });</td></tr><tr><td class="line-number" value="119"></td><td class="line-content">    <span class="html-tag">&lt;/script&gt;</span></td></tr><tr><td class="line-number" value="120"></td><td class="line-content"><span class="html-tag">&lt;/head&gt;</span></td></tr><tr><td class="line-number" value="121"></td><td class="line-content"><span class="html-tag">&lt;body&gt;</span></td></tr><tr><td class="line-number" value="122"></td><td class="line-content">    <span class="html-tag">&lt;h1&gt;</span>Flask-SocketIO Test<span class="html-tag">&lt;/h1&gt;</span></td></tr><tr><td class="line-number" value="123"></td><td class="line-content">    <span class="html-tag">&lt;p&gt;</span></td></tr><tr><td class="line-number" value="124"></td><td class="line-content">      Current transport is: <span class="html-tag">&lt;b&gt;</span><span class="html-tag">&lt;span <span class="html-attribute-name">id</span>="<span class="html-attribute-value">transport</span>"&gt;</span><span class="html-tag">&lt;/span&gt;</span><span class="html-tag">&lt;/b&gt;</span><span class="html-tag">&lt;br&gt;</span></td></tr><tr><td class="line-number" value="125"></td><td class="line-content">      Average ping/pong latency: <span class="html-tag">&lt;b&gt;</span><span class="html-tag">&lt;span <span class="html-attribute-name">id</span>="<span class="html-attribute-value">ping-pong</span>"&gt;</span><span class="html-tag">&lt;/span&gt;</span>ms<span class="html-tag">&lt;/b&gt;</span></td></tr><tr><td class="line-number" value="126"></td><td class="line-content">    <span class="html-tag">&lt;/p&gt;</span></td></tr><tr><td class="line-number" value="127"></td><td class="line-content">    <span class="html-tag">&lt;h2&gt;</span>Send:<span class="html-tag">&lt;/h2&gt;</span></td></tr><tr><td class="line-number" value="128"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">emit</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>='<span class="html-attribute-value">#</span>'&gt;</span></td></tr><tr><td class="line-number" value="129"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">emit_data</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">emit_data</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Message</span>"&gt;</span></td></tr><tr><td class="line-number" value="130"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Echo</span>"&gt;</span></td></tr><tr><td class="line-number" value="131"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="132"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">broadcast</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>='<span class="html-attribute-value">#</span>'&gt;</span></td></tr><tr><td class="line-number" value="133"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">broadcast_data</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">broadcast_data</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Message</span>"&gt;</span></td></tr><tr><td class="line-number" value="134"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Broadcast</span>"&gt;</span></td></tr><tr><td class="line-number" value="135"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="136"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">join</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>='<span class="html-attribute-value">#</span>'&gt;</span></td></tr><tr><td class="line-number" value="137"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">join_room</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">join_room</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Room Name</span>"&gt;</span></td></tr><tr><td class="line-number" value="138"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Join Room</span>"&gt;</span></td></tr><tr><td class="line-number" value="139"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="140"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">leave</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>='<span class="html-attribute-value">#</span>'&gt;</span></td></tr><tr><td class="line-number" value="141"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">leave_room</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">leave_room</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Room Name</span>"&gt;</span></td></tr><tr><td class="line-number" value="142"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Leave Room</span>"&gt;</span></td></tr><tr><td class="line-number" value="143"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="144"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">send_room</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>='<span class="html-attribute-value">#</span>'&gt;</span></td></tr><tr><td class="line-number" value="145"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">room_name</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">room_name</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Room Name</span>"&gt;</span></td></tr><tr><td class="line-number" value="146"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">room_data</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">room_data</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Message</span>"&gt;</span></td></tr><tr><td class="line-number" value="147"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Send to Room</span>"&gt;</span></td></tr><tr><td class="line-number" value="148"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="149"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">close</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>="<span class="html-attribute-value">#</span>"&gt;</span></td></tr><tr><td class="line-number" value="150"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">text</span>" <span class="html-attribute-name">name</span>="<span class="html-attribute-value">close_room</span>" <span class="html-attribute-name">id</span>="<span class="html-attribute-value">close_room</span>" <span class="html-attribute-name">placeholder</span>="<span class="html-attribute-value">Room Name</span>"&gt;</span></td></tr><tr><td class="line-number" value="151"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Close Room</span>"&gt;</span></td></tr><tr><td class="line-number" value="152"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="153"></td><td class="line-content">    <span class="html-tag">&lt;form <span class="html-attribute-name">id</span>="<span class="html-attribute-value">disconnect</span>" <span class="html-attribute-name">method</span>="<span class="html-attribute-value">POST</span>" <span class="html-attribute-name">action</span>="<span class="html-attribute-value">#</span>"&gt;</span></td></tr><tr><td class="line-number" value="154"></td><td class="line-content">        <span class="html-tag">&lt;input <span class="html-attribute-name">type</span>="<span class="html-attribute-value">submit</span>" <span class="html-attribute-name">value</span>="<span class="html-attribute-value">Disconnect</span>"&gt;</span></td></tr><tr><td class="line-number" value="155"></td><td class="line-content">    <span class="html-tag">&lt;/form&gt;</span></td></tr><tr><td class="line-number" value="156"></td><td class="line-content">    <span class="html-tag">&lt;h2&gt;</span>Receive:<span class="html-tag">&lt;/h2&gt;</span></td></tr><tr><td class="line-number" value="157"></td><td class="line-content">    <span class="html-tag">&lt;div <span class="html-attribute-name">id</span>="<span class="html-attribute-value">log</span>"&gt;</span><span class="html-tag">&lt;/div&gt;</span></td></tr><tr><td class="line-number" value="158"></td><td class="line-content"><span class="html-tag">&lt;/body&gt;</span></td></tr><tr><td class="line-number" value="159"></td><td class="line-content"><span class="html-tag">&lt;/html&gt;</span><span class="html-end-of-file"></span></td></tr></tbody></table></body></html>
+        // Event handler for new connections.
+        // The callback function is invoked when a connection with the
+        // server is established.
+        socket.on('connect', function () {
+          socket.emit('my_event', { data: "I'm connected!" })
+        })
+
+        // Event handler for server sent data.
+        // The callback function is invoked whenever the server emits data
+        // to the client. The data is then displayed in the "Received"
+        // section of the page.
+        socket.on('my_response', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('my_event:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+
+        socket.on('round_info', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('round_status:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+        socket.on('game_start', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('game_start:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+        socket.on('ticker_event', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('ticker_event:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+        socket.on('trade_event', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('trade_event:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+        socket.on('change_order_status_event', function (msg, cb) {
+          $('#log').append(
+            '<br>' +
+              $('<div/>')
+                .text('change_order_status_event:' + JSON.stringify(msg.data))
+                .html(),
+          )
+          if (cb) cb()
+        })
+        // Interval function that tests message latency by sending a "ping"
+        // message. The server then responds with a "pong" message and the
+        // round trip time is measured.
+        var ping_pong_times = []
+        var start_time
+        window.setInterval(function () {
+          start_time = new Date().getTime()
+          $('#transport').text(socket.io.engine.transport.name)
+          socket.emit('my_ping')
+        }, 10000)
+
+        // Handler for the "pong" message. When the pong is received, the
+        // time from the ping is stored, and the average of the last 30
+        // samples is average and displayed.
+        socket.on('my_pong', function () {
+          var latency = new Date().getTime() - start_time
+          ping_pong_times.push(latency)
+          ping_pong_times = ping_pong_times.slice(-30) // keep last 30 samples
+          var sum = 0
+          for (var i = 0; i < ping_pong_times.length; i++) sum += ping_pong_times[i]
+          $('#ping-pong').text(Math.round((10 * sum) / ping_pong_times.length) / 10)
+        })
+
+        // Handlers for the different forms in the page.
+        // These accept data from the user and send it to the server in a
+        // variety of ways
+        $('form#emit').submit(function (event) {
+          socket.emit('my_event', { data: $('#emit_data').val() })
+          return false
+        })
+        $('form#broadcast').submit(function (event) {
+          socket.emit('my_broadcast_event', { data: $('#broadcast_data').val() })
+          return false
+        })
+        $('form#join').submit(function (event) {
+          socket.emit('join', { room: $('#join_room').val() })
+          return false
+        })
+        $('form#leave').submit(function (event) {
+          socket.emit('leave', { room: $('#leave_room').val() })
+          return false
+        })
+        $('form#send_room').submit(function (event) {
+          socket.emit('my_room_event', { room: $('#room_name').val(), data: $('#room_data').val() })
+          return false
+        })
+        $('form#close').submit(function (event) {
+          socket.emit('close_room', { room: $('#close_room').val() })
+          return false
+        })
+        $('form#disconnect').submit(function (event) {
+          socket.emit('disconnect_request')
+          return false
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <h1>Flask-SocketIO Test</h1>
+    <p>
+      Current transport is: <b><span id="transport"></span></b><br />
+      Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
+    </p>
+    <h2>Send:</h2>
+    <form id="emit" action="#" method="POST">
+      <input id="emit_data" name="emit_data" placeholder="Message" type="text" />
+      <input type="submit" value="Echo" />
+    </form>
+    <form id="broadcast" action="#" method="POST">
+      <input id="broadcast_data" name="broadcast_data" placeholder="Message" type="text" />
+      <input type="submit" value="Broadcast" />
+    </form>
+    <form id="join" action="#" method="POST">
+      <input id="join_room" name="join_room" placeholder="Room Name" type="text" />
+      <input type="submit" value="Join Room" />
+    </form>
+    <form id="leave" action="#" method="POST">
+      <input id="leave_room" name="leave_room" placeholder="Room Name" type="text" />
+      <input type="submit" value="Leave Room" />
+    </form>
+    <form id="send_room" action="#" method="POST">
+      <input id="room_name" name="room_name" placeholder="Room Name" type="text" />
+      <input id="room_data" name="room_data" placeholder="Message" type="text" />
+      <input type="submit" value="Send to Room" />
+    </form>
+    <form id="close" action="#" method="POST">
+      <input id="close_room" name="close_room" placeholder="Room Name" type="text" />
+      <input type="submit" value="Close Room" />
+    </form>
+    <form id="disconnect" action="#" method="POST">
+      <input type="submit" value="Disconnect" />
+    </form>
+    <h2>Receive:</h2>
+    <div id="log"></div>
+  </body>
+</html>

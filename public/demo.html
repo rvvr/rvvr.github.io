@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Flask-SocketIO Test</title>
@@ -19,6 +19,7 @@
         //     http[s]://<domain>:<port>[/<namespace>]
         let token = (Math.random() + 1).toString(36).substring(7)
         var socket = io({
+          url: 'wss://game.demo.cryptobull.io/socket.io/',
           auth: {
             token: token,
           },

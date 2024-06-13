@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       first_name: null,
-      id: 77777,
+      id: 88888,
       // id: null,
       avatar: null,
       user: null,
@@ -115,7 +115,7 @@ export default {
       this.user = await api.get('/user/' + this.id)
     },
     async regUser() {
-      await api.post('/user/', { user_telegram_id: this.id })
+      await api.post('/user', { user_telegram_id: this.id })
     },
   },
   async mounted() {

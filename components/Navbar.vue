@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       first_name: null,
-      id: 99999,
+      id: 999999,
       // id: null,
       avatar: null,
       user: null,

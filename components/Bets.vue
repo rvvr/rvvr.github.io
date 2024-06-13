@@ -71,34 +71,28 @@ export default {
       if (this.state.mode == 'active') {
         this.disabled = true
       }
+
+      if (this.state.mode == 'before') {
+        this.disabled = false
+      }
     })
 
-    this.$bus.on('winner', (isUp) => {
-      this.disabled = false
+    this.$bus.on('winner', (side) => {
+      if (this.activeBet === side) {
+        confetti({
+          particleCount: 100,
+          spread: 30,
+          origin: {
+            x: side === 'up' ? 0.25 : 0.75,
+            y: 0.8,
+          },
+          gravity: 4,
+        })
+      }
+
       this.activeBet = null
       this.activeRate = null
-
-      const x = isUp ? 0.25 : 0.75
-      confetti({
-        particleCount: 100,
-        spread: 30,
-        origin: { x, y: 0.8 },
-        gravity: 4,
-      })
     })
   },
 }
 </script>
-
-<style>
-/* .down {
-  box-shadow:
-    0 3px 0 0px rgba(190, 31, 31, 0.95),
-    0 4px 0 0px rgb(119, 0, 0);
-}
-.up {
-  box-shadow:
-    0 3px 0 0px rgba(88, 145, 30, 0.95),
-    0 4px 0 0px rgb(50, 71, 21);
-} */
-</style>

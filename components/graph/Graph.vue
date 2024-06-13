@@ -194,7 +194,7 @@ export default {
         this.freezeY = this.currentY
       }
       if (this.state.mode === 'after') {
-        this.$bus.emit('winner', this.freezeY > this.currentY)
+        this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
         this.freezeDelimiter = this.currentY
       }
     },

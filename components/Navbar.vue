@@ -1,74 +1,78 @@
 <template>
-  <div :class="[isLogged && isIndex ? 'grid-cols-3' : 'grid-cols-2']" class="navbar grid gap-2 bg-base-200">
-    <!-- logo -->
-    <NuxtLink class="btn btn-ghost w-14 px-2 text-xl" to="/">
+  <div class="navbar grid grid-cols-[48px_auto_48px] justify-items-center gap-2 bg-base-200">
+    <NuxtLink class="flex w-12 justify-center" to="/">
       <img class="h-10 w-10" alt="" src="/favicon.png" />
     </NuxtLink>
-    <!-- wallet -->
-    <NuxtLink v-if="isLogged" v-show="isIndex" class="flex justify-center" to="/wallet/deposit/">
-      <div class="btn btn-neutral -mt-8 flex items-center justify-center bg-info-content pt-2">
-        <IconsWallet class="h-4 w-4 text-neutral-content" />
-        <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">19.92</span>
-        <!-- <IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" /> -->
-      </div>
-    </NuxtLink>
-    <!-- profile -->
-    <div v-show="isIndex" class="flex-none justify-end gap-2">
-      <div>
-        <button v-show="isGuest" class="h-10" id="connect"></button>
+
+    <template v-if="isIndex">
+      <!-- wallet -->
+      <NuxtLink v-if="isLogged" to="/wallet/deposit/">
+        <div class="btn btn-neutral btn-lg -mt-8 bg-info-content pt-4">
+          Balance
+          <IconsWallet class="h-4 w-4 text-neutral-content" />
+          <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">{{
+            user.balance
+          }}</span>
+          <!-- <IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" /> -->
+        </div>
+      </NuxtLink>
+
+      <!-- wallet connect -->
+      <div v-else v-show="!isLogged" class="flex justify-center">
+        <!-- <button class="h-10" id="connect"></button> -->
+        <span class="loading loading-dots loading-md"></span>
       </div>
 
-      <div class="dropdown dropdown-end h-12">
-        <div v-if="isLogged" class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
-          <div v-if="avatar" class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
-            <img :src="avatar" class="rounded-full" alt="Tailwind CSS Navbar component" />
+      <!-- profile -->
+      <div class="flex-none justify-end gap-2">
+        <div class="dropdown dropdown-end h-12">
+          <div class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
+            <div class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
+              <img v-if="avatar" :src="avatar" class="rounded-full" alt="" />
+            </div>
           </div>
-        </div>
-        <div
+          <!-- <div
           v-if="isLogged"
           class="menu dropdown-content menu-sm z-[1] mt-3 w-64 rounded-box bg-base-200 p-2 shadow"
           tabindex="0"
         >
           <ul>
             <div v-if="first_name" class="my-1 px-3">{{ first_name }}</div>
-            <!-- <div v-if="balance !== null" class="my-1 flex justify-between px-3">
-              <div>Balance</div>
-              <div>
-                <b>{{ balance }}</b> TON
-              </div>
-            </div> -->
-
             <li>
               <NuxtLink to="/wallet/deposit/">Wallet</NuxtLink>
             </li>
             <li><a>About us</a></li>
-            <li><a @click="exit">Logout</a></li>
+            <li><a @click="logout">Disconnect wallet</a></li>
           </ul>
+        </div> -->
         </div>
       </div>
-    </div>
+    </template>
+
+    <div v-else></div>
+
     <!-- close icon -->
-    <NuxtLink v-show="!isIndex" class="flex-none justify-end gap-2" to="/">
-      <button class="btn btn-circle bg-base-300">
-        <IconsCross class="w-10"></IconsCross>
+    <NuxtLink v-show="!isIndex" class="flex-none justify-end" to="/">
+      <button class="btn btn-circle h-10 min-h-10 w-10 bg-base-300">
+        <IconsCross class=""></IconsCross>
       </button>
     </NuxtLink>
   </div>
 </template>
 
 <script>
-import { TonConnectUI } from '@tonconnect/ui'
+import { TonConnectUI, CHAIN, toUserFriendlyAddress } from '@tonconnect/ui'
+let tonConnectUI
 
 export default {
   data() {
     return {
       first_name: null,
-      id: null,
-      balance: null,
-      ip: null,
+      id: 9999,
+      // id: null,
       avatar: null,
-      isGuest: null,
-      tonConnectUI: null,
+      wallet: null,
+      user: null,
     }
   },
 
@@ -77,27 +81,20 @@ export default {
       return this.$route.name === 'index'
     },
     isLogged() {
-      return this.isGuest === false
+      return !!this.user?.user_id
     },
   },
 
   methods: {
-    async exit() {
-      this.isGuest = null
-      this.balance = null
-      await this.tonConnectUI.disconnect()
-      location.reload()
+    async setAvatar() {
+      if (this.id) {
+        this.avatar = `https://api.crashgame247.io/users/profile-picture?id=${this.id}`
+      } else {
+        let ip = await $fetch('https://checkip.amazonaws.com/')
+        this.avatar = `https://robohash.org/${ip}.png?set=set3`
+      }
     },
-    getAvatar() {
-      this.avatar = this.ip
-        ? `https://robohash.org/${this.ip}.png?set=set3`
-        : `https://api.crashgame247.io/users/profile-picture?id=${this.id}`
-    },
-    async getIp() {
-      let res = await fetch('https://checkip.amazonaws.com/')
-      this.ip = await res.text()
-    },
-    getUser() {
+    getUserFromApp() {
       const user = window.Telegram.WebApp.initDataUnsafe.user
       if (user) {
         this.first_name = user.first_name
@@ -110,37 +107,47 @@ export default {
       )
       this.balance = result / 1000000000
     },
+    initTonConnect() {
+      tonConnectUI = new TonConnectUI({
+        manifestUrl: 'https://rvvr.github.io/tonconnect-manifest.json',
+        buttonRootId: 'connect',
+      })
+      tonConnectUI.uiOptions = {
+        twaReturnUrl: 'https://t.me/bullfights_bot',
+      }
+      tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(wallet) : this.onLogout()))
+    },
+    getWalletAddress(wallet) {
+      this.wallet = toUserFriendlyAddress(wallet.account.address, wallet.account.chain === CHAIN.TESTNET)
+    },
+    onLogin(wallet) {
+      this.getWalletAddress(wallet)
+    },
+    onLogout() {
+      this.wallet = null
+    },
+    async logout() {
+      await tonConnectUI.disconnect()
+    },
+    async manageUser() {
+      if (!this.id) return
+      await this.fetchUser()
+      if (!this.user.user_id) {
+        await this.regUser()
+        await this.fetchUser()
+      }
+    },
+    async fetchUser() {
+      this.user = await api.get('/user/' + this.id)
+    },
+    async regUser() {
+      await api.post('/user/', { user_telegram_id: this.id })
+    },
   },
   async mounted() {
-    this.getUser()
-    if (!this.id) await this.getIp()
-    this.getAvatar()
-
-    this.tonConnectUI = new TonConnectUI({
-      manifestUrl: 'https://rvvr.github.io/tonconnect-manifest.json',
-      buttonRootId: 'connect',
-    })
-    this.tonConnectUI.uiOptions = {
-      twaReturnUrl: 'https://t.me/bullfights_bot',
-    }
-
-    const restored = await this.tonConnectUI.connectionRestored
-    if (restored) {
-      this.isGuest = false
-      await this.getBalance(this.tonConnectUI.wallet)
-    } else {
-      this.isGuest = true
-      await this.tonConnectUI.openModal()
-    }
-
-    const unsubscribe = this.tonConnectUI.onStatusChange(async (wallet) => {
-      if (wallet) {
-        this.isGuest = false
-        await this.getBalance(wallet)
-      } else {
-        this.balance = null
-      }
-    })
+    // this.initTonConnect()
+    this.getUserFromApp()
+    await Promise.allSettled([this.setAvatar(), this.manageUser()])
   },
 }
 </script>

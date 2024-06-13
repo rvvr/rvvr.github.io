@@ -6,7 +6,6 @@
     >
       {{ message }}
     </span>
-    <span v-show="!message" class="loading loading-dots loading-md"></span>
   </div>
 </template>
 
@@ -17,6 +16,7 @@ export default {
     message() {
       const messages = {
         before: 'UP OR DOWN? PLACE YOUR TRADE!',
+        active: 'No more trades! wait for results...',
         after: 'Distributing payouts',
       }
       return messages[this.state.mode] || null

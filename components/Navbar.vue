@@ -19,7 +19,6 @@
 
       <!-- wallet connect -->
       <div v-else v-show="!isLogged" class="flex justify-center">
-        <!-- <button class="h-10" id="connect"></button> -->
         <span class="loading loading-dots loading-md"></span>
       </div>
 
@@ -61,17 +60,13 @@
 </template>
 
 <script>
-import { TonConnectUI, CHAIN, toUserFriendlyAddress } from '@tonconnect/ui'
-let tonConnectUI
-
 export default {
   data() {
     return {
       first_name: null,
-      id: 9999,
+      id: 99999,
       // id: null,
       avatar: null,
-      wallet: null,
       user: null,
     }
   },
@@ -107,28 +102,7 @@ export default {
       )
       this.balance = result / 1000000000
     },
-    initTonConnect() {
-      tonConnectUI = new TonConnectUI({
-        manifestUrl: 'https://rvvr.github.io/tonconnect-manifest.json',
-        buttonRootId: 'connect',
-      })
-      tonConnectUI.uiOptions = {
-        twaReturnUrl: 'https://t.me/bullfights_bot',
-      }
-      tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(wallet) : this.onLogout()))
-    },
-    getWalletAddress(wallet) {
-      this.wallet = toUserFriendlyAddress(wallet.account.address, wallet.account.chain === CHAIN.TESTNET)
-    },
-    onLogin(wallet) {
-      this.getWalletAddress(wallet)
-    },
-    onLogout() {
-      this.wallet = null
-    },
-    async logout() {
-      await tonConnectUI.disconnect()
-    },
+
     async manageUser() {
       if (!this.id) return
       await this.fetchUser()
@@ -145,7 +119,6 @@ export default {
     },
   },
   async mounted() {
-    // this.initTonConnect()
     this.getUserFromApp()
     await Promise.allSettled([this.setAvatar(), this.manageUser()])
   },

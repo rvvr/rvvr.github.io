@@ -50,16 +50,25 @@ export default {
     initTonConnect() {
       tonConnectUI = new TonConnectUI({
         manifestUrl: 'https://rvvr.github.io/tonconnect-manifest.json',
-        buttonRootId: 'connect',
       })
+    },
+    renderTonConnect() {
       tonConnectUI.uiOptions = {
         twaReturnUrl: 'https://t.me/bullfights_bot',
+        buttonRootId: 'connect',
       }
-      tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(wallet) : this.onLogout()))
     },
   },
   mounted() {
-    this.initTonConnect()
+    if (!tonConnectUI) this.initTonConnect()
+    this.renderTonConnect()
+    tonConnectUI.connectionRestored.then((restored) => {
+      if (restored && !this.wallet) this.onLogin(tonConnectUI.wallet)
+    })
+    tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(tonConnectUI.wallet) : this.onLogout()))
+  },
+  unmounted() {
+    if (tonConnectUI) tonConnectUI.uiOptions = { buttonRootId: null }
   },
 }
 </script>

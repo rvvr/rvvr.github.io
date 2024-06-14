@@ -19,7 +19,7 @@
 
       <!-- wallet connect -->
       <div v-else v-show="!isLogged" class="flex justify-center">
-        <span class="loading loading-dots loading-md"></span>
+        <span v-show="id" class="loading loading-dots loading-md"></span>
       </div>
 
       <!-- profile -->

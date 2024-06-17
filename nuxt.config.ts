@@ -21,7 +21,14 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  alias: {
-    pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
+  // alias: {
+  //   pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
+  // },
+
+  runtimeConfig: {
+    public: {
+      apiURL: 'https://game.demo.cryptobull.io/api/v1',
+      // apiURL: process.env.API_URL,
+    },
   },
 })

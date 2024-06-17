@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     getUserFromApp() {
-      this.appUser = { ...window.Telegram.WebApp.initDataUnsafe.user, id: 1524648 }
+      this.appUser = { ...window.Telegram.WebApp.initDataUnsafe.user }
       console.log(this.appUser)
     },
 
@@ -26,11 +26,11 @@ export const useUserStore = defineStore('user', {
     },
 
     async regUser() {
-      await api.post('/user', { user_telegram_id: this.appUser.id })
+      this.user = await api.post('/user', { user_telegram_id: this.appUser.id })
     },
 
     async updateAvatar() {
-      await api.post('/user/avatar', { user_telegram_id: this.appUser.id })
+      this.user = await api.post('/user/avatar', { user_telegram_id: this.appUser.id })
     },
 
     async setAvatar() {
@@ -49,7 +49,7 @@ export const useUserStore = defineStore('user', {
       await this.fetchUser()
       if (!this.user.user_id) {
         await this.regUser()
-        await this.fetchUser()
+        // await this.fetchUser()
       }
       await this.setAvatar()
     },

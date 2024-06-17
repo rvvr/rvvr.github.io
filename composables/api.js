@@ -7,7 +7,6 @@ export const api = (() => {
       // baseURL: useRuntimeConfig().public.apiURL,
       // headers: { Authorization: useAuth().strategy.token.get() },
       // onResponseError({ request, response, options }) {
-      //   // toast
       // },
       ...opts,
     })

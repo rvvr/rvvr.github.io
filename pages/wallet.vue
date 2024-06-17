@@ -72,9 +72,3 @@ export default {
   },
 }
 </script>
-
-<style lang="postcss">
-.router-link-active {
-  @apply tab-active;
-}
-</style>

@@ -3,7 +3,12 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@pinia/nuxt'],
 
-  plugins: ['~/plugins/init.client.js', '~/plugins/events.client.js', '~/plugins/timer.client.js'],
+  plugins: [
+    '~/plugins/init.client.js',
+    '~/plugins/events.client.js',
+    '~/plugins/timer.client.js',
+    '~/plugins/socket.client.js',
+  ],
 
   app: {
     head: {
@@ -20,10 +25,6 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
-
-  // alias: {
-  //   pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
-  // },
 
   runtimeConfig: {
     public: {

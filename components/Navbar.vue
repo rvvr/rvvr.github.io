@@ -27,10 +27,10 @@
 
     <!-- profile -->
     <div v-show="isIndex" class="flex-none justify-end gap-2">
-      <div class="dropdown dropdown-end h-12">
+      <div v-if="avatar" class="dropdown dropdown-end h-12">
         <div class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
           <div class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
-            <img v-if="avatar" :src="avatar" class="rounded-full" alt="" />
+            <img :src="avatar" class="rounded-full" alt="" />
           </div>
         </div>
       </div>
@@ -49,14 +49,8 @@
 import { mapState } from 'pinia'
 
 export default {
-  data() {
-    return {
-      avatar: null,
-    }
-  },
-
   computed: {
-    ...mapState(useUserStore, ['user', 'appUser']),
+    ...mapState(useUserStore, ['user', 'appUser', 'avatar']),
 
     isIndex() {
       return this.$route.name === 'index'
@@ -64,20 +58,6 @@ export default {
     isLogged() {
       return !!this.user?.user_id
     },
-  },
-
-  methods: {
-    async setAvatar() {
-      if (this.appUser.id) {
-        this.avatar = `https://api.crashgame247.io/users/profile-picture?id=${this.appUser.id}`
-      } else {
-        let ip = await $fetch('https://checkip.amazonaws.com/')
-        this.avatar = `https://robohash.org/${ip}.png?set=set3`
-      }
-    },
-  },
-  async mounted() {
-    await this.setAvatar()
   },
 }
 </script>

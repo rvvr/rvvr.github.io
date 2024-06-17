@@ -3,8 +3,7 @@ export const api = (() => {
     cb(req, {
       method,
       body,
-      baseURL: 'https://game.demo.cryptobull.io/api/v1',
-      // baseURL: useRuntimeConfig().public.apiURL,
+      baseURL: useRuntimeConfig().public.apiURL,
       // headers: { Authorization: useAuth().strategy.token.get() },
       // onResponseError({ request, response, options }) {
       // },

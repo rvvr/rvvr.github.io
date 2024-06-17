@@ -7,11 +7,12 @@
         <span class="font-bold uppercase">Your Balance</span>
       </div>
 
-      <button class="mb-2 h-10" id="connect"></button>
-
-      <div v-if="wallet" class="mb-4 flex items-center justify-center text-neutral-content">
-        <img :src="walletIcon" class="mr-1 h-4 w-4" alt="" />
-        <span class="font-bold uppercase">Your wallet</span>
+      <div class="mb-5">
+        <button class="mb-2 h-10" id="connect"></button>
+        <div v-if="wallet" class="mb-4 flex items-center justify-center text-neutral-content">
+          <img :src="walletIcon" class="mr-1 h-4 w-4" alt="" />
+          <span class="font-bold uppercase">Your wallet</span>
+        </div>
       </div>
     </div>
     <div class="tabs-boxed tabs mb-5" role="tablist">

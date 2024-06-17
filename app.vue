@@ -11,12 +11,11 @@ import { mapActions } from 'pinia'
 
 export default {
   methods: {
-    ...mapActions(useUserStore, ['getUserFromApp', 'manageUser']),
+    ...mapActions(useUserStore, ['initUser']),
   },
 
   async mounted() {
-    this.getUserFromApp()
-    await this.manageUser()
+    await this.initUser()
   },
 }
 </script>

@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="tabs-boxed tabs mb-5" role="tablist">
-      <NuxtLink class="tab" role="tab" to="/wallet/deposit/">
+      <NuxtLink class="tab" active-class="tab-active" role="tab" to="/wallet/deposit/">
         <IconsArrow class="mr-1 h-4 w-4 rotate-180"></IconsArrow>
         Deposit
       </NuxtLink>
-      <NuxtLink class="tab" role="tab" to="/wallet/withdraw/">
+      <NuxtLink class="tab" active-class="tab-active" role="tab" to="/wallet/withdraw/">
         <IconsArrow class="mr-1 h-4 w-4"></IconsArrow>
         Withdraw
       </NuxtLink>

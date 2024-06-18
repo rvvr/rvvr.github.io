@@ -35,7 +35,7 @@
     <button
       v-for="bet in bets"
       @click="betRate = bet"
-      :class="[bet === betRate ? 'btn-outline pointer-events-none' : '']"
+      :class="[bet === betRate ? 'btn-outline pointer-events-none text-neutral-content' : '']"
       :disabled="activeBet && bet != activeBetRate"
       :key="bet"
       class="font-oswald btn border-2 text-lg"

@@ -14,8 +14,8 @@ body {
   font-optical-sizing: auto;
 }
 
-.router-link-active {
-  @apply tab-active;
+.tab-active {
+  @apply !bg-neutral-content;
 }
 
 .graph-wrap {

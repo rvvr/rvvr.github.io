@@ -26,12 +26,10 @@
     </div>
 
     <!-- profile -->
-    <div v-show="isIndex" class="flex-none justify-end gap-2">
-      <div v-if="avatar" class="dropdown dropdown-end h-12">
-        <div class="avatar btn btn-circle btn-ghost" role="button" tabindex="0">
-          <div class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
-            <img :src="avatar" class="rounded-full" alt="" />
-          </div>
+    <div v-show="isIndex">
+      <div v-if="avatar" class="avatar btn btn-circle btn-ghost h-10 min-h-10" role="button" tabindex="0">
+        <div class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
+          <img :src="avatar" class="rounded-full" alt="" />
         </div>
       </div>
     </div>

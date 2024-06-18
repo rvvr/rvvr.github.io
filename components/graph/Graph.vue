@@ -35,7 +35,6 @@ const overflowSpace = 75
 const divider = 1_0000 // how much decimals
 
 export default {
-  props: ['state'],
   data() {
     return {
       rate: 70_000_0000,
@@ -182,18 +181,18 @@ export default {
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent() {
-      if (this.state.mode === 'before') {
+    manageEvent({ mode, left }) {
+      if (mode === 'before') {
         this.freezeY = null
         this.freezeDelimiter = null
 
-        this.startX = this.currentX + (this.state.left / 100) * step
+        this.startX = this.currentX + (left / 100) * step
         this.finishX = this.startX + 100 * step
       }
-      if (this.state.mode === 'active') {
+      if (mode === 'active') {
         this.freezeY = this.currentY
       }
-      if (this.state.mode === 'after') {
+      if (mode === 'after') {
         this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
         this.freezeDelimiter = this.currentY
       }

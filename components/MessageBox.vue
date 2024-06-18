@@ -11,7 +11,11 @@
 
 <script>
 export default {
-  props: ['state'],
+  data() {
+    return {
+      mode: null,
+    }
+  },
   computed: {
     message() {
       const messages = {
@@ -19,15 +23,19 @@ export default {
         active: 'No more trades! wait for results...',
         after: 'Distributing payouts',
       }
-      return messages[this.state.mode] || null
+      return messages[this.mode] || null
     },
     animationClass() {
       const animations = {
         before: '',
         after: 'animate-pulse',
       }
-      return animations[this.state.mode] || null
+      return animations[this.mode] || null
     },
+  },
+
+  mounted() {
+    this.$bus.on('start', ({ mode }) => (this.mode = mode))
   },
 }
 </script>

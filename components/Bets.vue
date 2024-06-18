@@ -49,7 +49,6 @@
 import confetti from 'canvas-confetti'
 
 export default {
-  props: ['state'],
   data() {
     return {
       activeBetRate: null,
@@ -67,12 +66,12 @@ export default {
     },
   },
   mounted() {
-    this.$bus.on('start', () => {
-      if (this.state.mode == 'active') {
+    this.$bus.on('start', ({ mode }) => {
+      if (mode == 'active') {
         this.disabled = true
       }
 
-      if (this.state.mode == 'before') {
+      if (mode == 'before') {
         this.disabled = false
       }
     })

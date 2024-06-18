@@ -9,7 +9,7 @@
         <div class="text-2xl font-medium">177<span class="text-base font-normal">%</span></div>
       </div>
 
-      <Timer :state="state"></Timer>
+      <Timer></Timer>
 
       <div class="text-right text-red-500">
         <div class="text-1xl font-bold uppercase opacity-75">Down pool</div>
@@ -21,59 +21,10 @@
       </div>
     </div>
 
-    <MessageBox :state="state" />
+    <MessageBox />
   </div>
 
-  <Graph :state="state" />
-  <Players :state="state" />
-  <Bets :state="state" />
+  <Graph />
+  <Players />
+  <Bets />
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      state: {},
-      counter: 0, //remove
-    }
-  },
-  mounted() {
-    this.$bus.on('sec', () => {
-      if (this.counter === 0) {
-        this.state = {
-          mode: 'before',
-          time: 20000, //optional?
-          left: 20000,
-          next: 10000, // ?
-        }
-        this.$bus.emit('start')
-      }
-
-      if (this.counter === 20) {
-        this.state = {
-          mode: 'active',
-          time: 10000,
-          left: 10000,
-          players: [], //and other info
-        }
-        this.$bus.emit('start')
-      }
-
-      if (this.counter === 30) {
-        this.state = {
-          mode: 'after',
-          time: null,
-          left: null,
-        }
-        this.$bus.emit('start')
-      }
-
-      if (this.counter === 40) {
-        this.counter = 0
-      } else {
-        this.counter++
-      }
-    })
-  },
-}
-</script>

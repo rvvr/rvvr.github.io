@@ -25,7 +25,6 @@
 
 <script>
 export default {
-  props: ['state'],
   data() {
     return {
       time: null,
@@ -62,10 +61,10 @@ export default {
         this.$bus.off('nanoSec', this.countDown)
       }
     },
-    startTimer() {
+    startTimer({ time, left }) {
       this.$bus.off('nanoSec', this.countDown)
-      this.time = this.state.time
-      this.timer = this.state.left
+      this.time = time
+      this.timer = left
       this.$bus.on('nanoSec', this.countDown)
     },
   },

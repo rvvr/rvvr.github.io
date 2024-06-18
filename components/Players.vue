@@ -30,7 +30,6 @@
 
 <script>
 export default {
-  props: ['state'],
   data() {
     return {
       up: '',
@@ -41,8 +40,8 @@ export default {
   mounted() {
     this.$bus.on('winner', (side) => (this[side] = 'animate-bounce'))
 
-    this.$bus.on('start', () => {
-      if (this.state.mode === 'before') {
+    this.$bus.on('start', ({ mode }) => {
+      if (mode === 'before') {
         this.up = this.down = ''
       }
     })

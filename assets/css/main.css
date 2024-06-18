@@ -1,3 +1,8 @@
+:root {
+  --toastify-icon-color-success: theme(colors.lime.500) !important;
+  --toastify-icon-color-error: theme(colors.red.500) !important;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -16,4 +21,13 @@ body {
 .graph-wrap {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.Toastify__toast-body {
+  font-family: 'Oswald', sans-serif;
+  color: theme(colors.neutral-content);
+}
+
+.Toastify__close-button {
+  color: theme(colors.neutral-content);
 }

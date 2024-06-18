@@ -47,6 +47,7 @@
 
 <script>
 import confetti from 'canvas-confetti'
+import { mapActions, mapState } from 'pinia'
 
 export default {
   data() {
@@ -58,13 +59,23 @@ export default {
       bets: [5, 10, 15, 25, 50, 100, 200],
     }
   },
+
+  computed: {
+    ...mapState(useUserStore, ['user']),
+  },
+
   methods: {
-    bet(activeBet) {
+    ...mapActions(useWalletStore, ['placeBet']),
+
+    async bet(activeBet) {
       this.activeBet = activeBet
       this.activeBetRate = this.betRate
       this.disabled = true
+      this.$toast.success(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
+      await this.placeBet(this.activeBet, this.activeBetRate, this.user.user_id)
     },
   },
+
   mounted() {
     this.$bus.on('start', ({ mode }) => {
       if (mode == 'active') {

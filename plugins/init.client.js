@@ -9,6 +9,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
     transition: toast.TRANSITIONS.FLIP,
     position: toast.POSITION.TOP_CENTER,
     theme: toast.THEME.DARK,
+    hideProgressBar: true,
   })
 
   return {

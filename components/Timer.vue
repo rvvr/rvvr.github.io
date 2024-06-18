@@ -31,9 +31,7 @@ export default {
       timer: null,
     }
   },
-  mounted() {
-    this.$bus.on('start', this.startTimer)
-  },
+
   computed: {
     timerDisplay() {
       return Math.floor(this.timer / 1000)
@@ -67,6 +65,14 @@ export default {
       this.timer = left
       this.$bus.on('nanoSec', this.countDown)
     },
+  },
+
+  mounted() {
+    this.$bus.on('start', this.startTimer)
+  },
+
+  unmounted() {
+    this.$bus.off('start', this.startTimer)
   },
 }
 </script>

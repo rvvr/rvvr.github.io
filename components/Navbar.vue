@@ -8,7 +8,7 @@
       <template v-if="isIndex">
         <!-- wallet -->
         <NuxtLink v-if="isLogged" to="/wallet/deposit/">
-          <div class="btn btn-lg -mt-8 bg-info-content pt-4">
+          <div class="btn btn-neutral btn-lg -mt-8 pt-4">
             Balance
             <IconsWallet class="h-4 w-4" />
             <span class="font-oswald text-xl font-bold leading-none text-lime-500">

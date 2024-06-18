@@ -38,7 +38,7 @@
       :class="[bet === betRate ? 'btn-outline pointer-events-none text-neutral-content' : '']"
       :disabled="activeBet && bet != activeBetRate"
       :key="bet"
-      class="font-oswald btn border-2 text-lg"
+      class="font-oswald btn btn-neutral border-2 text-lg"
     >
       {{ bet }}
     </button>
@@ -74,10 +74,8 @@ export default {
       this.$toast.success(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
       await this.placeBet(this.activeBet, this.activeBetRate, this.user.user_id)
     },
-  },
 
-  mounted() {
-    this.$bus.on('start', ({ mode }) => {
+    manageStart({ mode }) {
       if (mode == 'active') {
         this.disabled = true
       }
@@ -85,9 +83,9 @@ export default {
       if (mode == 'before') {
         this.disabled = false
       }
-    })
+    },
 
-    this.$bus.on('winner', (side) => {
+    manageWinner(side) {
       if (this.activeBet === side) {
         confetti({
           particleCount: 100,
@@ -102,7 +100,17 @@ export default {
 
       this.activeBet = null
       this.activeRate = null
-    })
+    },
+  },
+
+  mounted() {
+    this.$bus.on('start', this.manageStart)
+    this.$bus.on('winner', this.manageWinner)
+  },
+
+  unmounted() {
+    this.$bus.off('start', this.manageStart)
+    this.$bus.off('winner', this.manageWinner)
   },
 }
 </script>

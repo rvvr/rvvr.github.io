@@ -30,11 +30,11 @@
 </template>
 
 <script>
-export default {
-  mounted() {
-    let counter = 0
+let counter = 0
 
-    this.$bus.on('sec', () => {
+export default {
+  methods: {
+    emulateSocket() {
       if (counter === 0) {
         this.$bus.emit('start', {
           mode: 'before',
@@ -66,7 +66,15 @@ export default {
       } else {
         counter++
       }
-    })
+    },
+  },
+  mounted() {
+    counter = 0
+    this.$bus.on('sec', this.emulateSocket)
+  },
+
+  unmounted() {
+    this.$bus.off('sec', this.emulateSocket)
   },
 }
 </script>

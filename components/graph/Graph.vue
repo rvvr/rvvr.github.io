@@ -55,6 +55,10 @@ export default {
     this.$bus.on('nanoSec', this.manageGraph)
     this.$bus.on('start', this.manageEvent)
   },
+  unmounted() {
+    this.$bus.off('nanoSec', this.manageGraph)
+    this.$bus.off('start', this.manageEvent)
+  },
   computed: {
     message() {
       return false

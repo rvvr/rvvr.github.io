@@ -32,10 +32,18 @@ export default {
       }
       return animations[this.mode] || null
     },
+
+    manageStart({ mode }) {
+      this.mode = mode
+    },
   },
 
   mounted() {
-    this.$bus.on('start', ({ mode }) => (this.mode = mode))
+    this.$bus.on('start', this.manageStart)
+  },
+
+  unmounted() {
+    this.$bus.off('start', this.manageStart)
   },
 }
 </script>

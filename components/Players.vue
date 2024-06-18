@@ -37,14 +37,26 @@ export default {
     }
   },
 
-  mounted() {
-    this.$bus.on('winner', (side) => (this[side] = 'animate-bounce'))
-
-    this.$bus.on('start', ({ mode }) => {
+  methods: {
+    manageStart({ mode }) {
       if (mode === 'before') {
         this.up = this.down = ''
       }
-    })
+    },
+
+    manageWinner(side) {
+      this[side] = 'animate-bounce'
+    },
+  },
+
+  mounted() {
+    this.$bus.on('start', this.manageStart)
+    this.$bus.on('winner', this.manageWinner)
+  },
+
+  unmounted() {
+    this.$bus.off('start', this.manageStart)
+    this.$bus.off('winner', this.manageWinner)
   },
 }
 </script>

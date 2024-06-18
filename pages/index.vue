@@ -28,3 +28,45 @@
   <Players />
   <Bets />
 </template>
+
+<script>
+export default {
+  mounted() {
+    let counter = 0
+
+    this.$bus.on('sec', () => {
+      if (counter === 0) {
+        this.$bus.emit('start', {
+          mode: 'before',
+          time: 20000, //optional?
+          left: 20000,
+          next: 10000, // ?
+        })
+      }
+
+      if (counter === 20) {
+        this.$bus.emit('start', {
+          mode: 'active',
+          time: 10000,
+          left: 10000,
+          players: [], //and other info
+        })
+      }
+
+      if (counter === 30) {
+        this.$bus.emit('start', {
+          mode: 'after',
+          time: null,
+          left: null,
+        })
+      }
+
+      if (counter === 40) {
+        counter = 0
+      } else {
+        counter++
+      }
+    })
+  },
+}
+</script>

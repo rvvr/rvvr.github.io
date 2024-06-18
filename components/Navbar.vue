@@ -8,10 +8,10 @@
       <template v-if="isIndex">
         <!-- wallet -->
         <NuxtLink v-if="isLogged" to="/wallet/deposit/">
-          <div class="btn btn-neutral btn-lg -mt-8 bg-info-content pt-4">
+          <div class="btn btn-lg -mt-8 bg-info-content pt-4">
             Balance
-            <IconsWallet class="h-4 w-4 text-neutral-content" />
-            <span class="font-oswald pb-1 text-xl font-bold leading-none text-lime-500">
+            <IconsWallet class="h-4 w-4" />
+            <span class="font-oswald text-xl font-bold leading-none text-lime-500">
               {{ user.balance }}
             </span>
             <!-- <IconsTether class="-ml-1 block h-4 w-4 text-neutral-400" /> -->

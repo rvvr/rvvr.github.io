@@ -15,7 +15,7 @@ body {
 }
 
 .tab-active {
-  @apply !bg-neutral-content;
+  @apply !border-neutral-content !text-neutral-content;
 }
 
 .graph-wrap {

@@ -1,9 +1,9 @@
 <template>
-  <div class="mb-2 flex items-center text-xl font-bold text-neutral-content">
+  <div class="mb-2 flex items-center text-lg font-bold">
     <IconsFlash class="mr-1 h-4" />
     Express deposit
   </div>
-  <p class="pl-5">
+  <p class="pl-5 opacity-50">
     You can deposit through Telegram Bots. Choose one of the bots shown below and deposit without delay.
   </p>
   <div class="mt-5 grid grid-cols-2 gap-2">
@@ -11,11 +11,13 @@
     <button class="btn btn-secondary">@cryptobot</button>
   </div>
   <div class="divider mb-7 mt-8">OR</div>
-  <div class="mb-2 flex items-center text-xl font-bold text-neutral-content">
+  <div class="mb-2 flex items-center text-lg font-bold">
     <IconsUsb class="mr-1 h-4" />
     Deposit through Blockchain
   </div>
-  <p class="pl-5">Direct deposits trough blockchain can take up to 10 minutes. Please be patient!</p>
+  <p class="pl-5 opacity-50">
+    Direct deposits trough blockchain can take up to 10 minutes. Please be patient!
+  </p>
 
   <div class="join mt-5 w-full">
     <label class="form-control w-full flex-1">

@@ -4,18 +4,18 @@
       <div class="font-oswald mb-2 text-6xl font-bold text-lime-500">{{ user.balance }}</div>
       <div class="mb-4 flex items-center justify-center text-neutral-content">
         <span><IconsWallet class="mr-1 h-4 w-4" /></span>
-        <span class="font-bold uppercase">Your Balance</span>
+        <span class="text-xl font-bold">Your Balance</span>
       </div>
 
       <div class="mb-5">
         <button class="mb-2 h-10" id="connect"></button>
-        <div v-if="wallet" class="mb-4 flex items-center justify-center text-neutral-content">
+        <!-- <div v-if="wallet" class="mb-4 flex items-center justify-center text-neutral-content">
           <img :src="walletIcon" class="mr-1 h-4 w-4" alt="" />
-          <span class="font-bold uppercase">Your wallet</span>
-        </div>
+          <span class="font-bold">Your wallet</span>
+        </div> -->
       </div>
     </div>
-    <div class="tabs-boxed tabs mb-5" role="tablist">
+    <div class="tabs tabs-bordered tabs-lg mb-5" role="tablist">
       <NuxtLink class="tab" active-class="tab-active" role="tab" to="/wallet/deposit/">
         <IconsArrow class="mr-1 h-4 w-4 rotate-180"></IconsArrow>
         Deposit
@@ -36,6 +36,15 @@ import { mapState } from 'pinia'
 let tonConnectUI
 
 export default {
+  setup() {
+    definePageMeta({
+      middleware(to) {
+        if (to.matched.length === 1) {
+          return navigateTo('/wallet/deposit')
+        }
+      },
+    })
+  },
   data() {
     return {
       wallet: null,

@@ -1,9 +1,11 @@
 <template>
-  <div class="mb-2 flex items-center text-xl font-bold text-neutral-content">
+  <div class="mb-2 flex items-center text-lg font-bold">
     <IconsUsb class="mr-1 h-4" />
     Withdraw through Blockchain
   </div>
-  <p class="pl-5">Direct withdrawal trough blockchain can take up to 10 minutes. Please be patient!</p>
+  <p class="pl-5 opacity-50">
+    Direct withdrawal trough blockchain can take up to 10 minutes. Please be patient!
+  </p>
 
   <label class="form-control mt-4 w-full">
     <div class="label">

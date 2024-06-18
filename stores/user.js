@@ -42,6 +42,11 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    async fetchBalance() {
+      const balance = await api.get('/balance')
+      console.log(balance)
+    },
+
     async initUser() {
       this.getUserFromApp()
       if (!this.appUser.id) return

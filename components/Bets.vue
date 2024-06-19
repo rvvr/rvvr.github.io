@@ -71,7 +71,7 @@ export default {
       this.activeBet = activeBet
       this.activeBetRate = this.betRate
       this.disabled = true
-      this.$toast.success(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
+      this.$toast.info(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
       await this.placeBet(this.activeBet, this.activeBetRate, this.user.user_id)
     },
 

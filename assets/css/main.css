@@ -23,11 +23,21 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.Toastify__toast-container--bottom-center {
+  bottom: 305px !important;
+}
+
 .Toastify__toast-body {
+  justify-content: center;
   font-family: 'Oswald', sans-serif;
   color: theme(colors.neutral-content);
+
+  > div:last-child {
+    flex: initial !important;
+  }
 }
 
 .Toastify__close-button {
   color: theme(colors.neutral-content);
+  display: none;
 }

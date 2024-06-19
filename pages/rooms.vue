@@ -5,7 +5,7 @@
       <span class="text-xl font-bold">Freeroll rooms</span>
     </div>
 
-    <table class="table">
+    <table class="table table-sm">
       <tbody>
         <tr v-for="i in 9">
           <td>

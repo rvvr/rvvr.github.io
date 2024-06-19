@@ -54,7 +54,7 @@ export default {
     return {
       activeBetRate: null,
       activeBet: null,
-      disabled: false,
+      disabled: true,
       betRate: 5,
       bets: [5, 10, 15, 25, 50, 100, 200],
     }
@@ -71,7 +71,7 @@ export default {
       this.activeBet = activeBet
       this.activeBetRate = this.betRate
       this.disabled = true
-      this.$toast.info(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
+      this.$toast.success(`Trade ${this.activeBetRate} for ${activeBet} is placed!`)
       await this.placeBet(this.activeBet, this.activeBetRate, this.user.user_id)
     },
 
@@ -96,6 +96,10 @@ export default {
           },
           gravity: 4,
         })
+
+        this.$toast('🎉 Your trade is won!')
+      } else {
+        this.$toast('Your trade is failed.')
       }
 
       this.activeBet = null

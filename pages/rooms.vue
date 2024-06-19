@@ -1,13 +1,13 @@
 <template>
   <div class="flex-1 p-4">
-    <div class="mb-5 mt-10 flex items-center justify-center text-neutral-content">
-      <span><IconsFree class="mr-1 h-5 w-5" /></span>
+    <div class="flex items-center p-4 text-neutral-content">
+      <span><IconsFree class="mr-2 h-6 w-6" /></span>
       <span class="text-xl font-bold">Freeroll rooms</span>
     </div>
 
     <table class="table">
       <tbody>
-        <tr v-for="i in 5">
+        <tr v-for="i in 9">
           <td>
             <div class="flex items-center gap-3">
               <div class="avatar">

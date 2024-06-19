@@ -17,14 +17,21 @@
               </div>
               <div>
                 <div class="font-bold">Room #{{ i }}</div>
-                <div class="text-sm opacity-50">Lorem ipsum dolor sit amet</div>
+
+                <div class="avatar-group -space-x-4">
+                  <div v-for="j in 10 - i" :key="i" class="avatar h-8 w-8 border-base-100 bg-base-300">
+                    <div class="h-8 w-8">
+                      <img :src="`https://robohash.org/${j}.png?set=set3`" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </td>
 
           <td class="text-right">
             <NuxtLink to="/">
-              <button class="btn btn-neutral btn-sm">Join</button>
+              <button class="btn">Join</button>
             </NuxtLink>
           </td>
         </tr>

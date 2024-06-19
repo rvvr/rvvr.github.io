@@ -9,7 +9,7 @@
 
       <NuxtLink active-class="active text-neutral-content" to="/">
         <button>
-          <IconsGraph class="h-5 w-5" />
+          <IconsHome class="h-5 w-5" />
         </button>
       </NuxtLink>
 

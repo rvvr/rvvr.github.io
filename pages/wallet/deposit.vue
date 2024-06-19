@@ -1,14 +1,51 @@
 <template>
+  <template v-if="wallet?.balance">
+    <div class="mb-2 flex items-center text-lg font-bold">
+      <img :src="wallet.icon" class="mr-1 w-4" alt="" />
+      Wallet deposit
+    </div>
+
+    <label class="form-control mt-2 w-full">
+      <div class="label">
+        <span class="label-text-alt">Wallet balance</span>
+      </div>
+      <input
+        :value="wallet.balance"
+        class="input input-bordered w-full !text-base-content"
+        disabled
+        placeholder="Enter your withdraw Address"
+        type="text"
+      />
+    </label>
+
+    <label class="form-control mt-2 w-full">
+      <div class="label">
+        <span class="label-text-alt">Deposit Amount</span>
+        <span class="label-text-alt">Minimum deposit: 1</span>
+      </div>
+      <div class="join">
+        <input class="input join-item input-bordered w-full" placeholder="0.00" type="text" />
+        <button class="btn btn-square join-item">25%</button>
+        <button class="btn btn-square join-item">50%</button>
+        <button class="btn btn-square join-item">100%</button>
+      </div>
+    </label>
+
+    <div class="btn btn-neutral mt-6 w-full">Deposit</div>
+
+    <div class="divider mb-7 mt-8">OR</div>
+  </template>
+
   <div class="mb-2 flex items-center text-lg font-bold">
-    <IconsFlash class="mr-1 h-4" />
-    Express deposit
+    <IconsBot class="mr-1 w-4" />
+    Bot deposit
   </div>
   <p class="pl-5 opacity-50">
     You can deposit through Telegram Bots. Choose one of the bots shown below and deposit without delay.
   </p>
   <div class="mt-5 grid grid-cols-2 gap-2">
-    <button class="btn btn-info text-white">@wallet</button>
-    <button class="btn btn-secondary">@cryptobot</button>
+    <button class="btn bg-[#447BDD] text-white hover:bg-[#447BDD]">@wallet</button>
+    <button class="btn bg-[#59C0FF] text-white hover:bg-[#59C0FF]">@cryptobot</button>
   </div>
   <div class="divider mb-7 mt-8">OR</div>
   <div class="mb-2 flex items-center text-lg font-bold">
@@ -46,5 +83,11 @@
 </template>
 
 <script>
-export default {}
+import { mapState } from '~/node_modules/pinia/dist/pinia'
+
+export default {
+  computed: {
+    ...mapState(useUserStore, ['wallet']),
+  },
+}
 </script>

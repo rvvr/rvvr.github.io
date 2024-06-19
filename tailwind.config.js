@@ -4,7 +4,7 @@ module.exports = {
   plugins: [daisyui],
 
   daisyui: {
-    themes: ['luxury'], //'synthwave', 'acid',
+    themes: ['luxury'], //'synthwave', 'forest', 'business', 'luxury', 'coffee', 'dim', 'sunset', 'night', 'black'
   },
 
   theme: {

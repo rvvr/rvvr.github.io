@@ -1,6 +1,6 @@
 <template>
   <div class="navbar grid grid-cols-[48px_auto_48px] justify-items-center gap-2">
-    <NuxtLink class="flex w-12 justify-center" to="/">
+    <NuxtLink class="flex w-10 justify-center" to="/">
       <img class="h-10 w-10" alt="" src="/favicon.png" />
     </NuxtLink>
 
@@ -27,7 +27,12 @@
 
     <!-- profile -->
     <div v-show="isIndex">
-      <div v-if="avatar" class="avatar btn btn-circle btn-ghost h-10 min-h-10" role="button" tabindex="0">
+      <div
+        v-if="avatar"
+        class="avatar btn btn-circle btn-ghost h-10 min-h-10 w-10"
+        role="button"
+        tabindex="0"
+      >
         <div class="h-10 w-10 cursor-pointer overflow-hidden rounded-full bg-black">
           <img :src="avatar" class="rounded-full" alt="" />
         </div>

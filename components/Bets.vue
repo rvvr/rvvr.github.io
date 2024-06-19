@@ -98,7 +98,7 @@ export default {
         })
 
         this.$toast('🎉 Your trade is won!')
-      } else {
+      } else if (this.activeBet) {
         this.$toast('Your trade is failed.')
       }
 

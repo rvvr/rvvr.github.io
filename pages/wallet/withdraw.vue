@@ -3,18 +3,23 @@
     <IconsUsb class="mr-1 h-4" />
     Withdraw through Blockchain
   </div>
-  <p class="pl-5 opacity-50">
+  <p class="mb-4 pl-5 opacity-50">
     Direct withdrawal trough blockchain can take up to 10 minutes. Please be patient!
   </p>
 
-  <label class="form-control mt-4 w-full">
+  <label class="form-control mt-2 w-full">
     <div class="label">
       <span class="label-text-alt">Withdraw Address</span>
     </div>
-    <input class="input input-bordered w-full" placeholder="Enter your withdraw Address" type="text" />
+    <input
+      :value="wallet.address"
+      class="input input-bordered w-full"
+      placeholder="Enter your withdraw Address"
+      type="text"
+    />
   </label>
 
-  <label class="form-control mt-4 w-full">
+  <label class="form-control mt-2 w-full">
     <div class="label">
       <span class="label-text-alt">Withdraw Amount</span>
       <span class="label-text-alt">Minimum withdrawal: 1</span>
@@ -27,9 +32,15 @@
     </div>
   </label>
 
-  <div class="btn btn-info mt-4 w-full text-white">Withdraw</div>
+  <div class="btn btn-neutral mt-6 w-full">Withdraw</div>
 </template>
 
 <script>
-export default {}
+import { mapState } from '~/node_modules/pinia/dist/pinia'
+
+export default {
+  computed: {
+    ...mapState(useUserStore, ['wallet']),
+  },
+}
 </script>

@@ -7,13 +7,7 @@
         <span class="text-xl font-bold">Your Balance</span>
       </div>
 
-      <div class="mb-5">
-        <button class="mb-2 h-10" id="connect"></button>
-        <!-- <div v-if="wallet" class="mb-4 flex items-center justify-center text-neutral-content">
-          <img :src="walletIcon" class="mr-1 h-4 w-4" alt="" />
-          <span class="font-bold">Your wallet</span>
-        </div> -->
-      </div>
+      <button class="mb-2 h-10" id="connect"></button>
     </div>
     <div class="tabs tabs-bordered tabs-lg mb-5" role="tablist">
       <NuxtLink class="tab" active-class="tab-active" role="tab" to="/wallet/deposit/">
@@ -31,8 +25,8 @@
 </template>
 
 <script>
-import { TonConnectUI, CHAIN, toUserFriendlyAddress } from '@tonconnect/ui'
-import { mapState } from 'pinia'
+import { TonConnectUI } from '@tonconnect/ui'
+import { mapState, mapActions } from 'pinia'
 let tonConnectUI
 
 export default {
@@ -45,26 +39,13 @@ export default {
       },
     })
   },
-  data() {
-    return {
-      wallet: null,
-      walletIcon: null,
-    }
-  },
+
   computed: {
-    ...mapState(useUserStore, ['user']),
+    ...mapState(useUserStore, ['user', 'wallet']),
   },
   methods: {
-    getWalletAddress(wallet) {
-      this.wallet = toUserFriendlyAddress(wallet.account.address, wallet.account.chain === CHAIN.TESTNET)
-    },
-    onLogin(wallet) {
-      this.walletIcon = wallet.imageUrl
-      this.getWalletAddress(wallet)
-    },
-    onLogout() {
-      this.wallet = null
-    },
+    ...mapActions(useUserStore, ['onLogin', 'onLogout']),
+
     async logout() {
       await tonConnectUI.disconnect()
     },
@@ -84,7 +65,7 @@ export default {
     if (!tonConnectUI) this.initTonConnect()
     this.renderTonConnect()
     tonConnectUI.connectionRestored.then((restored) => {
-      if (restored && !this.wallet) this.onLogin(tonConnectUI.wallet)
+      if (restored && !this.wallet.address) this.onLogin(tonConnectUI.wallet)
     })
     tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(tonConnectUI.wallet) : this.onLogout()))
   },

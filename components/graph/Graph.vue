@@ -188,18 +188,17 @@ export default {
     },
     manageEvent({ mode, left }) {
       if (mode === 'before') {
-        this.freezeY = null
-        this.freezeDelimiter = null
-
         this.startX = this.currentX + (left / 100) * step
         this.finishX = this.startX + 100 * step
       }
       if (mode === 'active') {
         this.freezeY = this.currentY
+        this.freezeDelimiter = this.currentY
       }
       if (mode === 'after') {
         this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
-        this.freezeDelimiter = this.currentY
+        this.freezeY = null
+        this.freezeDelimiter = null
       }
     },
   },

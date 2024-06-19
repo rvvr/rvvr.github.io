@@ -1,3 +1,5 @@
+import { CHAIN, toUserFriendlyAddress } from '@tonconnect/ui'
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: {
@@ -13,12 +15,17 @@ export const useUserStore = defineStore('user', {
       username: '',
     },
     avatar: '',
+
+    wallet: {
+      address: null,
+      icon: null,
+      balance: 0,
+    },
   }),
 
   actions: {
     getUserFromApp() {
       this.appUser = { ...window.Telegram.WebApp.initDataUnsafe.user }
-      console.log(this.appUser)
     },
 
     async fetchUser() {
@@ -58,12 +65,29 @@ export const useUserStore = defineStore('user', {
       }
       await this.setAvatar()
     },
+
+    getWalletAddress(wallet) {
+      this.wallet.address = toUserFriendlyAddress(
+        wallet.account.address,
+        wallet.account.chain === CHAIN.TESTNET,
+      )
+    },
+
+    async onLogin(wallet) {
+      this.wallet.icon = wallet.imageUrl
+      this.getWalletAddress(wallet)
+      await this.getBalance(wallet)
+    },
+
+    onLogout() {
+      this.wallet = {}
+    },
+
+    async getBalance(wallet) {
+      const { result } = await $fetch(
+        'https://toncenter.com/api/v2/getAddressBalance?address=' + wallet.account.address,
+      )
+      this.wallet.balance = result / 1000000000
+    },
   },
 })
-
-// async getBalance(wallet) {
-//   const { result } = await $fetch(
-//     'https://toncenter.com/api/v2/getAddressBalance?address=' + wallet.account.address,
-//   )
-//   this.balance = result / 1000000000
-// },

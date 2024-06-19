@@ -32,7 +32,9 @@ export default {
       }
       return animations[this.mode] || null
     },
+  },
 
+  methods: {
     manageStart({ mode }) {
       this.mode = mode
     },

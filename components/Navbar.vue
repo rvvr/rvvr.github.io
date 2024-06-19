@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar grid grid-cols-[48px_auto_48px] justify-items-center gap-2 bg-base-200">
+  <div class="navbar grid grid-cols-[48px_auto_48px] justify-items-center gap-2">
     <NuxtLink class="flex w-12 justify-center" to="/">
       <img class="h-10 w-10" alt="" src="/favicon.png" />
     </NuxtLink>

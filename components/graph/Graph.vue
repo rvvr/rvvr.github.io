@@ -10,10 +10,11 @@
           <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i" />
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i" />
 
+          <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" />
+
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" />
           <GraphStart :stage="stage" :x="startX || -50" />
           <GraphFinish :stage="stage" :x="finishX || -50" />
           <GraphLivePrice :currentY="currentY" :price="livePrice" :rate="rate" :stage="stage" />

@@ -53,7 +53,6 @@ export default {
   },
   mounted() {
     this.initStage()
-    this.$bus.on('nanoSec', this.manageGraph)
     this.$bus.on('start', this.manageEvent)
   },
   unmounted() {
@@ -173,25 +172,32 @@ export default {
         if (this.freezeDelimiter) this.freezeDelimiter -= needMove
       }
     },
-    pushData() {
-      let newRate = this.rate + this.randomize(10000, -10000)
+    pushData(newRate) {
       this.addPoint(this.currentX, this.currentY + this.calcRateToPixels(this.rate - newRate))
       this.rate = newRate
     },
     manageGraph() {
       this.doStep()
-      this.pushData()
+      let emulatedData = this.rate + this.randomize(10000, -10000)
+      this.pushData(emulatedData)
       this.handleYOverflow()
     },
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent({ mode, left }) {
+    manageEvent({ mode, left, next }) {
+      if (!this.currentX) {
+        this.$bus.on('nanoSec', this.manageGraph)
+      }
+
       if (mode === 'before') {
         this.startX = this.currentX + (left / 100) * step
-        this.finishX = this.startX + 100 * step
+        this.finishX = this.startX + (next / 100) * step
       }
       if (mode === 'active') {
+        this.startX = this.currentX
+        this.finishX = this.startX + (left / 100) * step
+
         this.freezeY = this.currentY
         this.freezeDelimiter = this.currentY
       }

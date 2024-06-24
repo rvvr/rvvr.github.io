@@ -1,14 +1,14 @@
 export default defineNuxtPlugin((nuxtApp) => {
   const ws = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws')
+  const modes = {
+    open: 'before',
+    running: 'active',
+    closed: 'after',
+  }
 
   ws.onmessage = function (event) {
     const data = JSON.parse(event.data)
-    const modes = {
-      open: 'before',
-      running: 'active',
-      closed: 'after',
-    }
-    const { time, left, next } = data
+    const { time, left, next, winner_side } = data
 
     nuxtApp.$bus.emit('start', {
       mode: modes[data.round_status],
@@ -16,5 +16,9 @@ export default defineNuxtPlugin((nuxtApp) => {
       left,
       next,
     })
+
+    // if (winner_side) {
+    //   nuxtApp.$bus.emit('winner', winner_side)
+    // }
   }
 })

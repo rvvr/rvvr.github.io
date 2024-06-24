@@ -191,20 +191,22 @@ export default {
       }
 
       if (mode === 'before') {
-        this.startX = this.currentX + (left / 100) * step
-        this.finishX = this.startX + (next / 100) * step
+        // this.startX = this.currentX + (left / 100) * step
+        // this.finishX = this.startX + (next / 100) * step
+        this.freezeY = null
+        this.freezeDelimiter = null
       }
       if (mode === 'active') {
         this.startX = this.currentX
-        this.finishX = this.startX + (left / 100) * step
+        // this.finishX = this.startX + (left / 100) * step
 
         this.freezeY = this.currentY
-        this.freezeDelimiter = this.currentY
       }
       if (mode === 'after') {
+        this.finishX = this.currentX
+        this.freezeDelimiter = this.currentY
+
         this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
-        this.freezeY = null
-        this.freezeDelimiter = null
       }
     },
   },

@@ -1,7 +1,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
   let zero = performance.now()
   const manage = () => {
-    if (performance.now() - zero > 100) {
+    if (performance.now() - zero > 90) {
       nuxtApp.$bus.emit('nanoSec')
       zero = performance.now()
     }

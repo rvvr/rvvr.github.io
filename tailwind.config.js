@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       colors: {
         'neutral-content': '#f4d56f',
+        bright: '#ffe7a3',
       },
       animation: {
         // Bounces 5 times 1s equals 5 seconds

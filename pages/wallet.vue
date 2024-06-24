@@ -1,11 +1,17 @@
 <template>
+  <NavbarView>
+    <template #center>
+      <div class="font-bold text-neutral-content">Your wallet</div>
+    </template>
+  </NavbarView>
+
   <div class="flex-1 p-4">
     <div class="text-center">
-      <div class="font-oswald mb-2 text-6xl font-bold text-lime-500">{{ user.balance }}</div>
-      <div class="mb-4 flex items-center justify-center text-neutral-content">
+      <div class="font-oswald mb-4 text-6xl font-bold text-lime-500">{{ user.balance }}</div>
+      <!-- <div class="mb-4 flex items-center justify-center text-neutral-content">
         <span><IconsWallet class="mr-1 h-4 w-4" /></span>
         <span class="text-xl font-bold">Your Balance</span>
-      </div>
+      </div> -->
 
       <button class="mb-2 h-10" id="connect"></button>
     </div>

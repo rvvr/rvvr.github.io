@@ -9,7 +9,7 @@
 export default {
   data() {
     return {
-      y: 0,
+      y: this.stage.height / 2,
     }
   },
   props: ['stage', 'currentY', 'rate', 'price'],

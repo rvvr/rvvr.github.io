@@ -32,7 +32,7 @@ const step = 2
 const xLinesCount = 100
 const ratio = 20 // pixels for unit
 const moneyBetween = 5_0000
-const overflowSpace = 75
+const overflowSpace = 100
 const divider = 1_0000 // how much decimals
 
 export default {

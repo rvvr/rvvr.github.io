@@ -1,5 +1,5 @@
 <template>
-  <div :class="animationClass" class="absolute -bottom-8 z-10 w-full text-center">
+  <div :class="animationClass" class="absolute -bottom-12 z-10 w-full text-center">
     <span
       v-show="message"
       class="font-oswald inline-block whitespace-break-spaces rounded-lg bg-base-100 bg-opacity-20 px-3 py-2 font-bold uppercase text-[#f4d56f]"

@@ -1,12 +1,9 @@
 import daisyui from 'daisyui'
+import { themes } from './themes'
 
 module.exports = {
   plugins: [daisyui],
-
-  daisyui: {
-    themes: ['luxury'], //'synthwave', 'forest', 'business', 'luxury', 'coffee', 'dim', 'sunset', 'night', 'black'
-  },
-
+  daisyui: { themes },
   theme: {
     extend: {
       colors: {

@@ -10,7 +10,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
     position: toast.POSITION.BOTTOM_CENTER,
     theme: toast.THEME.DARK,
     hideProgressBar: true,
-    autoClose: 500,
+    autoClose: 1000,
   })
 
   return {

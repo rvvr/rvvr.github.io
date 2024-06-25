@@ -29,7 +29,7 @@
                 John Doe
               </div>
             </td>
-            <td :class="[i > 4 ? 'font-bold uppercase text-red-500' : 'text-lime-500']" class="text-center">
+            <td :class="[i > 4 ? ' uppercase text-red-500' : 'text-lime-500']" class="text-center font-bold">
               {{ i > 4 ? 'out' : 1150 }}
             </td>
           </tr>

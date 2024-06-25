@@ -1,4 +1,8 @@
+import { useUserStore } from '@/stores/user'
+
 export default defineNuxtPlugin((nuxtApp) => {
+  const userStore = useUserStore()
+
   const ws = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws')
   const modes = {
     open: 'before',
@@ -6,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     closed: 'after',
   }
 
-  ws.onmessage = function (event) {
+  ws.onmessage = async function (event) {
     const data = JSON.parse(event.data)
     const { time, left, next, winner_side } = data
 
@@ -17,8 +21,9 @@ export default defineNuxtPlugin((nuxtApp) => {
       next,
     })
 
-    // if (winner_side) {
-    //   nuxtApp.$bus.emit('winner', winner_side)
-    // }
+    if (winner_side) {
+      nuxtApp.$bus.emit('winner', winner_side)
+      await userStore.fetchUser()
+    }
   }
 })

@@ -206,7 +206,7 @@ export default {
         this.finishX = this.currentX
         this.freezeDelimiter = this.currentY
 
-        this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
+        // this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
     },
   },

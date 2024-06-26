@@ -1,7 +1,7 @@
 export const themes = [
+  'synthwave',
   'luxury',
   'dark',
-  'synthwave',
   'halloween',
   'forest',
   'black',

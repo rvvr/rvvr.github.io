@@ -20,7 +20,6 @@ export default {
   setup() {
     definePageMeta({
       middleware(to) {
-        console.log(to.matched.length)
         if (to.matched.length === 2) {
           return navigateTo('/rooms/active/')
         }

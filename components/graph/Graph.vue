@@ -185,24 +185,24 @@ export default {
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent({ mode, left, next }) {
+    manageEvent({ round_status, left, next }) {
       if (!this.currentX) {
         this.$bus.on('nanoSec', this.manageGraph)
       }
 
-      if (mode === 'before') {
+      if (round_status === 'open') {
         // this.startX = this.currentX + (left / 100) * step
         // this.finishX = this.startX + (next / 100) * step
         this.freezeY = null
         this.freezeDelimiter = null
       }
-      if (mode === 'active') {
+      if (round_status === 'running') {
         this.startX = this.currentX
         // this.finishX = this.startX + (left / 100) * step
 
         this.freezeY = this.currentY
       }
-      if (mode === 'after') {
+      if (round_status === 'closed') {
         this.finishX = this.currentX
         this.freezeDelimiter = this.currentY
 

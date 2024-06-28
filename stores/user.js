@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     getUserFromApp() {
-      this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user }
+      this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user, id: 1524648 }
     },
 
     async fetchUser() {
@@ -51,7 +51,6 @@ export const useUserStore = defineStore('user', {
 
     async fetchBalance() {
       const balance = await api.get('/balance')
-      console.log(balance)
     },
 
     async initUser() {

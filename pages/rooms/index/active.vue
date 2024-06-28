@@ -4,6 +4,7 @@
       <template #empty>
         <div class="text-center opacity-50">No active rooms yet</div>
       </template>
+
       <table class="table table-sm">
         <tbody>
           <tr v-for="(room, i) in rooms" :key="i">
@@ -24,7 +25,7 @@
             <td>{{ room.current_participants }}/{{ room.max_participants }}</td>
 
             <td class="text-right">
-              <NuxtLink :to="`/rooms/${i}`">
+              <NuxtLink :to="`/rooms/${room.id}`">
                 <button class="btn btn-neutral w-24">Enter</button>
               </NuxtLink>
             </td>
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia'
+import { mapActions } from 'pinia'
 
 export default {
   data() {
@@ -45,16 +46,12 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState(useUserStore, ['user']),
-  },
-
   methods: {
     ...mapActions(useRoomStore, ['getUserRooms']),
   },
 
   async mounted() {
-    this.rooms = await this.getUserRooms(this.user.user_id)
+    this.rooms = await this.getUserRooms()
   },
 }
 </script>

@@ -35,8 +35,8 @@ export default {
   },
 
   methods: {
-    manageStart({ mode }) {
-      this.mode = mode
+    manageStart({ round_status }) {
+      this.mode = round_status
     },
   },
 

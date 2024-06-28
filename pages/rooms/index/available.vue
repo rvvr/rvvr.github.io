@@ -21,7 +21,9 @@
             <td>{{ room.current_participants }}/{{ room.max_participants }}</td>
 
             <td class="text-right">
-              <button v-if="room.status === 'open'" class="btn w-24">Sign up</button>
+              <button v-if="room.status === 'open'" @click="join(room.id, $event)" class="btn w-24">
+                Join
+              </button>
               <button v-else class="btn w-24 !text-neutral-content" disabled>Full</button>
             </td>
           </tr>
@@ -32,7 +34,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia'
+import { mapActions } from 'pinia'
 
 export default {
   data() {
@@ -41,12 +43,17 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState(useUserStore, ['user']),
-  },
-
   methods: {
-    ...mapActions(useRoomStore, ['getOpenRooms']),
+    ...mapActions(useRoomStore, ['getOpenRooms', 'joinRoom']),
+
+    async join(id, event) {
+      event.target.disabled = true
+      const { success } = await this.joinRoom(id)
+      if (success) {
+        navigateTo('/rooms/' + id)
+      }
+      event.target.disabled = false
+    },
   },
 
   async mounted() {

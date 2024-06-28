@@ -30,7 +30,7 @@ import { mapActions, mapState } from 'pinia'
 export default {
   data() {
     return {
-      roomData: null,
+      roomData: {},
     }
   },
 

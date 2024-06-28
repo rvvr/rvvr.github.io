@@ -36,7 +36,6 @@ export const useRoomStore = defineStore('room', {
       wss.onclose = () => console.log(`Disconnected from room: ${id}`)
 
       wss.onmessage = async (event) => {
-        console.log(`Received: ${event.data}`)
         const data = JSON.parse(event.data)
         nuxtApp.$bus.emit('start', data)
         if (data.winner_side) {

@@ -30,8 +30,12 @@
               <td>
                 <div class="flex items-center">
                   <img
-                    :src="row.avatar_url ? row.avatar_url : `https://robohash.org/${i}.png?set=set3`"
-                    class="mr-2 h-8 w-8"
+                    :src="
+                      row.avatar_url
+                        ? 'https://game.demo.cryptobull.io' + row.avatar_url
+                        : `https://robohash.org/${i}.png?set=set3`
+                    "
+                    class="mr-2 h-8 w-8 rounded-full"
                   />
 
                   {{ row.username }}

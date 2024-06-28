@@ -2,7 +2,7 @@
   <button class="btn join-item btn-neutral btn-lg -mt-8 pt-4">
     <IconsWallet class="h-4 w-4 opacity-80" />
     <span class="font-oswald text-xl font-bold leading-none">
-      {{ user.balance }}
+      {{ balance || user.balance }}
     </span>
   </button>
 </template>
@@ -11,6 +11,7 @@
 import { mapState } from 'pinia'
 
 export default {
+  props: ['balance'],
   computed: {
     ...mapState(useUserStore, ['user']),
   },

@@ -13,11 +13,12 @@ export const useRoomStore = defineStore('room', {
 
     async getUserRooms() {
       const userStore = useUserStore()
-      return await api.get(`/user_rooms/${userStore.user.user_id}`)
+      return await api.get(`/rooms/active/` + userStore.user.user_id)
     },
 
     async getOpenRooms() {
-      return await api.get(`/rooms`)
+      const userStore = useUserStore()
+      return await api.get(`/rooms/available/` + userStore.user.user_id)
     },
 
     async joinRoom(room_id) {
@@ -52,6 +53,10 @@ export const useRoomStore = defineStore('room', {
     closeRoomSocket() {
       wss.close()
       this.room_id = null
+    },
+
+    async getRoomRating(id) {
+      return await api.get('/standings/' + id)
     },
   },
 })

@@ -5,6 +5,7 @@
   ],
   "attributeGroups": [
     "^(v-if|v-else|v-for|v-show)$",
+    "^:key",
     "^v-model",
     "^@",
     "^:",

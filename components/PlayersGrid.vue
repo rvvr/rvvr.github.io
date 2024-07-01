@@ -40,7 +40,7 @@ export default {
   methods: {
     manageWinner(side) {
       this.animation = side === this.side ? 'animate-bounce' : ''
-      setTimeout(() => (this.animation = ''), 5000)
+      setTimeout(() => (this.animation = ''), 4500)
     },
   },
   mounted() {

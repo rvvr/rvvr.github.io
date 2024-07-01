@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', {
 
     async setAvatar() {
       if (this.user.avatar_url) {
-        this.avatar = 'https://game.demo.cryptobull.io' + this.user.avatar_url
+        this.avatar = useRuntimeConfig().public.baseURL + this.user.avatar_url
       } else {
         let ip = await $fetch('https://checkip.amazonaws.com/')
         this.avatar = `https://robohash.org/${ip}.png?set=set3`

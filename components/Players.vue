@@ -5,7 +5,7 @@
     <div class="font-bold text-red-500">{{ treasury.down }}</div>
     <div class="text-right">{{ players.down.length }} players</div>
   </div>
-  <div class="grid grid-cols-2 gap-4 px-4 pb-1">
+  <div class="grid h-[52px] grid-cols-2 gap-4 px-4 pb-1">
     <div :class="up" class="avatar-group -space-x-3 pt-2 rtl:space-x-reverse">
       <div
         v-for="(player, i) in players.up.slice(0, 5)"

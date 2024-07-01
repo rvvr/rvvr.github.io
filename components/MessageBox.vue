@@ -10,42 +10,26 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+
 export default {
-  data() {
-    return {
-      mode: null,
-    }
-  },
   computed: {
+    ...mapState(useRoomStore, ['round_status']),
+
     message() {
-      const messages = {
-        before: 'UP OR DOWN? PLACE YOUR TRADE!',
-        active: 'No more trades! wait for results...',
-        after: 'Distributing payouts',
-      }
-      return messages[this.mode] || null
+      return {
+        open: 'UP OR DOWN? PLACE YOUR TRADE!',
+        running: 'No more trades! wait for results...',
+        closed: 'Distributing payouts',
+      }[this.round_status]
     },
     animationClass() {
-      const animations = {
-        before: '',
-        after: 'animate-pulse',
-      }
-      return animations[this.mode] || null
+      return {
+        open: '',
+        running: '',
+        closed: 'animate-pulse',
+      }[this.round_status]
     },
-  },
-
-  methods: {
-    manageStart({ round_status }) {
-      this.mode = round_status
-    },
-  },
-
-  mounted() {
-    this.$bus.on('start', this.manageStart)
-  },
-
-  unmounted() {
-    this.$bus.off('start', this.manageStart)
   },
 }
 </script>

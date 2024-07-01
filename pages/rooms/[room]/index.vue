@@ -25,21 +25,18 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 
 export default {
-  computed: {
-    ...mapState(useRoomStore, ['userRating']),
-  },
-
   methods: {
     ...mapActions(useRoomStore, ['openRoomSocket', 'closeRoomSocket']),
   },
-
+  computed: {
+    ...mapState(useRoomStore, ['userRating']),
+  },
   mounted() {
     this.openRoomSocket(this.$route.params.room)
   },
-
   unmounted() {
     this.closeRoomSocket()
   },

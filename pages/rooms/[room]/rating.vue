@@ -24,7 +24,7 @@
             <tr
               v-for="(row, i) in sorted"
               :key="i"
-              :class="{ 'bg-base-300 font-bold text-neutral-content': i == 2 }"
+              :class="{ 'bg-base-300 font-bold text-neutral-content': row.user_id === user.user_id }"
             >
               <th>{{ row.position }}</th>
               <td>
@@ -56,15 +56,26 @@
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 
 export default {
+  data() {
+    return {
+      standings: null,
+    }
+  },
+  methods: {
+    ...mapActions(useRoomStore, ['getRoomRating']),
+  },
   computed: {
-    ...mapState(useRoomStore, ['standings']),
+    ...mapState(useUserStore, ['user']),
 
     sorted() {
       return this.standings.sort((a, b) => a.position - b.position)
     },
+  },
+  async mounted() {
+    this.standings = await this.getRoomRating(this.$route.params.room)
   },
 }
 </script>

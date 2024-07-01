@@ -44,9 +44,9 @@ export const useRoomStore = defineStore('room', {
     //   return await api.get(`/room/${room_id}`)
     // },
 
-    // async getRoomRating(id) {
-    //   return await api.get('/standings/' + id)
-    // },
+    async getRoomRating(id) {
+      return await api.get('/standings/' + id)
+    },
 
     async getUserRooms() {
       return await api.get(`/rooms/active/` + this.user_id)
@@ -64,7 +64,6 @@ export const useRoomStore = defineStore('room', {
     },
 
     openRoomSocket(room_id) {
-      this.$reset()
       const nuxtApp = useNuxtApp()
 
       wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws/' + room_id)
@@ -81,6 +80,7 @@ export const useRoomStore = defineStore('room', {
 
     closeRoomSocket() {
       wss.close()
+      this.$reset()
     },
   },
 })

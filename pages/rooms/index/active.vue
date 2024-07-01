@@ -12,7 +12,7 @@
               <div class="flex items-center gap-3">
                 <div class="avatar">
                   <div class="mask mask-squircle h-12 w-12 bg-secondary">
-                    <img :src="`https://robohash.org/${i}.png`" alt="Avatar Tailwind CSS Component" />
+                    <img :src="`https://robohash.org/${room.id}.png`" alt="Avatar Tailwind CSS Component" />
                   </div>
                 </div>
                 <div>

@@ -40,7 +40,7 @@ import { mapState } from '~/node_modules/pinia/dist/pinia'
 
 export default {
   computed: {
-    ...mapState(useUserStore, ['wallet']),
+    ...mapState(useWalletStore, ['wallet']),
   },
 }
 </script>

@@ -51,10 +51,11 @@ export default {
   },
 
   computed: {
-    ...mapState(useUserStore, ['user', 'wallet']),
+    ...mapState(useUserStore, ['user']),
+    ...mapState(useWalletStore, ['wallet']),
   },
   methods: {
-    ...mapActions(useUserStore, ['onLogin', 'onLogout']),
+    ...mapActions(useWalletStore, ['onLogin', 'onLogout']),
 
     async logout() {
       await tonConnectUI.disconnect()

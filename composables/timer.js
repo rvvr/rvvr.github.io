@@ -6,7 +6,6 @@ export const timer = {
     let zero = performance.now()
     manage = () => {
       if (performance.now() - zero > 90) {
-        console.log('nanoSec')
         useNuxtApp().$bus.emit('nanoSec')
         zero = performance.now()
       }

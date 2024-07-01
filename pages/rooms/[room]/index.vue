@@ -8,16 +8,16 @@
       </NuxtLink>
     </template>
     <template #center>
-      <div class="join">
-        <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
+      <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
+        <div class="join grid grid-cols-[110px_110px]">
           <NavbarBalance :balance="userRating.balance" />
 
           <button class="btn btn-secondary join-item btn-lg -mt-8 pt-4">
             <IconsTrophy class="h-4 w-4 opacity-80" />
             <span class="font-oswald text-xl font-bold leading-none">{{ userRating.position }}</span>
           </button>
-        </NuxtLink>
-      </div>
+        </div>
+      </NuxtLink>
     </template>
   </NavbarView>
 

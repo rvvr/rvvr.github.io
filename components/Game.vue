@@ -1,6 +1,6 @@
 <template>
   <div class="font-oswald relative">
-    <div class="flex items-center justify-between p-4">
+    <div class="grid grid-cols-3 p-4">
       <div class="text-lime-400">
         <div class="text-1xl font-bold uppercase opacity-75">Up pool</div>
         <div class="font-black">
@@ -12,7 +12,9 @@
         </div>
       </div>
 
-      <Timer></Timer>
+      <div class="flex justify-center">
+        <Timer></Timer>
+      </div>
 
       <div class="text-right text-red-500">
         <div class="text-1xl font-bold uppercase opacity-75">Down pool</div>

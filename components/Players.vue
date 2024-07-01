@@ -13,7 +13,13 @@
         class="avatar h-10 w-10 border-base-100 bg-base-300"
       >
         <div class="h-8 w-8">
-          <img :src="player.avatar_url ? player.avatar_url : `https://robohash.org/${i}.png?set=set3`" />
+          <img
+            :src="
+              player.avatar_url
+                ? useRuntimeConfig().public.baseURL + player.avatar_url
+                : `https://robohash.org/${i}.png?set=set3`
+            "
+          />
         </div>
       </div>
 
@@ -30,7 +36,13 @@
         class="avatar h-10 w-10 border-base-100 bg-base-300"
       >
         <div class="h-8 w-8">
-          <img :src="player.avatar_url ? player.avatar_url : `https://robohash.org/${i}.png?set=set3`" />
+          <img
+            :src="
+              player.avatar_url
+                ? useRuntimeConfig().public.baseURL + player.avatar_url
+                : `https://robohash.org/${i}.png?set=set3`
+            "
+          />
         </div>
       </div>
 

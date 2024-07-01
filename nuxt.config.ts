@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiURL: 'https://game.demo.cryptobull.io/api/v1',
-      // apiURL: process.env.API_URL,
+      baseURL: 'https://game.demo.cryptobull.io',
     },
   },
 })

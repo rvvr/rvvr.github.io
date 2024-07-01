@@ -33,11 +33,11 @@
 
   <div class="grid grid-cols-7 gap-2 p-4">
     <button
-      v-for="bet in bets"
+      v-for="(bet, i) in bets"
+      :key="i"
       @click="betRate = bet"
       :class="[bet === betRate ? 'btn-outline pointer-events-none text-neutral-content' : '']"
       :disabled="activeBet && bet != activeBetRate"
-      :key="bet"
       class="font-oswald btn btn-neutral border-2 text-lg"
     >
       {{ bet }}

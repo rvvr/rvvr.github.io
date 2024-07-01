@@ -10,11 +10,11 @@
     <template #center>
       <div class="join">
         <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
-          <NavbarBalance :balance="roomData.balance" />
+          <NavbarBalance :balance="userRating.balance" />
 
           <button class="btn btn-secondary join-item btn-lg -mt-8 pt-4">
             <IconsTrophy class="h-4 w-4 opacity-80" />
-            <span class="font-oswald text-xl font-bold leading-none">{{ roomData.position }}</span>
+            <span class="font-oswald text-xl font-bold leading-none">{{ userRating.position }}</span>
           </button>
         </NuxtLink>
       </div>
@@ -28,24 +28,16 @@
 import { mapActions, mapState } from 'pinia'
 
 export default {
-  data() {
-    return {
-      roomData: {},
-    }
-  },
-
   computed: {
-    ...mapState(useUserStore, ['user']),
+    ...mapState(useRoomStore, ['userRating']),
   },
 
   methods: {
-    ...mapActions(useRoomStore, ['getRoomSocket', 'closeRoomSocket', 'getRoomRating']),
+    ...mapActions(useRoomStore, ['openRoomSocket', 'closeRoomSocket']),
   },
 
-  async mounted() {
-    this.getRoomSocket(this.$route.params.room)
-    const roomData = await this.getRoomRating(this.$route.params.room)
-    this.roomData = roomData.find((c) => c.user_id === this.user.user_id)
+  mounted() {
+    this.openRoomSocket(this.$route.params.room)
   },
 
   unmounted() {

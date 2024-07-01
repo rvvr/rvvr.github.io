@@ -9,7 +9,7 @@
     </template>
   </NavbarView>
 
-  <Loader :data="data">
+  <Loader :data="standings">
     <div class="p-4">
       <div class="overflow-x-auto">
         <table class="table">
@@ -56,27 +56,15 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { mapState } from 'pinia'
 
 export default {
-  data() {
-    return {
-      data: null,
-    }
-  },
-
-  methods: {
-    ...mapActions(useRoomStore, ['getRoomRating']),
-  },
-
   computed: {
-    sorted() {
-      return this.data.sort((a, b) => a.position - b.position)
-    },
-  },
+    ...mapState(useRoomStore, ['standings']),
 
-  async mounted() {
-    this.data = await this.getRoomRating(this.$route.params.room)
+    sorted() {
+      return this.standings.sort((a, b) => a.position - b.position)
+    },
   },
 }
 </script>

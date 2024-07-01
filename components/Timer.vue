@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-show="!time" class="flex h-[100px] w-[100px] items-center justify-center rounded-full bg-base-300">
+    <div v-show="!time" class="flex h-24 w-24 items-center justify-center rounded-full bg-base-300">
       <span class="loading loading-ring loading-lg"></span>
     </div>
     <div
       v-show="time"
       :class="timerColor"
-      :style="'--size: 6rem; --thickness: 2px; --value:' + timerProgress"
-      class="radial-progress h-24 w-24 border-2 border-base-300 bg-base-300"
+      :style="'--thickness: 6px;--size:6rem;--value:' + timerProgress"
+      class="radial-progress border-base-300 bg-base-300"
       role="progressbar"
     >
       <div v-show="time" class="-mt-2 flex flex-col text-center">

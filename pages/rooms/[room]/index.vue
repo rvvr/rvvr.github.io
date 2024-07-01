@@ -35,9 +35,11 @@ export default {
     ...mapState(useRoomStore, ['userRating']),
   },
   mounted() {
+    timer.start()
     this.openRoomSocket(this.$route.params.room)
   },
   unmounted() {
+    timer.stop()
     this.closeRoomSocket()
   },
 }

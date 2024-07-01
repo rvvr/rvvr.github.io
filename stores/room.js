@@ -66,7 +66,7 @@ export const useRoomStore = defineStore('room', {
     openRoomSocket(room_id) {
       const nuxtApp = useNuxtApp()
 
-      wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws/' + room_id)
+      wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
       wss.onmessage = async (event) => {
         const data = JSON.parse(event.data)
         this.$patch(data)

@@ -1,6 +1,6 @@
 <template>
   <div class="font-oswald relative">
-    <div class="grid grid-cols-3 p-4">
+    <div class="grid grid-cols-3 items-center px-4 pb-4 pt-1">
       <div class="text-lime-400">
         <Pool side="up" />
       </div>

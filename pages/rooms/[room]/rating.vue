@@ -22,7 +22,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(row, i) in sorted"
+              v-for="(row, i) in standings"
               :key="i"
               :class="{ 'bg-base-300 font-bold text-neutral-content': row.user_id === user.user_id }"
             >
@@ -69,13 +69,11 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ['user']),
-
-    sorted() {
-      return this.standings.sort((a, b) => a.position - b.position)
-    },
   },
   async mounted() {
-    this.standings = await this.getRoomRating(this.$route.params.room)
+    const standings = await this.getRoomRating(this.$route.params.room)
+
+    this.standings = standings.sort((a, b) => a.position - b.position)
   },
 }
 </script>

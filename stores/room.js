@@ -28,6 +28,8 @@ export const useRoomStore = defineStore('room', {
     left: null,
     next: null,
     standings: [],
+    current_round_number: null,
+    max_round_number: null,
   }),
 
   getters: {
@@ -36,6 +38,9 @@ export const useRoomStore = defineStore('room', {
     },
     userRating() {
       return this.standings.find((c) => c.user_id === this.user_id) || {}
+    },
+    roomRating() {
+      return this.standings.sort((a, b) => a.position - b.position)
     },
   },
 

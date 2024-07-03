@@ -82,5 +82,9 @@ export const useRoomStore = defineStore('room', {
       wss.close()
       this.$reset()
     },
+
+    addPlayer(side) {
+      this.players[side].unshift(useUserStore().user)
+    },
   },
 })

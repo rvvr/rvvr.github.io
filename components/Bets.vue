@@ -35,6 +35,7 @@ export default {
     return {
       rate: 5,
       rates: [5, 10, 15, 25, 50, 100, 200],
+      sides: {},
     }
   },
 
@@ -42,33 +43,40 @@ export default {
     ...mapState(useRoomStore, ['round_status']),
 
     disabled() {
-      // return true
-      return {
-        null: true,
-        open: false,
-        running: true,
-        closed: true,
-      }[this.round_status]
+      // return {
+      //   null: true,
+      //   open: false,
+      //   running: true,
+      //   closed: true,
+      // }[this.round_status]
+      return this.round_status === 'running'
     },
   },
 
   methods: {
     ...mapActions(useWalletStore, ['placeBet']),
+    ...mapActions(useRoomStore, ['addPlayer']),
 
     async bet(side, rate) {
       this.$toast.success(`${rate} for ${side} is placed!`)
+      this.addPlayer(side)
+      this.sides[side] = true
       await this.placeBet(side, rate)
     },
 
-    manageWinner(side) {
-      // confetti({
-      //   particleCount: 100,
-      //   angle: side === 'up' ? 45 : 135,
-      //   origin: {
-      //     x: side === 'up' ? 0 : 1,
-      //     y: 0.8,
-      //   },
-      // })
+    manageWinner(side, sides) {
+      if (this.sides[side]) {
+        confetti({
+          particleCount: 100,
+          spread: 30,
+          origin: {
+            x: side === 'up' ? 0.25 : 0.75,
+            y: 0.8,
+          },
+          gravity: 4,
+        })
+      }
+      this.sides = {}
     },
   },
 

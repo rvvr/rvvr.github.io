@@ -9,7 +9,7 @@
     </template>
   </NavbarView>
 
-  <div class="px-4">
+  <div class="p-4">
     <label class="form-control w-full max-w-xs">
       <div class="label">
         <span class="label-text">App theme</span>

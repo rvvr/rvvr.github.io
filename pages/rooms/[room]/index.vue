@@ -1,23 +1,29 @@
 <template>
   <NavbarView>
     <template #left>
-      <NuxtLink to="/rooms/">
-        <button class="btn btn-circle h-10 min-h-10 w-10 bg-base-300">
-          <IconsBack />
-        </button>
-      </NuxtLink>
+      <div class="font-oswald block">
+        <div class="text-xs uppercase opacity-80">Roll</div>
+        <div class="text-sm">
+          <span class="font-bold text-neutral-content">19</span> <span class="opacity-80">/</span> 100
+        </div>
+      </div>
     </template>
+
     <template #center>
       <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
-        <div class="join grid grid-cols-[110px_110px]">
-          <NavbarBalance :balance="userRating.balance" />
-
-          <button class="btn btn-secondary join-item btn-lg -mt-8 pt-4">
-            <IconsTrophy class="h-4 w-4 opacity-80" />
-            <span class="font-oswald text-xl font-bold leading-none">{{ userRating.position }}</span>
-          </button>
-        </div>
+        <NavbarBalance :balance="userRating.balance">
+          <NavbarAvatar class="h-6 w-6" />
+        </NavbarBalance>
       </NuxtLink>
+    </template>
+
+    <template #right>
+      <div class="flex items-center">
+        <NuxtLink :to="`/rooms/${$route.params.room}/rating`" class="mx-2 flex items-center">
+          <IconsTrophy class="h-4 w-4 text-neutral-content" />
+          <span class="font-oswald pl-1 text-xl font-bold">{{ userRating.position }}</span>
+        </NuxtLink>
+      </div>
     </template>
   </NavbarView>
 

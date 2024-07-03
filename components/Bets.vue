@@ -49,7 +49,7 @@ export default {
       //   running: true,
       //   closed: true,
       // }[this.round_status]
-      return this.round_status === 'running'
+      return this.round_status !== 'open'
     },
   },
 

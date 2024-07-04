@@ -3,7 +3,7 @@
     <div
       v-for="(player, i) in players[side].slice(0, 5)"
       :key="i"
-      class="avatar h-10 w-10 border-base-100 bg-base-300"
+      class="avatar h-10 w-10 border-base-100 bg-black"
     >
       <div class="h-8 w-8">
         <img

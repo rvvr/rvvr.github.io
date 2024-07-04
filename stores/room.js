@@ -69,7 +69,11 @@ export const useRoomStore = defineStore('room', {
     },
 
     openRoomSocket(room_id) {
+      // if (wss) alert('wss conflict')
+      this.$reset()
       const nuxtApp = useNuxtApp()
+
+      timer.start()
 
       wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
       wss.onmessage = async (event) => {
@@ -77,15 +81,23 @@ export const useRoomStore = defineStore('room', {
         this.$patch(data)
 
         nuxtApp.$bus.emit('start', data)
+
         if (this.winner_side) {
           nuxtApp.$bus.emit('winner', data.winner_side)
+        }
+
+        if (this.current_round_number === this.max_round_number && this.round_status === 'closed') {
+          nuxtApp.$bus.emit('closeRoom')
         }
       }
     },
 
     closeRoomSocket() {
-      wss.close()
-      this.$reset()
+      timer.stop()
+      if (wss) {
+        wss.close()
+        wss = null
+      }
     },
 
     addPlayer(side) {

@@ -26,12 +26,10 @@ export default {
     },
   },
   mounted() {
-    timer.start()
     this.openRoomSocket()
     this.$bus.on('winner', this.manageWinner)
   },
   unmounted() {
-    timer.stop()
     this.closeRoomSocket()
     this.$bus.off('winner', this.manageWinner)
   },

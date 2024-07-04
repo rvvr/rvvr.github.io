@@ -65,14 +65,20 @@ export default {
       this.timer = left
       this.$bus.on('nanoSec', this.countDown)
     },
+    stopTimer() {
+      this.time = null
+      this.timer = null
+    },
   },
 
   mounted() {
     this.$bus.on('start', this.startTimer)
+    this.$bus.on('closeRoom', this.stopTimer)
   },
 
   unmounted() {
     this.$bus.off('start', this.startTimer)
+    this.$bus.off('closeRoom', this.stopTimer)
   },
 }
 </script>

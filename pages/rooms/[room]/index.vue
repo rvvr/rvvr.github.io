@@ -92,7 +92,6 @@ export default {
 
     closeRoom() {
       this.$refs.modal.showModal()
-      timer.stop()
       this.closeRoomSocket()
     },
   },
@@ -101,12 +100,12 @@ export default {
     ...mapState(useUserStore, ['user']),
   },
   mounted() {
-    timer.start()
     this.openRoomSocket(this.$route.params.room)
+    this.$bus.on('closeRoom', this.closeRoom)
   },
   unmounted() {
-    timer.stop()
     this.closeRoomSocket()
+    this.$bus.off('closeRoom', this.closeRoom)
   },
 }
 </script>

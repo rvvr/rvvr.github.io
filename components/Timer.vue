@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div v-show="!time" class="flex h-24 w-24 items-center justify-center rounded-full bg-base-300">
-      <span class="loading loading-ring loading-lg"></span>
-    </div>
     <div
-      v-show="time"
+      v-if="timer > 0"
       :class="timerColor"
       :style="'--thickness: 6px;--size:6rem;--value:' + timerProgress"
       class="radial-progress border-base-300 bg-base-300"
@@ -19,6 +16,10 @@
         </div>
         <span class="leading-none text-white">sec</span>
       </div>
+    </div>
+
+    <div v-else class="flex h-24 w-24 items-center justify-center rounded-full bg-base-300">
+      <span class="loading loading-ring loading-lg"></span>
     </div>
   </div>
 </template>

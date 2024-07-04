@@ -87,12 +87,18 @@
 import { mapState, mapActions } from 'pinia'
 
 export default {
+  data() {
+    return {
+      wss: null,
+    }
+  },
   methods: {
-    ...mapActions(useRoomStore, ['openRoomSocket', 'closeRoomSocket']),
+    ...mapActions(useRoomStore, ['openRoomSocket', 'manageSocketEvent']),
 
     closeRoom() {
       this.$refs.modal.showModal()
-      this.closeRoomSocket()
+      timer.stop()
+      this.wss.close()
     },
   },
   computed: {
@@ -100,11 +106,16 @@ export default {
     ...mapState(useUserStore, ['user']),
   },
   mounted() {
-    this.openRoomSocket(this.$route.params.room)
+    timer.start()
+    this.wss = this.openRoomSocket(this.$route.params.room)
+    this.wss.onmessage = this.manageSocketEvent
+
     this.$bus.on('closeRoom', this.closeRoom)
   },
   unmounted() {
-    this.closeRoomSocket()
+    timer.stop()
+    this.wss.close()
+
     this.$bus.off('closeRoom', this.closeRoom)
   },
 }

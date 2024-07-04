@@ -14,11 +14,16 @@
 import { mapState, mapActions } from 'pinia'
 
 export default {
+  data() {
+    return {
+      wss: null,
+    }
+  },
   computed: {
     ...mapState(useUserStore, ['user']),
   },
   methods: {
-    ...mapActions(useRoomStore, ['openRoomSocket', 'closeRoomSocket']),
+    ...mapActions(useRoomStore, ['openRoomSocket', 'manageSocketEvent']),
     ...mapActions(useUserStore, ['fetchUser']),
 
     async manageWinner() {
@@ -26,11 +31,16 @@ export default {
     },
   },
   mounted() {
-    this.openRoomSocket()
+    timer.start()
+    this.wss = this.openRoomSocket()
+    this.wss.onmessage = this.manageSocketEvent
+
     this.$bus.on('winner', this.manageWinner)
   },
   unmounted() {
-    this.closeRoomSocket()
+    timer.stop()
+    this.wss.close()
+
     this.$bus.off('winner', this.manageWinner)
   },
 }

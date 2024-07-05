@@ -61,7 +61,21 @@ export default {
       this.$toast.success(`${rate} for ${side} is placed!`)
       this.addPlayer(side)
       this.sides[side] = true
-      await this.placeBet(side, rate)
+      const { down_total, up_total } = await this.placeBet(side, rate)
+
+      const total = down_total + up_total
+
+      // temporary
+      useRoomStore().$patch({
+        treasury: {
+          up: up_total,
+          down: down_total,
+        },
+        // winRates: {
+        //   up: total / (up_total / 100) / 100,
+        //   down: total / (up_total / 100) / 100,
+        // },
+      })
     },
 
     manageWinner(side, sides) {

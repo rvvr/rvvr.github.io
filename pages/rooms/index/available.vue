@@ -21,11 +21,13 @@
             </span>
             {{ room.name }}
           </h2>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur pariatur neque quaerat.</p>
+          <p>{{ room.description }}</p>
           <div class="card-actions items-center pt-1">
             <div class="kbd text-sm">
               <IconsUser class="mr-1 h-3 w-3 text-white opacity-50" />
-              <span class="pt-[1px] opacity-90">1/10000</span>
+              <span class="pt-[1px] opacity-90">
+                {{ room.current_participants }}/{{ room.max_participants }}
+              </span>
             </div>
             <div class="kbd text-sm">
               <IconsCalendar class="mr-1 h-3 w-3 text-white opacity-50" />
@@ -40,7 +42,7 @@
 
           <div class="card-actions pt-3">
             <button
-              v-if="room.time_to_start > 0"
+              v-if="room.status !== 'running'"
               @click="join(room.id, $event)"
               class="btn btn-neutral w-full"
             >
@@ -48,7 +50,7 @@
             </button>
             <button v-else class="btn btn-neutral w-full !text-opacity-80" disabled>
               <IconsTime class="h-4 w-4 opacity-80" />
-              {{ room.time_to_start_str.slice(0, -7) }}
+              {{ room.time_to_start_str }}
             </button>
           </div>
         </div>

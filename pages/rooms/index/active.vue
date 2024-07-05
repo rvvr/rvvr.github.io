@@ -21,7 +21,7 @@
             </span>
             {{ room.name }}
           </h2>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur pariatur neque quaerat.</p>
+          <p>{{ room.description }}</p>
           <div class="card-actions items-center pt-1">
             <div class="kbd text-sm">
               <IconsUser class="mr-1 h-3 w-3 text-white opacity-50" />

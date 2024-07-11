@@ -1,18 +1,24 @@
 let manage
-let on = true
+let on = false
+const tick = 100
+
+const getTime = () => performance.now()
 
 export const timer = {
   start: () => {
-    let zero = performance.now()
+    if (on) return
+    on = true
+    let zero = getTime()
     manage = () => {
-      if (performance.now() - zero > 90) {
+      const now = getTime()
+      if (getTime() - zero > tick) {
+        const offset = now - zero - tick
+        zero = getTime() + offset
         useNuxtApp().$bus.emit('nanoSec')
-        zero = performance.now()
+        console.log('nano')
       }
       if (on) {
         window.requestAnimationFrame(manage)
-      } else {
-        on = true
       }
     }
     window.requestAnimationFrame(manage)

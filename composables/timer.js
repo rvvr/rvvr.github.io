@@ -15,7 +15,6 @@ export const timer = {
         const offset = now - zero - tick
         zero = getTime() + offset
         useNuxtApp().$bus.emit('nanoSec')
-        console.log('nano')
       }
       if (on) {
         window.requestAnimationFrame(manage)

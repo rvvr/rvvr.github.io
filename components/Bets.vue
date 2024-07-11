@@ -24,6 +24,10 @@
       {{ btnRate }}
     </button>
   </div>
+
+  <dialog class="modal" ref="modal">
+    <ModalsDeposit />
+  </dialog>
 </template>
 
 <script>
@@ -40,7 +44,8 @@ export default {
   },
 
   computed: {
-    ...mapState(useRoomStore, ['round_status']),
+    ...mapState(useRoomStore, ['round_status', 'userRating']),
+    ...mapState(useUserStore, ['user']),
 
     disabled() {
       // return {
@@ -51,6 +56,10 @@ export default {
       // }[this.round_status]
       return this.round_status !== 'open'
     },
+
+    balance() {
+      return this.userRating.balance || this.user.balance
+    },
   },
 
   methods: {
@@ -58,6 +67,10 @@ export default {
     ...mapActions(useRoomStore, ['addPlayer']),
 
     async bet(side, rate) {
+      // if (this.balance < 1) {
+      //   this.$refs.modal.showModal()
+      //   return
+      // }
       this.$toast.success(`${rate} for ${side} is placed!`)
       this.addPlayer(side)
       this.sides[side] = true
@@ -96,6 +109,7 @@ export default {
 
   mounted() {
     this.$bus.on('winner', this.manageWinner)
+    // this.$refs.modal.showModal()
   },
 
   unmounted() {

@@ -8,7 +8,7 @@
       role="progressbar"
     >
       <div v-show="time" class="-mt-2 flex flex-col text-center">
-        <div class="flex items-baseline font-mono">
+        <div class="flex items-baseline justify-center font-mono">
           <span class="text-4xl leading-none">
             {{ timerDisplay }}
           </span>

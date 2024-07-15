@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar fixed top-0 z-10 grid grid-cols-[48px_auto_48px] items-center gap-2 bg-base-200 px-4">
+  <div class="navbar fixed top-0 z-10 grid grid-cols-[40px_auto_40px] items-center gap-2 bg-base-200 px-4">
     <slot v-if="$slots.left" name="left" />
     <NuxtLink v-else class="flex w-10 justify-center" to="/">
       <img class="h-10 w-10" alt="" src="/favicon.png" />

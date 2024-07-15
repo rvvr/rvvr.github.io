@@ -1,7 +1,7 @@
 <template>
   <NavbarView>
     <template #center>
-      <NuxtLink to="/wallet/deposit/">
+      <NuxtLink to="/balance">
         <NavbarBalance :balance="user.balance" />
       </NuxtLink>
     </template>

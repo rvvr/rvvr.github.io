@@ -95,7 +95,7 @@ export default {
   background-size: contain;
 
   &.active {
-    background-image: url(b1.webp);
+    background-image: url(/b1.webp);
   }
 }
 

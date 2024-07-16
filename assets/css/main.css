@@ -3,10 +3,6 @@
   --toastify-icon-color-error: theme(colors.red.500) !important;
 }
 
-* {
-  touch-action: manipulation;
-}
-
 html {
   touch-action: none;
 }

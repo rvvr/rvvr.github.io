@@ -96,7 +96,7 @@ export default {
       let body = document.body
       body.appendChild(el)
       el.animate(
-        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { transform: 'translateY(-200px)', opacity: 0 }],
+        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { opacity: 0, left: '50%', top: '150px' }],
         300,
       )
       setTimeout(() => {

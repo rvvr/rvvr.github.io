@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import localStorage from 'nuxt-storage/local-storage'
-const { getData, setData } = localStorage
+import nuxtStorage from 'nuxt-storage'
+const { getData, setData } = nuxtStorage.localStorage
 
 export default {
   mounted() {

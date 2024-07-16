@@ -25,13 +25,15 @@
       </div>
     </div>
     <div class="font-oswald mt-3 text-center text-neutral-content">Tap to earn</div>
+
+    <img class="h-5" alt="" src="/b1.webp" />
   </div>
 </template>
 
 <script>
 import debounce from 'lodash.debounce'
-import localStorage from 'nuxt-storage/local-storage'
-const { getData, setData } = localStorage
+import nuxtStorage from 'nuxt-storage'
+const { getData, setData } = nuxtStorage.localStorage
 
 export default {
   data() {
@@ -65,7 +67,7 @@ export default {
       let body = document.body
       body.appendChild(el)
       el.animate(
-        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { transform: 'translateY(-100px)', opacity: 0 }],
+        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { transform: 'translateY(-200px)', opacity: 0 }],
         300,
       )
       setTimeout(() => {
@@ -80,7 +82,7 @@ export default {
 .bull {
   width: 320px;
   height: 219px;
-  background-image: url('/b1.png'), url(b1.webp);
+  background-image: url('/b1.png'), url(b1.gif);
   background-repeat: no-repeat;
   background-position: center;
   background-size:

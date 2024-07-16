@@ -25,8 +25,6 @@
       </div>
     </div>
     <div class="font-oswald mt-3 text-center text-neutral-content">Tap to earn</div>
-
-    <img class="h-5" alt="" src="/b1.webp" />
   </div>
 </template>
 
@@ -91,17 +89,13 @@ export default {
 .bull {
   width: 320px;
   height: 219px;
-  background-image: url('/b1.png'), url(b1.gif);
+  background-image: url('/b1.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size:
-    100% 100%,
-    0 0;
+  background-size: contain;
 
   &.active {
-    background-size:
-      0 0,
-      100% 100%;
+    background-image: url(b1.webp);
   }
 }
 

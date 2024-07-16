@@ -1,19 +1,20 @@
 <template>
   <NavbarView>
     <template #center>
-      <div class="font-bold text-neutral-content">Balance</div>
+      <div class="font-bold text-neutral-content">Wallet</div>
     </template>
   </NavbarView>
 
-  <div class="flex-1 p-4 pt-20">
-    <div
-      class="font-oswald mb-7 flex items-center justify-center text-center text-3xl font-bold text-lime-500"
-    >
-      <IconsCoins class="mr-3 mt-2 h-8 w-8" />
-      <span>{{ balance }}</span>
+  <div class="flex-1 p-4 pt-10">
+    <div class="text-center">
+      <p class="font-oswald mb-2 opacity-50">Your balance</p>
+      <div class="kbd kbd-lg inline-flex items-center justify-center">
+        <IconsCoins class="mr-2 mt-1 h-5 w-5" />
+        <span class="font-mono text-3xl font-bold text-lime-500">{{ balance }}</span>
+      </div>
     </div>
 
-    <div class="relative" ref="wrap">
+    <div class="relative mt-6" ref="wrap">
       <div
         class="absolute left-1/2 z-0 -ml-[110px] aspect-square h-full rounded-full bg-black opacity-30"
       ></div>
@@ -24,7 +25,28 @@
         ></button>
       </div>
     </div>
-    <div class="font-oswald mt-3 text-center text-neutral-content">Tap to earn</div>
+
+    <div class="font-oswald mt-3 flex items-center justify-center text-center text-sm opacity-50">
+      <IconsInfo class="mr-1 inline h-4 w-4" />
+      Tap bull to earn more coins
+    </div>
+
+    <div class="mb-2 mt-16 flex items-center text-lg font-bold">Get access to freeroll rooms</div>
+    <p class="opacity-50">
+      In our platform, you have the opportunity to spend coins to gain access to freeroll rooms. These rooms
+      provide you with a chance to win real cryptocurrency.
+    </p>
+
+    <NuxtLink to="/rooms">
+      <button class="btn btn-neutral mt-4 w-full">Join rooms</button>
+    </NuxtLink>
+
+    <div class="mb-2 mt-8 flex items-center text-lg font-bold">Boost your balance</div>
+    <p class="opacity-50">Ready to boost your balance? Earn coins by playing our blockchain-based game.</p>
+
+    <NuxtLink to="/">
+      <button class="btn btn-neutral mt-4 w-full">Boost balance</button>
+    </NuxtLink>
   </div>
 </template>
 
@@ -44,7 +66,7 @@ export default {
   data() {
     return {
       active: false,
-      balance: 0,
+      balance: null,
     }
   },
 
@@ -89,13 +111,17 @@ export default {
 .bull {
   width: 320px;
   height: 219px;
-  background-image: url('/b1.png');
+  background-image: url('/b1.png'), url(/b1.webp);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size:
+    100% 100%,
+    0 0;
 
   &.active {
-    background-image: url(/b1.webp);
+    background-size:
+      0 0,
+      100% 100%;
   }
 }
 

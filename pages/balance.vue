@@ -30,7 +30,8 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import { getData, setData } from 'nuxt-storage/local-storage'
+import localStorage from 'nuxt-storage/local-storage'
+const { getData, setData } = localStorage
 
 export default {
   data() {

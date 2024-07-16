@@ -33,13 +33,20 @@
 <script>
 import debounce from 'lodash.debounce'
 import nuxtStorage from 'nuxt-storage'
-const { getData, setData } = nuxtStorage.localStorage
 
 export default {
+  mounted() {
+    if (process.client) {
+      const wallet = nuxtStorage.localStorage.getData('wallet')
+      if (!wallet) nuxtStorage.localStorage.setData('wallet', 0)
+      this.balance = nuxtStorage.localStorage.getData('wallet')
+    }
+  },
+
   data() {
     return {
       active: false,
-      balance: getData('wallet'),
+      balance: 0,
     }
   },
 
@@ -49,9 +56,11 @@ export default {
     }, 300),
 
     play() {
-      setData('wallet', this.balance + 1)
-      this.balance = getData('wallet')
-      this.active = true
+      if (process.client) {
+        nuxtStorage.localStorage.setData('wallet', this.balance + 1)
+        this.balance = nuxtStorage.localStorage.getData('wallet')
+        this.active = true
+      }
     },
 
     stop() {

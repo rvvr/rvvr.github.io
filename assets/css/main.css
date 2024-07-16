@@ -3,10 +3,15 @@
   --toastify-icon-color-error: theme(colors.red.500) !important;
 }
 
+html {
+  touch-action: none;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: normal;
+  touch-action: none;
 }
 
 .font-oswald {

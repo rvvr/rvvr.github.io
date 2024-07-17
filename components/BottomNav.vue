@@ -1,20 +1,20 @@
 <template>
-  <div class="btm-nav bg-base-200">
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/balance">
+  <div class="btm-nav mx-4 overflow-hidden rounded-t-xl rounded-tr-xl bg-base-300 drop-shadow-md">
+    <NuxtLink active-class="active text-neutral-content bg-black bg-opacity-20" to="/balance">
       <button>
         <IconsWallet class="h-5 w-5" />
       </button>
       <span class="btm-nav-label text-sm">Wallet</span>
     </NuxtLink>
 
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/">
+    <NuxtLink active-class="active text-neutral-content bg-black bg-opacity-20" to="/">
       <button>
         <IconsHome class="h-5 w-5" />
       </button>
       <span class="btm-nav-label text-sm">Boost</span>
     </NuxtLink>
 
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/rooms">
+    <NuxtLink active-class="active text-neutral-content bg-black bg-opacity-20" to="/rooms">
       <button>
         <IconsFree class="h-6 w-6" />
       </button>
@@ -22,3 +22,9 @@
     </NuxtLink>
   </div>
 </template>
+
+<style>
+.btm-nav {
+  width: calc(100% - 32px);
+}
+</style>

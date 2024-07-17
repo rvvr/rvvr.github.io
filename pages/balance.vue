@@ -136,7 +136,7 @@ export default {
 
       this.$refs.circle.animate([{ transform: 'scale(1.03)' }], 100)
       el.animate(
-        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { opacity: 0, left: '50%', top: '150px' }],
+        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { opacity: 0, left: '50%', top: '450px' }],
         300,
       )
       setTimeout(() => {

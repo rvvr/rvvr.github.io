@@ -16,7 +16,8 @@
 
     <div class="relative mt-6" ref="wrap">
       <div
-        class="absolute left-1/2 z-0 -ml-[110px] aspect-square h-full rounded-full bg-black opacity-30"
+        class="circle absolute left-1/2 z-0 -ml-[110px] aspect-square h-full rounded-full"
+        ref="circle"
       ></div>
       <div :class="[active ? 'active' : '']" class="bull z-1 relative mx-auto">
         <button
@@ -95,6 +96,8 @@ export default {
       el.setAttribute('style', `top:${clientY}px;left:${clientX}px;`)
       let body = document.body
       body.appendChild(el)
+
+      this.$refs.circle.animate([{ transform: 'scale(1.03)' }], 100)
       el.animate(
         [{ opacity: 1 }, { transform: 'scale(1.90)' }, { opacity: 0, left: '50%', top: '150px' }],
         300,
@@ -108,21 +111,38 @@ export default {
 </script>
 
 <style lang="postcss">
+.circle {
+  @apply bg-gradient-to-t from-yellow-600 to-yellow-200  drop-shadow-lg;
+
+  &:after {
+    @apply absolute block rounded-full bg-yellow-500;
+
+    content: '';
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.4) inset;
+    background-image: url('/b3.png');
+    background-repeat: no-repeat;
+    background-position: -26px 10px;
+    background-size: 260px;
+  }
+}
+
 .bull {
   width: 320px;
   height: 219px;
-  background-image: url('/b1.png'), url(/b1.webp);
+  /* background-image: url('/b3.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size:
-    100% 100%,
-    0 0;
+  background-size: auto 80%; */
 
-  &.active {
+  /* &.active {
     background-size:
       0 0,
       100% 100%;
-  }
+  } */
 }
 
 .anime {

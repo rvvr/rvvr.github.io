@@ -89,6 +89,7 @@ export default {
     },
 
     anime(e) {
+      window.navigator.vibrate([30])
       let { clientX, clientY } = e
       let el = document.createElement('span')
       el.innerHTML = '+1'

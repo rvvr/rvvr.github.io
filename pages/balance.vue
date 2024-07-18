@@ -64,9 +64,9 @@
           Your balance, tap bull to earn more coins
         </div>
 
-        <div class="kbd kbd-lg mt-4 inline-flex items-center justify-center">
+        <div class="kbd kbd-lg mt-4 inline-flex items-center justify-center" ref="balance">
           <IconsCoins class="mr-2 mt-1 h-5 w-5" />
-          <span class="font-mono text-3xl font-bold text-lime-500">{{ balance }}</span>
+          <span class="font-mono text-3xl font-bold text-lime-500">{{ user.balance }}</span>
         </div>
       </div>
 
@@ -75,7 +75,7 @@
           class="circle absolute left-1/2 z-0 -ml-[110px] aspect-square h-full rounded-full"
           ref="circle"
         ></div>
-        <div :class="[active ? 'active' : '']" class="bull z-1 relative mx-auto">
+        <div class="bull z-1 relative mx-auto">
           <button
             @click="debounceTap(), play(), anime($event)"
             class="btn btn-link h-full w-full no-underline opacity-50 hover:no-underline"
@@ -89,7 +89,7 @@
 <script>
 import debounce from 'lodash.debounce'
 import nuxtStorage from 'nuxt-storage'
-import { mapState } from '~/node_modules/pinia/dist/pinia'
+import { mapActions, mapState, mapWritableState } from 'pinia'
 
 export default {
   mounted() {
@@ -102,45 +102,50 @@ export default {
 
   data() {
     return {
+      taps: 0,
       active: false,
-      balance: null,
     }
   },
 
   computed: {
     ...mapState(useUserStore, ['appUser']),
+    ...mapWritableState(useUserStore, ['user']),
   },
 
   methods: {
-    debounceTap: debounce(function () {
-      this.stop()
+    ...mapActions(useWalletStore, ['tap']),
+
+    debounceTap: debounce(async function () {
+      let taps = this.taps
+      this.taps = 0
+      this.active = false
+      let user = await this.tap(taps)
+      if (!this.active) this.user = user
     }, 300),
 
     play() {
-      if (process.client) {
-        nuxtStorage.localStorage.setData('wallet', this.balance + 1)
-        this.balance = nuxtStorage.localStorage.getData('wallet')
-        this.active = true
-      }
-    },
-
-    stop() {
-      this.active = false
+      this.active = true
+      this.taps++
+      this.user.balance++
     },
 
     anime(e) {
-      window.navigator.vibrate([10])
-      let { clientX, clientY } = e
+      window.navigator.vibrate([1])
+      let { pageX, pageY } = e
       let el = document.createElement('span')
       el.innerHTML = '+1'
       el.setAttribute('class', 'absolute anime')
-      el.setAttribute('style', `top:${clientY}px;left:${clientX}px;`)
+      el.setAttribute('style', `top:${pageY}px;left:${pageX}px;`)
       let body = document.body
       body.appendChild(el)
 
       this.$refs.circle.animate([{ transform: 'scale(1.03)' }], 100)
       el.animate(
-        [{ opacity: 1 }, { transform: 'scale(1.90)' }, { opacity: 0, left: '50%', top: '450px' }],
+        [
+          { opacity: 1 },
+          { transform: 'scale(1.90)' },
+          { opacity: 0, left: '50%', top: this.$refs.balance.offsetTop + 'px' },
+        ],
         300,
       )
       setTimeout(() => {
@@ -174,16 +179,6 @@ export default {
 .bull {
   width: 320px;
   height: 219px;
-  /* background-image: url('/b3.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: auto 80%; */
-
-  /* &.active {
-    background-size:
-      0 0,
-      100% 100%;
-  } */
 }
 
 .anime {

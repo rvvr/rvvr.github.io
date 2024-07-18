@@ -44,7 +44,7 @@ export const useWalletStore = defineStore('wallet', {
       this.wallet.balance = result / 1000000000
     },
 
-    async tap(taps) {
+    async saveTaps(taps) {
       const user_id = useUserStore().user.user_id
       return await api.post('/save_taps', { taps, user_id })
     },

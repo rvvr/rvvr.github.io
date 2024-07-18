@@ -5,7 +5,7 @@
     </template>
   </NavbarView>
 
-  <div class="grid h-full flex-1 grid-rows-[1fr_2fr] gap-2 p-4">
+  <div class="h-full flex-1 p-4">
     <!-- <div>
       <div class="mb-2 mt-16 flex items-center text-lg font-bold">Get access to freeroll rooms</div>
       <p class="opacity-50">
@@ -23,7 +23,7 @@
         <button class="btn btn-neutral mt-4 w-full">Boost balance</button>
       </NuxtLink>
     </div> -->
-    <div class="grid grid-cols-2 gap-2">
+    <div class="mb-8 grid grid-cols-2 gap-4">
       <NuxtLink to="/rooms">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-xl">
           <span class="absolute right-4 top-4 flex h-3 w-3">
@@ -70,17 +70,13 @@
         </div>
       </div>
 
-      <div class="relative mt-4" ref="wrap">
-        <div
-          class="circle absolute left-1/2 z-0 -ml-[110px] aspect-square h-full rounded-full"
-          ref="circle"
-        ></div>
-        <div class="bull z-1 relative mx-auto">
-          <button
-            @click="debounceTap(), play(), anime($event)"
-            class="btn btn-link h-full w-full no-underline opacity-50 hover:no-underline"
-          ></button>
-        </div>
+      <div class="relative mt-4 w-full" ref="wrap">
+        <div class="circle aspect-square rounded-full" ref="circle"></div>
+        <button
+          @touchend="debounceTap(), tap()"
+          @touchstart="storeEvent($event)"
+          class="absolute left-0 top-0 h-full w-full no-underline hover:no-underline"
+        ></button>
       </div>
     </div>
   </div>
@@ -104,6 +100,7 @@ export default {
     return {
       taps: 0,
       active: false,
+      event: null,
     }
   },
 
@@ -113,44 +110,48 @@ export default {
   },
 
   methods: {
-    ...mapActions(useWalletStore, ['tap']),
+    ...mapActions(useWalletStore, ['saveTaps']),
+
+    storeEvent(event) {
+      this.event = event
+    },
 
     debounceTap: debounce(async function () {
       let taps = this.taps
       this.taps = 0
       this.active = false
-      let user = await this.tap(taps)
+      let user = await this.saveTaps(taps)
       if (!this.active) this.user = user
     }, 300),
 
-    play() {
+    tap() {
       this.active = true
-      this.taps++
       this.user.balance++
+      this.taps++
+      window.navigator.vibrate([1])
+      Object.values(this.event.touches).forEach((e) => this.animate(e))
     },
 
-    anime(e) {
-      window.navigator.vibrate([1])
+    animate(e) {
       let { pageX, pageY } = e
       let el = document.createElement('span')
       el.innerHTML = '+1'
-      el.setAttribute('class', 'absolute anime')
+      el.setAttribute('class', 'anime')
       el.setAttribute('style', `top:${pageY}px;left:${pageX}px;`)
       let body = document.body
       body.appendChild(el)
-
-      this.$refs.circle.animate([{ transform: 'scale(1.03)' }], 100)
+      this.$refs.circle.animate([{ transform: 'scale(1.01)' }], 100)
       el.animate(
         [
           { opacity: 1 },
-          { transform: 'scale(1.90)' },
-          { opacity: 0, left: '50%', top: this.$refs.balance.offsetTop + 'px' },
+          { transform: 'translateY(-100px)' },
+          { opacity: 0, transform: 'translateY(-100px)' },
         ],
-        300,
+        500,
       )
       setTimeout(() => {
         el.parentNode.removeChild(el)
-      }, 300)
+      }, 1000)
     },
   },
 }
@@ -158,7 +159,9 @@ export default {
 
 <style lang="postcss">
 .circle {
-  @apply bg-gradient-to-t from-yellow-600 to-yellow-200  drop-shadow-lg;
+  @apply bg-gradient-to-t from-yellow-600 to-yellow-200 drop-shadow-lg;
+  width: 86%;
+  margin-left: 7%;
 
   &:after {
     @apply absolute block rounded-full bg-yellow-500;
@@ -171,20 +174,15 @@ export default {
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.4) inset;
     background-image: url('/b3.png');
     background-repeat: no-repeat;
-    background-position: -26px 10px;
-    background-size: 260px;
+    background-size: 120%;
+    background-position: 40% -40%;
   }
 }
 
-.bull {
-  width: 320px;
-  height: 219px;
-}
-
 .anime {
-  @apply pointer-events-none select-none text-2xl;
+  @apply pointer-events-none absolute select-none text-2xl font-bold;
   animation: visibility 1s;
   opacity: 0;
-  font-weight: 900;
+  will-change: opacity, transform, left, right;
 }
 </style>

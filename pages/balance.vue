@@ -128,7 +128,8 @@ export default {
       this.active = true
       this.user.balance++
       this.taps++
-      window.navigator.vibrate([1])
+      const canVibrate = window.navigator.vibrate
+      if (canVibrate) window.navigator.vibrate(1)
       Object.values(this.event.touches).forEach((e) => this.animate(e))
     },
 
@@ -141,17 +142,8 @@ export default {
       let body = document.body
       body.appendChild(el)
       this.$refs.circle.animate([{ transform: 'scale(1.01)' }], 100)
-      el.animate(
-        [
-          { opacity: 1 },
-          { transform: 'translateY(-100px)' },
-          { opacity: 0, transform: 'translateY(-100px)' },
-        ],
-        500,
-      )
-      setTimeout(() => {
-        el.parentNode.removeChild(el)
-      }, 1000)
+      el.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(-150px)' }], 1000)
+      setTimeout(() => el.parentNode.removeChild(el), 1000)
     },
   },
 }

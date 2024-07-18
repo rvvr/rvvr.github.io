@@ -86,6 +86,7 @@
 import debounce from 'lodash.debounce'
 import nuxtStorage from 'nuxt-storage'
 import { mapActions, mapState, mapWritableState } from 'pinia'
+import { Haptics, ImpactStyle } from '@capacitor/haptics'
 
 export default {
   mounted() {
@@ -128,9 +129,16 @@ export default {
       this.active = true
       this.user.balance++
       this.taps++
+      Object.values(this.event.touches).forEach((e) => this.animate(e))
+
+      // all
       const canVibrate = window.navigator.vibrate
       if (canVibrate) window.navigator.vibrate(1)
-      Object.values(this.event.touches).forEach((e) => this.animate(e))
+
+      // safari
+      const hapticsImpactLight = async () => {
+        await Haptics.impact({ style: ImpactStyle.Light })
+      }
     },
 
     animate(e) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="btm-nav overflow-hidden rounded-t-xl rounded-tr-xl bg-base-300 drop-shadow-md">
+  <div class="btm-nav overflow-hidden bg-base-300 drop-shadow-md">
     <NuxtLink active-class="active text-neutral-content bg-black bg-opacity-20" to="/balance">
       <button>
         <IconsWallet class="h-5 w-5" />

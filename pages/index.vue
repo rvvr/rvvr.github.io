@@ -24,6 +24,20 @@
       </NuxtLink>
     </div> -->
     <div class="mb-8 grid grid-cols-2 gap-4">
+      <NuxtLink to="/boost">
+        <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
+          <span class="absolute right-4 top-4 flex h-3 w-3">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"
+            ></span>
+            <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
+          </span>
+          <div class="card-body">
+            <IconsMultiRocket class="mx-auto h-12 w-12" />
+            <p class="text-center">Boost balance</p>
+          </div>
+        </div>
+      </NuxtLink>
       <NuxtLink to="/rooms">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
           <span class="absolute right-4 top-4 flex h-3 w-3">
@@ -36,21 +50,6 @@
           <div class="card-body items-center">
             <IconsMultiFree class="mx-auto h-12 w-12" />
             <p>Freeroll rooms</p>
-          </div>
-        </div>
-      </NuxtLink>
-
-      <NuxtLink to="/boost">
-        <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
-          <span class="absolute right-4 top-4 flex h-3 w-3">
-            <span
-              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"
-            ></span>
-            <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
-          </span>
-          <div class="card-body">
-            <IconsMultiRocket class="mx-auto h-12 w-12" />
-            <p class="text-center">Boost balance</p>
           </div>
         </div>
       </NuxtLink>

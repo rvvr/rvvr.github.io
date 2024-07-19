@@ -1,17 +1,17 @@
 <template>
   <div class="bg-ne btm-nav overflow-hidden bg-base-200 drop-shadow-md">
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/">
-      <button>
-        <IconsWallet class="h-5 w-5" />
-      </button>
-      <span class="btm-nav-label text-sm">Wallet</span>
-    </NuxtLink>
-
     <NuxtLink active-class="active text-neutral-content bg-base-200" to="/boost">
       <button>
         <IconsHome class="h-5 w-5" />
       </button>
       <span class="btm-nav-label text-sm">Boost</span>
+    </NuxtLink>
+
+    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/">
+      <button>
+        <IconsWallet class="h-5 w-5" />
+      </button>
+      <span class="btm-nav-label text-sm">Wallet</span>
     </NuxtLink>
 
     <NuxtLink active-class="active text-neutral-content bg-base-200" to="/rooms">

@@ -71,7 +71,12 @@
       </div>
 
       <div class="relative mt-4 w-full" ref="wrap">
-        <div class="circle aspect-square rounded-full" ref="circle"></div>
+        <div
+          class="circle mx-auto aspect-square w-4/5 rounded-full bg-gradient-to-t from-yellow-600 to-yellow-200 p-2.5 drop-shadow-lg"
+          ref="circle"
+        >
+          <div class="in-circle h-full w-full rounded-full bg-yellow-500"></div>
+        </div>
         <button
           @touchend="debounceTap(), tap()"
           @touchstart="storeEvent($event)"
@@ -153,25 +158,12 @@ export default {
 </script>
 
 <style lang="postcss">
-.circle {
-  @apply bg-gradient-to-t from-yellow-600 to-yellow-200 drop-shadow-lg;
-  width: 86%;
-  margin-left: 7%;
-
-  &:after {
-    @apply absolute block rounded-full bg-yellow-500;
-
-    content: '';
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.4) inset;
-    background-image: url('/b3.png');
-    background-repeat: no-repeat;
-    background-size: 120%;
-    background-position: 40% -40%;
-  }
+.in-circle {
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.4) inset;
+  background-image: url('/b3.png');
+  background-repeat: no-repeat;
+  background-size: 120%;
+  background-position: 40% -40%;
 }
 
 .anime {

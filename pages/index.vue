@@ -6,7 +6,7 @@
   </NavbarView>
 
   <div class="h-full flex-1 p-4">
-    <div class="mb-8 grid grid-cols-2 gap-4">
+    <div class="mb-4 grid grid-cols-2 gap-4">
       <NuxtLink to="/boost">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
           <span class="absolute right-4 top-4 flex h-3 w-3">
@@ -53,7 +53,7 @@
 
       <div class="relative mt-4 w-full" ref="wrap">
         <div
-          class="circle mx-auto h-80 w-80 rounded-full bg-gradient-to-t from-yellow-600 to-yellow-200 p-2.5 drop-shadow-lg"
+          class="circle mx-auto h-72 w-72 rounded-full bg-gradient-to-t from-yellow-600 to-yellow-200 p-2.5 drop-shadow-lg"
           ref="circle"
         >
           <div class="in-circle h-full w-full rounded-full bg-yellow-500"></div>

@@ -53,7 +53,7 @@
 
       <div class="relative mt-4 w-full" ref="wrap">
         <div
-          class="circle mx-auto aspect-square w-4/5 rounded-full bg-gradient-to-t from-yellow-600 to-yellow-200 p-2.5 drop-shadow-lg"
+          class="circle mx-auto h-80 w-80 rounded-full bg-gradient-to-t from-yellow-600 to-yellow-200 p-2.5 drop-shadow-lg"
           ref="circle"
         >
           <div class="in-circle h-full w-full rounded-full bg-yellow-500"></div>

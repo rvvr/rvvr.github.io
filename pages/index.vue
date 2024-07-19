@@ -6,23 +6,6 @@
   </NavbarView>
 
   <div class="h-full flex-1 p-4">
-    <!-- <div>
-      <div class="mb-2 mt-16 flex items-center text-lg font-bold">Get access to freeroll rooms</div>
-      <p class="opacity-50">
-
-      </p>
-
-      <NuxtLink to="/rooms">
-        <button class="btn btn-neutral mt-4 w-full">Join rooms</button>
-      </NuxtLink>
-
-      <div class="mb-2 mt-8 flex items-center text-lg font-bold">Boost your balance</div>
-      <p class="opacity-50"></p>
-
-      <NuxtLink to="/">
-        <button class="btn btn-neutral mt-4 w-full">Boost balance</button>
-      </NuxtLink>
-    </div> -->
     <div class="mb-8 grid grid-cols-2 gap-4">
       <NuxtLink to="/boost">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
@@ -165,7 +148,7 @@ export default {
 }
 
 .anime {
-  @apply pointer-events-none absolute select-none text-2xl font-bold;
+  @apply pointer-events-none absolute select-none text-2xl font-bold text-white;
   animation: visibility 1s;
   opacity: 0;
   will-change: opacity, transform, left, right;

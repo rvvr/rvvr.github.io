@@ -1,11 +1,11 @@
 <template>
-  <NuxtLink class="flex" to="/profile">
-    <div v-if="avatar" class="avatar" role="button" tabindex="0">
-      <div class="rounded-full bg-black">
-        <img :src="avatar" class="rounded-full" alt="" />
-      </div>
+  <!-- <NuxtLink class="flex" to="/profile"> -->
+  <div v-if="avatar" class="avatar" role="button" tabindex="0">
+    <div class="rounded-full bg-black">
+      <img :src="avatar" class="rounded-full" alt="" />
     </div>
-  </NuxtLink>
+  </div>
+  <!-- </NuxtLink> -->
 </template>
 
 <script>

@@ -4,7 +4,9 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 export default defineNuxtPlugin(async ({ vueApp, $pinia }) => {
+  console.log(window.Telegram.WebApp)
   window.Telegram.WebApp.setHeaderColor('#130b30')
+  window.Telegram.WebApp.setBackgroundColor('#130b30')
 
   const userStore = useUserStore()
   await userStore.initUser()

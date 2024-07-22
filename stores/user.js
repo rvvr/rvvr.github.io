@@ -17,6 +17,8 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     getUserFromApp() {
+      console.log(window.Telegram?.WebApp.initData)
+      console.log(window.Telegram?.WebApp.initDataUnsafe)
       this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user }
     },
 

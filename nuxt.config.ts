@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@pinia/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@pinia/nuxt', '@sidebase/nuxt-auth'],
 
   plugins: ['~/plugins/init.client.js', '~/plugins/events.client.js'],
 
@@ -27,6 +27,17 @@ export default defineNuxtConfig({
     public: {
       apiURL: 'https://game.demo.cryptobull.io/api/v1',
       baseURL: 'https://game.demo.cryptobull.io',
+    },
+  },
+
+  auth: {
+    baseURL: 'https://game.demo.cryptobull.io/api/v1/',
+    globalAppMiddleware: true,
+    provider: {
+      type: 'local',
+      endpoints: {
+        signIn: { path: 'auth/signup', method: 'post' },
+      },
     },
   },
 })

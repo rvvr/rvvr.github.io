@@ -27,6 +27,7 @@
     "vue3-toastify": "^0.2.1"
   },
   "devDependencies": {
+    "@sidebase/nuxt-auth": "^0.8.1",
     "daisyui": "^4.11.1",
     "prettier": "^3.2.5",
     "prettier-plugin-organize-attributes": "^1.0.0",

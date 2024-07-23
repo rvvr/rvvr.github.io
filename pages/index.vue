@@ -68,12 +68,6 @@
   </div>
 </template>
 
-<script setup>
-definePageMeta({
-  auth: false,
-})
-</script>
-
 <script>
 import debounce from 'lodash.debounce'
 import nuxtStorage from 'nuxt-storage'

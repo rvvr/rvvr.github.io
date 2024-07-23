@@ -29,19 +29,4 @@ export default defineNuxtConfig({
       baseURL: 'https://game.demo.cryptobull.io',
     },
   },
-
-  auth: {
-    baseURL: 'https://game.demo.cryptobull.io/api/v1/',
-    // globalAppMiddleware: true,
-    provider: {
-      type: 'local',
-      endpoints: {
-        signIn: { path: 'auth/signup', method: 'post' },
-
-        signOut: false,
-        signUp: false,
-        getSession: false,
-      },
-    },
-  },
 })

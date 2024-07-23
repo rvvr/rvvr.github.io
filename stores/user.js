@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', {
       this.getUserFromApp()
       if (!this.appUser.id) return
 
-      const token = await api.post('/auth/signup', {
+      const token = await api.get('/auth/signup', {
         user: this.user.user_id,
         hash: window.Telegram?.WebApp.initData,
       })

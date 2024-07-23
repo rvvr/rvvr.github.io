@@ -45,7 +45,8 @@ export const useUserStore = defineStore('user', {
       this.getUserFromApp()
       if (!this.appUser.id) return
 
-      useAuth().signIn({ data: window.Telegram?.WebApp.initData })
+      await useAuth().signIn({ data: window.Telegram?.WebApp.initData })
+      console.log(useAuth().status)
       // await this.fetchUser()
       // if (!this.user.user_id) {
       //   await this.regUser()

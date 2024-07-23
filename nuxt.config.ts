@@ -37,6 +37,10 @@ export default defineNuxtConfig({
       type: 'local',
       endpoints: {
         signIn: { path: 'auth/signup', method: 'post' },
+
+        signOut: false,
+        signUp: false,
+        getSession: false,
       },
     },
   },

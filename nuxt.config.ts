@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
   auth: {
     baseURL: 'https://game.demo.cryptobull.io/api/v1/',
-    globalAppMiddleware: true,
+    // globalAppMiddleware: true,
     provider: {
       type: 'local',
       endpoints: {

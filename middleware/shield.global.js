@@ -1,14 +1,11 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (import.meta.server) return
 
-  console.log('mid')
+  const userStore = useUserStore()
+  if (userStore.user.user_id && userStore.token && userStore.appUser.id) return
 
-  // const userStore = useUserStore()
-  // console.log(userStore.user.user_id, userStore.token, userStore.appUser.id)
-  // if (userStore.user.user_id && userStore.token && userStore.appUser.id) return
-
-  // showError({
-  //   statusCode: 403,
-  //   statusMessage: 'Forbidden',
-  // })
+  showError({
+    statusCode: 403,
+    statusMessage: 'Forbidden',
+  })
 })

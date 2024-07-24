@@ -1,8 +1,3 @@
-const e = {
-  statusCode: 403,
-  statusMessage: 'Forbidden',
-}
-
 export default defineNuxtPlugin(async () => {
   const userStore = useUserStore()
 
@@ -19,5 +14,4 @@ export default defineNuxtPlugin(async () => {
   if (!userStore.user.user_id) return
 
   await userStore.setAvatar()
-  console.log('plug')
 })

@@ -12,8 +12,8 @@ export default defineNuxtPlugin(async () => {
   if (!userStore.appUser.id) showError(e)
 
   await userStore.getToken()
-  console.log('userStore.token', userStore.token)
   if (isDev()) userStore.token = 'test'
+  console.log('userStore.token', userStore.token)
   if (!userStore.token) showError(e)
 
   await userStore.fetchUser()

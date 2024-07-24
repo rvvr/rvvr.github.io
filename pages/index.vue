@@ -70,18 +70,9 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import nuxtStorage from 'nuxt-storage'
 import { mapActions, mapState, mapWritableState } from 'pinia'
 
 export default {
-  mounted() {
-    if (process.client) {
-      const wallet = nuxtStorage.localStorage.getData('wallet')
-      if (!wallet) nuxtStorage.localStorage.setData('wallet', 0)
-      this.balance = nuxtStorage.localStorage.getData('wallet')
-    }
-  },
-
   data() {
     return {
       taps: 0,

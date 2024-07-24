@@ -4,10 +4,13 @@ export const api = (() => {
       method,
       body,
       baseURL: useRuntimeConfig().public.apiURL,
-      // headers: { Authorization: useAuth().strategy.token.get() },
-      onResponseError({ request, response, options }) {
-        // useNuxtApp().$toast.error('API error')
+      headers: {
+        Authorization: `Bearer ${useUserStore().token}`,
       },
+
+      // onResponseError({ request, response, options }) {
+      // useNuxtApp().$toast.error('API error')
+      // },
       ...opts,
     })
 

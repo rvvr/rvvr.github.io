@@ -148,9 +148,8 @@ export default {
 }
 
 .anime {
-  @apply pointer-events-none absolute select-none text-2xl font-bold text-white;
+  @apply pointer-events-none absolute select-none text-2xl font-bold text-white opacity-0;
   animation: visibility 1s;
-  opacity: 0;
   will-change: opacity, transform, left, right;
 }
 </style>

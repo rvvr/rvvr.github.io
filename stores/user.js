@@ -18,7 +18,8 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     getUserFromApp() {
-      this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user, id: 1524648 }
+      this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user }
+      if (isDev()) this.appUser.id = 1524648
     },
 
     async fetchUser() {
@@ -43,21 +44,17 @@ export const useUserStore = defineStore('user', {
     },
 
     async getToken() {
-      this.token = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData })
+      const { token } = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData })
+      this.token = token
     },
 
     async initUser() {
-      console.log(process.env.NODE_ENV)
       this.getUserFromApp()
       if (!this.appUser.id) return
 
-      try {
-        await this.getToken()
-      } catch (e) {
-        this.token = 'test'
-      }
+      if (isDev()) this.token = 'test'
+      else await this.getToken()
 
-      console.log(this.token)
       await this.fetchUser()
       if (!this.user.user_id) {
         await this.regUser()

@@ -34,7 +34,8 @@ export const useUserStore = defineStore('user', {
     },
 
     async getToken() {
-      this.token = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData }).token
+      const { token } = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData })
+      this.token = token
     },
 
     async setAvatar() {

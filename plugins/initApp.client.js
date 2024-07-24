@@ -7,8 +7,6 @@ export default defineNuxtPlugin(async ({ vueApp }) => {
   window.Telegram.WebApp.setHeaderColor('#130b30')
   window.Telegram.WebApp.setBackgroundColor('#130b30')
 
-  await useUserStore().initUser()
-
   vueApp.use(VueKonva)
   vueApp.use(Vue3Toasity, {
     transition: toast.TRANSITIONS.FLIP,

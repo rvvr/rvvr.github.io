@@ -19,7 +19,6 @@ export const useUserStore = defineStore('user', {
   actions: {
     getUserFromApp() {
       this.appUser = { ...window.Telegram?.WebApp.initDataUnsafe.user }
-      if (isDev()) this.appUser.id = 1524648
     },
 
     async fetchUser() {
@@ -34,6 +33,10 @@ export const useUserStore = defineStore('user', {
       this.user = await api.post('/user/avatar', { user_telegram_id: this.appUser.id })
     },
 
+    async getToken() {
+      this.token = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData }).token
+    },
+
     async setAvatar() {
       if (this.user.avatar_url) {
         this.avatar = useRuntimeConfig().public.baseURL + this.user.avatar_url
@@ -41,26 +44,6 @@ export const useUserStore = defineStore('user', {
         let ip = await $fetch('https://checkip.amazonaws.com/')
         this.avatar = `https://robohash.org/${ip}.png?set=set3`
       }
-    },
-
-    async getToken() {
-      const { token } = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData })
-      this.token = token
-    },
-
-    async initUser() {
-      this.getUserFromApp()
-      if (!this.appUser.id) return
-
-      if (isDev()) this.token = 'test'
-      else await this.getToken()
-
-      await this.fetchUser()
-      if (!this.user.user_id) {
-        await this.regUser()
-        // await this.fetchUser()
-      }
-      await this.setAvatar()
     },
   },
 })

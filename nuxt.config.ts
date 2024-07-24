@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@pinia/nuxt'],
 
-  plugins: ['~/plugins/init.client.js', '~/plugins/events.client.js'],
+  plugins: ['~/plugins/initApp.client.js', '~/plugins/events.client.js', '~/plugins/initUser.client.js'],
 
   app: {
     head: {

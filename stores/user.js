@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', {
       username: '',
     },
     avatar: '',
+    token: null,
   }),
 
   actions: {
@@ -41,9 +42,22 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    async getToken() {
+      this.token = await api.post('/auth/signup', { data: window.Telegram?.WebApp.initData })
+    },
+
     async initUser() {
+      console.log(process.env.NODE_ENV)
       this.getUserFromApp()
       if (!this.appUser.id) return
+
+      try {
+        await this.getToken()
+      } catch (e) {
+        this.token = 'test'
+      }
+
+      console.log(this.token)
       await this.fetchUser()
       if (!this.user.user_id) {
         await this.regUser()

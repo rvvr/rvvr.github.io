@@ -8,18 +8,16 @@ export default defineNuxtPlugin(async () => {
 
   userStore.getUserFromApp()
   if (isDev()) userStore.appUser.id = 1524648
-  console.log('userStore.appUser.id', userStore.appUser.id)
-  if (!userStore.appUser.id) showError(e)
+  if (!userStore.appUser.id) return
 
   await userStore.getToken()
   if (isDev()) userStore.token = 'test'
-  console.log('userStore.token', userStore.token)
-  if (!userStore.token) showError(e)
+  if (!userStore.token) return
 
   await userStore.fetchUser()
   if (!userStore.user.user_id) await userStore.regUser()
-  console.log('userStore.user.user_id:', userStore.user.user_id)
-  if (!userStore.user.user_id) showError(e)
+  if (!userStore.user.user_id) return
 
   await userStore.setAvatar()
+  console.log('plug')
 })

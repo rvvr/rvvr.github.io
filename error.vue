@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-center">{{ error }}</div>
+    <div class="text-center">{{ error.statusCode }}<br />{{ error.message }}</div>
   </div>
 </template>
 

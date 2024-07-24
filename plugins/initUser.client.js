@@ -1,6 +1,7 @@
 export default defineNuxtPlugin(async () => {
   const userStore = useUserStore()
 
+  console.log('plu start')
   userStore.getUserFromApp()
   if (isDev()) userStore.appUser.id = 1524648
   if (!userStore.appUser.id) return
@@ -15,4 +16,5 @@ export default defineNuxtPlugin(async () => {
   }
 
   await userStore.setAvatar()
+  console.log('plug end')
 })

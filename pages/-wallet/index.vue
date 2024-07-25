@@ -5,7 +5,7 @@
       <div class="font-bold text-neutral-content">Your wallet</div>
     </template>
     <template #right>
-      <NuxtLink to="/"><NavbarClose /></NuxtLink>
+      <NuxtLink to="/home"><NavbarClose /></NuxtLink>
     </template>
   </NavbarView>
 

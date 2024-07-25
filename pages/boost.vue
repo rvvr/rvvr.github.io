@@ -1,7 +1,7 @@
 <template>
   <NavbarView>
     <template #center>
-      <NuxtLink to="/">
+      <NuxtLink to="/home">
         <NavbarBalance :balance="user.balance" />
       </NuxtLink>
     </template>

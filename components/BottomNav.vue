@@ -1,6 +1,6 @@
 <template>
   <div class="bg-ne btm-nav overflow-hidden bg-base-200 drop-shadow-md">
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/">
+    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/home">
       <button class="h-6 w-6">
         <IconsWallet class="h-5 w-5" />
       </button>

@@ -24,7 +24,6 @@ body {
 }
 
 .Toastify__toast-container--bottom-center {
-  bottom: 304px !important;
   z-index: 99 !important;
 }
 

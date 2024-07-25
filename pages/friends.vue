@@ -33,7 +33,7 @@
         >
           <button class="btn btn-accent w-full">Invite a friend</button>
         </a>
-        <button class="btn ml-2">
+        <button @click="copy" class="btn ml-2">
           <IconsCopy />
         </button>
       </div>
@@ -42,7 +42,16 @@
 </template>
 
 <script>
-export default {}
+import copy from 'copy-to-clipboard'
+
+export default {
+  methods: {
+    copy() {
+      copy('https://t.me/bullfights_bot/start?startapp=id524648')
+      this.$toast.success(`Invite link copied!`)
+    },
+  },
+}
 </script>
 
 <style></style>

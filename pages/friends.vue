@@ -29,7 +29,7 @@
       <div class="flex px-4 pb-4 pt-2">
         <a
           class="flex-1"
-          href="https://t.me/share/url?url=https%3A%2F%2Ft.me%2Fbullfights_bot%2Fstart&text=Play%20with%20me%21"
+          href="https://t.me/share/url?url=https%3A%2F%2Ft.me%2Fbullfights_bot%2Fstart%3Fstartapp%3Did524648&text=Play%20with%20me%21"
         >
           <button class="btn btn-accent w-full">Invite a friend</button>
         </a>

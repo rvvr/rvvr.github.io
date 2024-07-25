@@ -6,7 +6,7 @@ export default defineNuxtPlugin(async () => {
   if (!userStore.appUser.id) return
 
   await userStore.getToken()
-  if (isDev()) userStore.token = 'test'
+  if (isDev()) userStore.token = '132ba3cb70a061eb43b727028ccda41b'
   if (!userStore.token) return
 
   await userStore.fetchUser()

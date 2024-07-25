@@ -28,7 +28,7 @@
       <span class="btm-nav-label text-sm">Friends</span>
     </NuxtLink>
 
-    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/friends">
+    <NuxtLink active-class="active text-neutral-content bg-base-200" to="/exchange">
       <button class="h-6 w-6">
         <IconsBull class="h-6 w-6" />
       </button>

@@ -7,7 +7,7 @@
 
   <div class="flex-1 p-4">
     <div class="mt-4 text-center">
-      <div class="card-title inline">Invite friends</div>
+      <div class="font-oswald card-title inline">Invite friends</div>
       <p class="mt-2 opacity-50">You and your friend will receive bonuses</p>
     </div>
 
@@ -37,6 +37,32 @@
           <IconsCopy />
         </button>
       </div>
+    </div>
+
+    <div class="font-oswald mt-8">List of your friends (4)</div>
+    <div class="mt-2 overflow-x-auto">
+      <table class="table table-zebra">
+        <tbody>
+          <tr v-for="i in 4">
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="avatar">
+                  <div class="mask mask-squircle h-12 w-12">
+                    <img
+                      :src="`https://robohash.org/${i}.png?set=set5`"
+                      alt="Avatar Tailwind CSS Component"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div class="font-bold">Hart Hagerty</div>
+                  <div class="text-sm opacity-50">@username</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

@@ -98,14 +98,16 @@ export default {
       this.taps = 0
       this.active = false
       let user = await this.saveTaps(taps)
-      if (!this.active) this.user = user
+      if (!this.active && user.user_id) this.user = user
     }, 300),
 
     tap() {
       this.active = true
       this.user.balance++
       this.taps++
-      Object.values(this.event.touches).forEach((e) => this.animate(e))
+      if (this.event) {
+        Object.values(this.event.touches).forEach((e) => this.animate(e))
+      }
 
       // all
       // const canVibrate = window.navigator.vibrate

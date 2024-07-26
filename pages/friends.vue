@@ -27,10 +27,7 @@
         </div>
       </div>
       <div class="flex px-4 pb-4 pt-2">
-        <a
-          class="flex-1"
-          href="https://t.me/share/url?url=https%3A%2F%2Ft.me%2Fbullfights_bot%2Fstart%3Fstartapp%3Did524648&text=Play%20with%20me%21"
-        >
+        <a :href="`https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`" class="flex-1">
           <button class="btn btn-accent w-full">Invite a friend</button>
         </a>
         <button @click="copy" class="btn ml-2">
@@ -69,11 +66,26 @@
 
 <script>
 import copy from 'copy-to-clipboard'
+import { mapState } from '~/node_modules/pinia/dist/pinia'
 
 export default {
+  data() {
+    return {
+      encodedText: encodeURIComponent('Lets play game!'),
+      url: 'https://t.me/bullfights_bot/start?startapp=id',
+      encodedUrl: null,
+    }
+  },
+  mounted() {
+    this.url += this.appUser.id
+    this.encodedUrl = encodeURIComponent(this.url)
+  },
+  computed: {
+    ...mapState(useUserStore, ['appUser']),
+  },
   methods: {
     copy() {
-      copy('https://t.me/bullfights_bot/start?startapp=id524648')
+      copy(this.href)
       this.$toast.success(`Invite link copied!`)
     },
   },

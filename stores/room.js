@@ -60,7 +60,10 @@ export const useRoomStore = defineStore('room', {
     },
 
     async joinRoom(room_id) {
-      return await api.post('/room/join', { room_id })
+      return await api.post('/room/join', {
+        user_id: this.user_id,
+        room_id,
+      })
     },
 
     openRoomSocket(room_id) {

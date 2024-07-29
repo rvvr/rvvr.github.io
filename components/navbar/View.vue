@@ -1,8 +1,10 @@
 <template>
-  <div class="navbar fixed top-0 z-10 grid grid-cols-[40px_auto_40px] items-center gap-2 bg-base-200 px-4">
+  <div
+    class="navbar fixed top-0 z-10 grid min-h-14 grid-cols-[32px_auto_32px] items-center gap-2 bg-base-200 px-4"
+  >
     <slot v-if="$slots.left" name="left" />
-    <NuxtLink v-else class="flex w-10 justify-center" to="/home">
-      <img class="h-10 w-10" alt="" src="/favicon.png" />
+    <NuxtLink v-else class="flex w-8 justify-center" to="/home">
+      <img class="h-8 w-8" alt="" src="/favicon.png" />
     </NuxtLink>
 
     <div class="justify-self-center">
@@ -11,7 +13,7 @@
 
     <div class="justify-self-end">
       <slot v-if="$slots.right" name="right" />
-      <NavbarAvatar v-else class="h-10 w-10" />
+      <NavbarAvatar v-else class="h-8 w-8" />
     </div>
   </div>
 </template>

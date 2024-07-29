@@ -1,5 +1,5 @@
 <template>
-  <div :class="animation" class="avatar-group -space-x-3 pt-2 rtl:space-x-reverse">
+  <div :class="animation" class="avatar-group -space-x-3 pt-0 rtl:space-x-reverse">
     <div
       v-for="(player, i) in players[side].slice(0, 5)"
       :key="i"

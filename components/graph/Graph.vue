@@ -1,5 +1,5 @@
 <template>
-  <div class="graph-wrap flex-1" ref="graph">
+  <div class="graph-wrap relative flex-1" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
@@ -7,8 +7,8 @@
           <GraphTopRect :currentY="freezeY || currentY" :stage="stage" />
           <GraphBack :stage="stage" />
 
-          <v-line v-for="(xLine, i) in xLines" :config="xLine" :key="i" />
-          <v-text v-for="(xLineLabel, i) in xLinesLabels" :config="xLineLabel" :key="i" />
+          <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
+          <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
           <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" />
 
@@ -18,10 +18,13 @@
           <GraphStart :stage="stage" :x="startX || -50" />
           <GraphFinish :stage="stage" :x="finishX || -50" />
           <GraphLivePrice :currentY="currentY" :price="livePrice" :rate="rate" :stage="stage" />
-          <!-- <GraphShadow :stage="stage" /> -->
+          <GraphShadow :stage="stage" />
         </v-layer>
       </v-stage>
     </client-only>
+
+    <MessageBox class="absolute bottom-6" />
+    <Timer class="absolute bottom-4 right-4" />
   </div>
 </template>
 
@@ -30,7 +33,7 @@ import { xLine, xLinesLabel } from './graphData'
 
 const step = 2
 const xLinesCount = 100
-const ratio = 20 // pixels for unit
+const ratio = 10 // pixels for unit
 const moneyBetween = 5_0000
 const overflowSpace = 100
 const divider = 1_0000 // how much decimals

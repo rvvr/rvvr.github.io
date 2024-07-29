@@ -1,7 +1,7 @@
 <template>
   <div class="font-oswald relative">
-    <div class="grid grid-cols-3 items-center px-4 py-4">
-      <div class="text-lime-400">
+    <!-- <div class="grid grid-cols-3 items-center px-4 py-2"> -->
+    <!-- <div class="text-lime-400">
         <Pool side="up" />
       </div>
 
@@ -11,10 +11,8 @@
 
       <div class="text-right text-red-500">
         <Pool side="down" />
-      </div>
-    </div>
-
-    <MessageBox />
+      </div> -->
+    <!-- </div> -->
   </div>
 
   <Graph />

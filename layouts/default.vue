@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-dvh flex-col justify-between py-16">
+  <div class="flex min-h-dvh flex-col justify-between py-14">
     <slot />
     <BottomNav />
   </div>

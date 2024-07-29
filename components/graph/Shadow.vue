@@ -9,13 +9,13 @@
       y: 0,
       fillLinearGradientColorStops: [
         0,
-        'rgba(9, 9, 11, .7)',
-        0.1,
+        'rgba(9, 9, 11, 1)',
+        0.05,
         'transparent',
-        0.9,
+        0.95,
         'transparent',
         1,
-        'rgba(9, 9, 11, .7)',
+        'rgba(9, 9, 11, 1)',
       ],
     }"
   ></v-rect>

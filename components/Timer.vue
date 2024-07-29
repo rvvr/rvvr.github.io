@@ -3,22 +3,22 @@
     <div
       v-if="timer > 0"
       :class="timerColor"
-      :style="'--thickness: 6px;--size:6rem;--value:' + timerProgress"
-      class="radial-progress border-base-300 bg-base-300"
+      :style="'--thickness: 3px;--size:3.5rem;--value:' + timerProgress"
+      class="radial-progress border-base-300 bg-[#09090b] bg-opacity-60"
       role="progressbar"
     >
-      <div v-show="time" class="-mt-2 flex flex-col text-center">
+      <div v-show="time" class="-mt-1 flex flex-col text-center">
         <div class="flex items-baseline justify-center font-mono">
-          <span class="text-4xl leading-none">
+          <span class="text-2xl leading-none">
             {{ timerDisplay }}
           </span>
-          <span v-show="timerProgress > 75" class="text-sm">.{{ timerDecimals }}</span>
+          <span v-show="timerProgress > 75" class="text-xs">.{{ timerDecimals }}</span>
         </div>
-        <span class="leading-none text-white">sec</span>
+        <span class="text-xs leading-none text-white opacity-50">sec</span>
       </div>
     </div>
 
-    <div v-else class="flex h-24 w-24 items-center justify-center rounded-full bg-base-300">
+    <div v-else class="flex h-14 w-14 items-center justify-center rounded-full bg-[#09090b] bg-opacity-60">
       <span class="loading loading-ring loading-lg"></span>
     </div>
   </div>

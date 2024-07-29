@@ -1,5 +1,5 @@
 <template>
-  <NavbarView class="bg-[#09090b]">
+  <NavbarView class="!bg-[#09090b]">
     <template #center>
       <NuxtLink to="/home">
         <NavbarBalance :balance="user.balance" />

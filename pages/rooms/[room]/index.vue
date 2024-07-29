@@ -1,5 +1,5 @@
 <template>
-  <NavbarView class="bg-[#09090b]">
+  <NavbarView class="!bg-[#09090b]">
     <template #center>
       <div class="grid grid-cols-[1fr_1fr_1fr] justify-items-center gap-2">
         <div class="font-oswald flex items-center text-sm">

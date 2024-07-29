@@ -1,25 +1,35 @@
 <template>
-  <div class="font-oswald grid grid-cols-2 gap-4 px-4 py-1">
+  <div class="font-oswald grid grid-cols-[1fr_56px_1fr] gap-4 px-4 py-1">
     <button
-      v-for="(side, i) in ['up', 'down']"
-      :key="side"
-      @click="bet(side, rate)"
-      :class="[i ? 'border-red-700 bg-red-500' : 'border-lime-700 bg-lime-500']"
+      :key="'up'"
+      @click="bet('up', rate)"
       :disabled="disabled"
-      class="btn h-16 border-2 text-3xl font-bold uppercase text-white"
+      class="btn h-14 border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase text-white"
     >
-      <IconsLock v-show="disabled" class="h-8" />
-      <span v-show="!disabled">{{ side }}</span>
+      <IconsLock v-show="disabled" class="h-8 w-8" />
+      <span v-show="!disabled">{{ 'up' }}</span>
+    </button>
+
+    <Timer />
+
+    <button
+      :key="'down'"
+      @click="bet('down', rate)"
+      :disabled="disabled"
+      class="btn h-14 border-2 border-red-700 bg-red-500 text-3xl font-bold uppercase text-white"
+    >
+      <IconsLock v-show="disabled" class="h-8 w-8" />
+      <span v-show="!disabled">{{ 'down' }}</span>
     </button>
   </div>
 
-  <div class="grid grid-cols-7 gap-2 p-4">
+  <div class="grid grid-cols-7 gap-2 px-4 pb-4 pt-2">
     <button
       v-for="(btnRate, i) in rates"
       :key="i"
       @click="rate = btnRate"
       :class="[btnRate === rate ? 'btn-outline pointer-events-none text-neutral-content' : '']"
-      class="font-oswald btn btn-neutral border-2 text-lg"
+      class="font-oswald btn btn-neutral btn-sm border-2"
     >
       {{ btnRate }}
     </button>
@@ -48,12 +58,6 @@ export default {
     ...mapState(useUserStore, ['user']),
 
     disabled() {
-      // return {
-      //   null: true,
-      //   open: false,
-      //   running: true,
-      //   closed: true,
-      // }[this.round_status]
       return this.round_status !== 'open'
     },
 

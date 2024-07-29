@@ -1,5 +1,5 @@
 <template>
-  <div class="graph-wrap relative flex-1" ref="graph">
+  <div class="graph-wrap relative flex-1 bg-[#09090b]" ref="graph">
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
@@ -17,14 +17,13 @@
 
           <GraphStart :stage="stage" :x="startX || -50" />
           <GraphFinish :stage="stage" :x="finishX || -50" />
-          <GraphLivePrice :currentY="currentY" :price="livePrice" :rate="rate" :stage="stage" />
+          <GraphLivePrice :price="livePrice" :rate="rate" :stage="stage" />
           <GraphShadow :stage="stage" />
         </v-layer>
       </v-stage>
     </client-only>
 
-    <MessageBox class="absolute bottom-6" />
-    <Timer class="absolute bottom-4 right-4" />
+    <MessageBox class="absolute bottom-2" />
   </div>
 </template>
 
@@ -35,7 +34,7 @@ const step = 2
 const xLinesCount = 100
 const ratio = 10 // pixels for unit
 const moneyBetween = 5_0000
-const overflowSpace = 100
+const overflowSpace = 60
 const divider = 1_0000 // how much decimals
 
 export default {
@@ -111,7 +110,7 @@ export default {
       })
     },
     doStep() {
-      if (this.currentX >= this.stage.width / 2) {
+      if (this.currentX >= this.stage.width - 100) {
         this.moveLayer(0, step / 2)
         setTimeout(() => {
           this.moveLayer(0, step / 2)

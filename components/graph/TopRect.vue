@@ -6,16 +6,27 @@
 import { lime } from 'tailwindcss/colors'
 
 export default {
-  props: ['stage', 'currentY'],
+  props: ['stage', 'freezeY', 'currentX', 'start', 'finish'],
+
   computed: {
+    width() {
+      if (!this.start && !this.finish) return 0
+      let end
+      if (!this.finish || this.finish < this.start) {
+        end = this.currentX
+      } else {
+        end = this.finish
+      }
+
+      return end - this.start
+    },
+
     config() {
       return {
-        width: this.stage.width,
-        height: this.currentY,
-        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
-        fillLinearGradientColorStops: [0, '#09090b', 0.5, lime['500']],
-        fillLinearGradientStartPoint: { x: 50, y: 0 },
-        x: 0,
+        width: this.width,
+        height: this.freezeY,
+        fill: lime['800'],
+        x: this.start,
         y: 0,
       }
     },

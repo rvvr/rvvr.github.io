@@ -6,17 +6,29 @@
 import { red } from 'tailwindcss/colors'
 
 export default {
-  props: ['stage'],
+  props: ['stage', 'freezeY', 'currentX', 'start', 'finish'],
+
   computed: {
+    width() {
+      if (!this.start && !this.finish) return 0
+      let end
+      if (!this.finish || this.finish < this.start) {
+        end = this.currentX
+      } else {
+        end = this.finish
+      }
+
+      return end - this.start
+    },
+
     config() {
+      const height = this.stage.height - this.freezeY
       return {
-        width: this.stage.width,
-        height: this.stage.height,
-        fillLinearGradientEndPoint: { x: 50, y: this.stage.height },
-        fillLinearGradientColorStops: [0.5, red['500'], 1, '#09090b'],
-        fillLinearGradientStartPoint: { x: 50, y: 0 },
-        x: 0,
-        y: 0,
+        width: this.width,
+        height: height,
+        fill: red['800'],
+        x: this.start,
+        y: this.freezeY,
       }
     },
   },

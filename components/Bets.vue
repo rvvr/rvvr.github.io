@@ -23,7 +23,7 @@
     </button>
   </div>
 
-  <div class="grid grid-cols-7 gap-2 px-4 pb-4 pt-2">
+  <div class="grid grid-cols-7 gap-2 px-4 pb-5 pt-2">
     <button
       v-for="(btnRate, i) in rates"
       :key="i"

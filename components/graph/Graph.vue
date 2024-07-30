@@ -3,14 +3,26 @@
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
-          <GraphBottomRect :stage="stage" />
-          <GraphTopRect :currentY="freezeY || currentY" :stage="stage" />
+          <GraphBottomRect
+            :current-x="currentX"
+            :finish="finishX"
+            :freeze-y="freezeY"
+            :stage="stage"
+            :start="startX"
+          />
+          <GraphTopRect
+            :current-x="currentX"
+            :finish="finishX"
+            :freeze-y="freezeY"
+            :stage="stage"
+            :start="startX"
+          />
           <GraphBack :stage="stage" />
 
           <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
-          <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" />
+          <!-- <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" /> -->
 
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
@@ -195,8 +207,8 @@ export default {
       if (round_status === 'open') {
         // this.startX = this.currentX + (left / 100) * step
         // this.finishX = this.startX + (next / 100) * step
-        this.freezeY = null
-        this.freezeDelimiter = null
+        // this.freezeY = null
+        // this.freezeDelimiter = null
       }
       if (round_status === 'running') {
         this.startX = this.currentX
@@ -210,6 +222,18 @@ export default {
 
         // this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
+
+      // if (round_status === 'closed') return
+      const needMove = this.stage.height / 2 - this.currentY
+      let count = 0
+      const intervalId = setInterval(() => {
+        this.moveLayer(1, -needMove / 20)
+        this.moveLines(-needMove / 20)
+        if (this.freezeY) this.freezeY += needMove / 20
+        if (this.freezeDelimiter) this.freezeDelimiter += needMove / 20
+        count++
+        if (count === 20) clearInterval(intervalId)
+      }, 50)
     },
   },
 }

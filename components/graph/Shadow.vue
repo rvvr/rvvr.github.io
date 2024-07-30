@@ -10,9 +10,9 @@
       fillLinearGradientColorStops: [
         0,
         'rgba(9, 9, 11, 1)',
-        0.05,
+        0.2,
         'transparent',
-        0.95,
+        0.8,
         'transparent',
         1,
         'rgba(9, 9, 11, 1)',

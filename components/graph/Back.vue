@@ -12,7 +12,7 @@ export default {
   },
   created() {
     const image = new window.Image()
-    image.src = '/btc.png'
+    image.src = '/btcw.png'
     image.onload = () => (this.image = image)
   },
   computed: {
@@ -22,7 +22,7 @@ export default {
       return {
         width: size,
         height: size,
-        opacity: 0.05,
+        opacity: 0.03,
         image: this.image,
         x: this.stage.width / 2 - offset,
         y: this.stage.height / 2 - offset,

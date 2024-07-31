@@ -25,8 +25,8 @@
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <GraphStart :stage="stage" :x="startX" />
-          <GraphFinish :stage="stage" :x="finishX" />
+          <GraphStart :stage="stage" :x="startX || -50" />
+          <GraphFinish :stage="stage" :x="finishX || -50" />
           <GraphLivePrice :price="livePrice" :rate="rate" :stage="stage" />
           <GraphShadow :stage="stage" />
         </v-layer>
@@ -121,21 +121,15 @@ export default {
     doStep() {
       if (this.currentX >= this.stage.width - 100) {
         this.moveLayer(0, step / 2)
-        setTimeout(() => {
-          this.moveLayer(0, step / 2)
-        }, 50)
+        setTimeout(() => this.moveLayer(0, step / 2), 50)
 
-        if (this.startX && this.startX !== -100) {
+        if (this.startX) {
           this.startX -= step / 2
-          setTimeout(() => {
-            this.startX -= step / 2
-          }, 50)
+          setTimeout(() => this.startX && (this.startX -= step / 2), 50)
         }
-        if (this.finishX && this.finishX !== -100) {
+        if (this.finishX) {
           this.finishX -= step / 2
-          setTimeout(() => {
-            this.finishX -= step / 2
-          }, 50)
+          setTimeout(() => this.finishX && (this.finishX -= step / 2), 50)
         }
 
         if (this.points.length > 100) {
@@ -208,18 +202,14 @@ export default {
         // this.freezeY = null
       }
       if (round_status === 'running') {
-        this.finishX = null
         this.startX = this.currentX
         this.freezeY = this.currentY
         // this.finishX = this.startX + (left / 100) * step
       }
       if (round_status === 'closed') {
         this.finishX = this.currentX
-
-        // this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
 
-      // if (round_status !== 'running') return
       const needMove = this.stage.height / 2 - this.currentY
       let count = 0
       const intervalId = setInterval(() => {

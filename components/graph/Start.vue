@@ -2,7 +2,7 @@
   <v-line :config="{ points: [x, 25, x, stage.height], stroke: '#f4d56f', strokeWidth: 1 }"></v-line>
   <v-path
     :config="{
-      x: x || -100,
+      x,
       scaleX: 0.03,
       scaleY: 0.03,
       width: 16,

@@ -4,7 +4,7 @@
   >
     <slot v-if="$slots.left" name="left" />
     <NuxtLink v-else class="flex w-8 justify-center" to="/home">
-      <img class="h-8 w-8" alt="" src="/favicon.png" />
+      <img class="h-7" alt="" src="/bf.png" />
     </NuxtLink>
 
     <div class="justify-self-center">

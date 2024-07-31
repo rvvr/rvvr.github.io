@@ -16,7 +16,7 @@
             <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
           </span>
           <div class="card-body">
-            <IconsMultiRocket class="mx-auto h-12 w-12" />
+            <img class="mx-auto h-12" src="/rocket.png" />
             <p class="text-center">Boost balance</p>
           </div>
         </div>
@@ -31,7 +31,7 @@
           </span>
 
           <div class="card-body items-center">
-            <IconsMultiFree class="mx-auto h-12 w-12" />
+            <img class="mx-auto h-12" src="/money.png" />
             <p>Freeroll rooms</p>
           </div>
         </div>
@@ -45,8 +45,8 @@
           Your balance, tap bull to earn more coins
         </div>
 
-        <div class="kbd kbd-lg mt-4 inline-flex items-center justify-center" ref="balance">
-          <IconsCoins class="mr-2 mt-1 h-5 w-5" />
+        <div class="mt-4 inline-flex items-center justify-center" ref="balance">
+          <img class="mr-2 h-6 w-6" alt="" src="/coin.png" />
           <span class="font-mono text-3xl font-bold text-lime-500">{{ user.balance }}</span>
         </div>
       </div>

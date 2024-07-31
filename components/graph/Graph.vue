@@ -22,13 +22,11 @@
           <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
-          <!-- <GraphDelimiter :currentY="freezeDelimiter || currentY" :stage="stage" /> -->
-
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <GraphStart :stage="stage" :x="startX || -50" />
-          <GraphFinish :stage="stage" :x="finishX || -50" />
+          <GraphStart :stage="stage" :x="startX" />
+          <GraphFinish :stage="stage" :x="finishX" />
           <GraphLivePrice :price="livePrice" :rate="rate" :stage="stage" />
           <GraphShadow :stage="stage" />
         </v-layer>
@@ -62,7 +60,6 @@ export default {
       freezeY: null,
       startX: null,
       finishX: null,
-      freezeDelimiter: null,
     }
   },
   mounted() {
@@ -128,13 +125,13 @@ export default {
           this.moveLayer(0, step / 2)
         }, 50)
 
-        if (this.startX && this.startX > -50) {
+        if (this.startX && this.startX !== -100) {
           this.startX -= step / 2
           setTimeout(() => {
             this.startX -= step / 2
           }, 50)
         }
-        if (this.finishX && this.finishX > -50) {
+        if (this.finishX && this.finishX !== -100) {
           this.finishX -= step / 2
           setTimeout(() => {
             this.finishX -= step / 2
@@ -183,7 +180,6 @@ export default {
         this.moveLines(needMove)
 
         if (this.freezeY) this.freezeY -= needMove
-        if (this.freezeDelimiter) this.freezeDelimiter -= needMove
       }
     },
     pushData(newRate) {
@@ -205,32 +201,31 @@ export default {
       }
 
       if (round_status === 'open') {
+        this.finishX = null
+        this.startX = null
         // this.startX = this.currentX + (left / 100) * step
         // this.finishX = this.startX + (next / 100) * step
         // this.freezeY = null
-        // this.freezeDelimiter = null
       }
       if (round_status === 'running') {
+        this.finishX = null
         this.startX = this.currentX
-        // this.finishX = this.startX + (left / 100) * step
-
         this.freezeY = this.currentY
+        // this.finishX = this.startX + (left / 100) * step
       }
       if (round_status === 'closed') {
         this.finishX = this.currentX
-        this.freezeDelimiter = this.currentY
 
         // this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
 
-      // if (round_status === 'closed') return
+      // if (round_status !== 'running') return
       const needMove = this.stage.height / 2 - this.currentY
       let count = 0
       const intervalId = setInterval(() => {
         this.moveLayer(1, -needMove / 20)
         this.moveLines(-needMove / 20)
         if (this.freezeY) this.freezeY += needMove / 20
-        if (this.freezeDelimiter) this.freezeDelimiter += needMove / 20
         count++
         if (count === 20) clearInterval(intervalId)
       }, 50)

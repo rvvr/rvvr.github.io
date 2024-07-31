@@ -1,6 +1,6 @@
 <template>
   <button class="btn join-item btn-neutral btn-lg -mt-8 flex-nowrap pt-4">
-    <IconsWallet class="h-4 w-4 opacity-80" />
+    <img class="mt-0.5 h-5 w-5" alt="" src="/coin.png" />
     <span class="font-oswald text-xl font-bold leading-none">
       {{ balance }}
     </span>

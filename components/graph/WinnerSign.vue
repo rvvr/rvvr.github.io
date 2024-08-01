@@ -9,7 +9,7 @@ export default {
   computed: {
     config() {
       return {
-        x: this.finishX - 95 || -100,
+        x: this.finishX - 96 || -100,
         y: this.freezeY + (this.winSide === 'up' ? -50 : 50),
         fill: '#f9f7fd',
         text: 'WIN',

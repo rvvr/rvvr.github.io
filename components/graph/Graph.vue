@@ -1,10 +1,12 @@
 <template>
   <div class="graph-wrap relative flex-1 bg-[#09090b]" ref="graph">
+    <!-- <Timer class="absolute left-1/2 top-1/2 z-10 -ml-7 -mt-7" /> -->
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
           <GraphBottomRect
             :current-x="currentX"
+            :currentY="currentY"
             :finish="finishX"
             :freeze-y="freezeY"
             :stage="stage"
@@ -12,6 +14,7 @@
           />
           <GraphTopRect
             :current-x="currentX"
+            :currentY="currentY"
             :finish="finishX"
             :freeze-y="freezeY"
             :stage="stage"
@@ -25,15 +28,27 @@
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
+          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :winSide="winSide" />
+
+          <GraphVertLine :stage="stage" :x="startX || -50" />
+          <GraphVertLine :stage="stage" :x="finishX || -50" />
+
+          <GraphLivePrice
+            :currentY="currentY"
+            :price="livePrice"
+            :rate="rate"
+            :sideHightLighted="sideHightLighted"
+            :stage="stage"
+          />
+          <GraphShadow :stage="stage" />
+
           <GraphStart :stage="stage" :x="startX || -50" />
           <GraphFinish :stage="stage" :x="finishX || -50" />
-          <GraphLivePrice :price="livePrice" :rate="rate" :stage="stage" />
-          <GraphShadow :stage="stage" />
         </v-layer>
       </v-stage>
     </client-only>
 
-    <MessageBox class="absolute bottom-2" />
+    <MessageBox :winSide="winSide" class="absolute bottom-2" />
   </div>
 </template>
 
@@ -60,16 +75,10 @@ export default {
       freezeY: null,
       startX: null,
       finishX: null,
+      winSide: null,
     }
   },
-  mounted() {
-    this.initStage()
-    this.$bus.on('start', this.manageEvent)
-  },
-  unmounted() {
-    this.$bus.off('nanoSec', this.manageGraph)
-    this.$bus.off('start', this.manageEvent)
-  },
+
   computed: {
     message() {
       return false
@@ -83,7 +92,13 @@ export default {
     livePrice() {
       return this.convert(this.rate).toFixed(4)
     },
+    sideHightLighted() {
+      const running = this.startX && !this.finishX
+      const winningSide = this.currentY > this.freezeY ? 'down' : 'up'
+      return running ? winningSide : false
+    },
   },
+
   methods: {
     randomize(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min)
@@ -195,19 +210,18 @@ export default {
       }
 
       if (round_status === 'open') {
-        this.finishX = null
-        this.startX = null
-        // this.startX = this.currentX + (left / 100) * step
-        // this.finishX = this.startX + (next / 100) * step
-        // this.freezeY = null
       }
+
       if (round_status === 'running') {
+        this.finishX = null
+
         this.startX = this.currentX
         this.freezeY = this.currentY
         // this.finishX = this.startX + (left / 100) * step
       }
       if (round_status === 'closed') {
         this.finishX = this.currentX
+        this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
 
       const needMove = this.stage.height / 2 - this.currentY
@@ -220,6 +234,21 @@ export default {
         if (count === 20) clearInterval(intervalId)
       }, 50)
     },
+
+    manageWinner(side) {
+      this.winSide = side
+    },
+  },
+
+  mounted() {
+    this.initStage()
+    this.$bus.on('start', this.manageEvent)
+    this.$bus.on('winner', this.manageWinner)
+  },
+  unmounted() {
+    this.$bus.off('nanoSec', this.manageGraph)
+    this.$bus.off('start', this.manageEvent)
+    this.$bus.off('winner', this.manageWinner)
   },
 }
 </script>

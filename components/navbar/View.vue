@@ -1,6 +1,6 @@
 <template>
   <div
-    class="navbar fixed top-0 z-10 grid min-h-14 grid-cols-[32px_auto_32px] items-center gap-2 bg-base-200 px-4"
+    class="navbar fixed top-0 z-10 grid min-h-12 grid-cols-[32px_auto_32px] items-center gap-2 bg-base-200 px-4"
   >
     <slot v-if="$slots.left" name="left" />
     <NuxtLink v-else class="flex w-8 justify-center" to="/home">

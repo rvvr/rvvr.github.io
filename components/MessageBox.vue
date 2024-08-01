@@ -13,6 +13,7 @@
 import { mapState } from 'pinia'
 
 export default {
+  props: ['winSide'],
   computed: {
     ...mapState(useRoomStore, ['round_status']),
 
@@ -20,7 +21,7 @@ export default {
       return {
         open: 'UP OR DOWN? PLACE YOUR TRADE!',
         running: 'No more trades! wait for results...',
-        closed: 'Distributing payouts',
+        closed: this.winSide + ' wins! Distributing payouts',
       }[this.round_status]
     },
     animationClass() {

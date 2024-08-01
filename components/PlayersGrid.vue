@@ -1,17 +1,18 @@
 <template>
-  <div :class="animation" class="avatar-group -space-x-3 pt-0 rtl:space-x-reverse">
+  <div :class="animation" class="avatar-group mt-1 h-7 -space-x-3 rtl:space-x-reverse">
     <div
       v-for="(player, i) in players[side].slice(0, 5)"
       :key="i"
-      class="avatar h-10 w-10 border-base-100 bg-black"
+      class="avatar h-7 w-7 border-none bg-[#222]"
     >
-      <div class="h-8 w-8">
+      <div class="h-7 w-7">
         <img
           :src="
             player.avatar_url
               ? useRuntimeConfig().public.baseURL + player.avatar_url
               : `https://robohash.org/${i}.png?set=set3`
           "
+          class="h-7 w-7"
         />
       </div>
     </div>

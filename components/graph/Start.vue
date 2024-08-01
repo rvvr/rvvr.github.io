@@ -1,5 +1,4 @@
 <template>
-  <v-line :config="{ points: [x, 25, x, stage.height], stroke: '#f4d56f', strokeWidth: 1 }"></v-line>
   <v-path
     :config="{
       x,

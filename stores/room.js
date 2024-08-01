@@ -79,7 +79,7 @@ export const useRoomStore = defineStore('room', {
       nuxtApp.$bus.emit('start', data)
 
       if (this.winner_side) {
-        nuxtApp.$bus.emit('winner', data.winner_side)
+        // nuxtApp.$bus.emit('winner', data.winner_side)
       }
 
       if (this.current_round_number === this.max_round_number && this.round_status === 'closed') {

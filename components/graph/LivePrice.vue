@@ -1,53 +1,50 @@
 <template>
   <v-rect :config="livePriceRateTextRect"></v-rect>
   <v-text :config="livePriceRateText"></v-text>
-  <v-path :config="livePriceIcon"></v-path>
 </template>
 
 <script>
+import { lime, red } from 'tailwindcss/colors'
+
 export default {
   data() {
     return {
-      livePriceX: this.stage.width - 84,
-      livePriceY: 0,
+      livePriceX: this.stage.width - 85,
     }
   },
-  props: ['rate', 'price', 'stage'],
+  props: ['rate', 'price', 'stage', 'currentY', 'sideHightLighted'],
 
   computed: {
-    livePriceIcon() {
-      return {
-        x: this.livePriceX + 8,
-        scaleX: 0.06,
-        scaleY: 0.06,
-        width: 16,
-        y: this.livePriceY + 1,
-        offsetX: 50,
-        fill: '#f4d56f',
-        data: 'M182.981,112.854c-7.3-5.498-17.699-7.697-17.699-7.697s8.8-5.102,12.396-10.199  c3.6-5.099,5.399-12.999,5.7-17.098c0.299-4.101,1-21.296-12.399-31.193c-10.364-7.658-22.241-10.698-38.19-11.687V0.278h-21.396  V34.57c-4.774,0-10.353,0-16.297,0V0.278H73.702V34.57c-21.841,0-42.092,0-42.092,0v22.219c0,0,8.998,0,12.372,0  c3.373,0,9.372,0.375,11.921,3.228c2.55,2.848,3,4.349,3,9.895c0,5.548,0.001,86.435,0.001,88.535c0,2.099-0.4,4.697-2.201,6.398  c-1.798,1.701-3.597,2.098-7.898,2.098c-4.3,0-12.796,0-12.796,0l-4.399,25.698c0,0,20.918,0,42.092,0v34.195h21.395v-34.195  c6.574,0,12.298,0,16.297,0v34.195h21.396v-34.759c5.531-0.323,10.688-0.742,13.696-1.136c6.1-0.798,19.896-2.398,32.796-11.397  c12.896-9,15.793-23.098,16.094-37.294C195.68,128.053,190.274,118.353,182.981,112.854z M95.096,58.766  c0,0,6.798-0.599,13.497-0.501c6.701,0.099,12.597,0.3,21.398,3c8.797,2.701,13.992,9.3,14.196,17.099  c0.199,7.799-3.204,12.996-9.2,16.296c-5.998,3.299-14.292,5.099-22.094,5.396c-7.797,0.301-17.797,0-17.797,0V58.766z   M142.986,161.045c-4.899,2.701-14.698,5.1-24.194,5.798c-9.499,0.701-23.696,0.401-23.696,0.401v-45.893c0,0,13.598-0.698,24.197,0  c10.597,0.703,19.495,3.4,23.492,5.403c3.999,1.998,11,6.396,11,16.896C153.785,154.146,147.882,158.346,142.986,161.045z',
+    fillColor() {
+      if (this.sideHightLighted) {
+        return this.sideHightLighted === 'up' ? lime['500'] : red['500']
+      } else {
+        return '#f4d56f'
       }
+    },
+    livePriceY() {
+      return this.currentY - 10
     },
     livePriceRateTextRect() {
       return {
         cornerRadius: 7,
         fill: '#09090b',
-        height: 21,
-        width: 112,
-        x: this.livePriceX + 2,
-        y: this.livePriceY - 5,
+        height: 20,
+        width: 61,
+        x: this.livePriceX + 2 + 15,
+        y: this.livePriceY,
       }
     },
     livePriceRateText() {
       return {
         align: 'left',
-        fill: '#f4d56f',
+        fill: this.fillColor,
         fontFamily: 'Oswald',
         fontSize: 12,
-        text: '70,982.1337',
         text: this.price,
         width: 110,
-        x: this.livePriceX + 20,
-        y: this.livePriceY + 3,
+        x: this.livePriceX + 5 + 15,
+        y: this.livePriceY + 5,
       }
     },
   },

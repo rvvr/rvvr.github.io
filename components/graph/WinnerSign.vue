@@ -16,7 +16,7 @@ export default {
         fontFamily: 'Oswald',
         fontSize: 28,
         align: 'center',
-        width: 95,
+        width: 96,
 
         shadowColor: 'black',
         shadowOffset: { x: -1, y: 0 },

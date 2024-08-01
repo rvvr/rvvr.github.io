@@ -12,19 +12,31 @@
         </div>
 
         <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
-          <NavbarBalance :balance="userRating.balance" />
+          <NavbarBalance :balance="userRating.balance" :fake="true" />
         </NuxtLink>
 
-        <div class="font-oswald flex items-center text-sm">
+        <NuxtLink :to="`/rooms/${$route.params.room}/rating`" class="font-oswald flex items-center text-sm">
           <template v-if="userRating.position">
             <span class="mr-1">Place</span>
             <IconsTrophy class="mx-1 h-3 w-3 text-neutral-content" />
             {{ userRating.position }}/{{ roomRating.length }}
           </template>
-        </div>
+        </NuxtLink>
       </div>
     </template>
   </NavbarView>
+
+  <div class="font-oswald flex items-center justify-between bg-[#09090b] pb-2 pl-4 pr-1.5 text-xs">
+    <div class="flex pt-px">
+      <div><IconsTrophy class="inline h-3 w-3 align-baseline text-neutral-content" /> 3 USDT</div>
+      <div class="mx-1.5 opacity-50">/</div>
+      <div><IconsTrophy class="inline h-3 w-3 align-baseline text-slate-400" /> 2 USDT</div>
+      <div class="mx-1.5 opacity-50">/</div>
+      <div><IconsTrophy class="inline h-3 w-3 align-baseline text-orange-500" /> 1 USDT</div>
+    </div>
+
+    <div class="btn btn-neutral btn-xs">How to play?</div>
+  </div>
 
   <Game />
 

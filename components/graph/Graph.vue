@@ -28,10 +28,8 @@
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :winSide="winSide" />
-
-          <GraphVertLine :stage="stage" :x="startX || -50" />
-          <GraphVertLine :stage="stage" :x="finishX || -50" />
+          <GraphVertLine :stage="stage" :x="startX" />
+          <GraphVertLine :stage="stage" :x="finishX" />
 
           <GraphLivePrice
             :currentY="currentY"
@@ -42,8 +40,9 @@
           />
           <GraphShadow :stage="stage" />
 
-          <GraphStart :stage="stage" :x="startX || -50" />
-          <GraphFinish :stage="stage" :x="finishX || -50" />
+          <GraphStart v-if="startX != null" :stage="stage" :x="startX" />
+          <GraphFinish v-if="finishX != null" :stage="stage" :x="finishX" />
+          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :startX="startX" :winSide="winSide" />
         </v-layer>
       </v-stage>
     </client-only>
@@ -138,11 +137,11 @@ export default {
         this.moveLayer(0, step / 2)
         setTimeout(() => this.moveLayer(0, step / 2), 50)
 
-        if (this.startX) {
+        if (this.startX !== null) {
           this.startX -= step / 2
           setTimeout(() => this.startX && (this.startX -= step / 2), 50)
         }
-        if (this.finishX) {
+        if (this.finishX !== null) {
           this.finishX -= step / 2
           setTimeout(() => this.finishX && (this.finishX -= step / 2), 50)
         }

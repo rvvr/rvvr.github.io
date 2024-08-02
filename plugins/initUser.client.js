@@ -4,12 +4,8 @@ export default defineNuxtPlugin(async () => {
   userStore.getUserFromApp()
   if (!userStore.appUser.id) return
 
-  await userStore.getToken()
-  if (!userStore.token) return
-
-  await userStore.fetchUser()
-  if (!userStore.user.user_id) await userStore.regUser()
-  if (!userStore.user.user_id) return
+  await userStore.auth()
+  if (!userStore.user.token) return
 
   await userStore.setAvatar()
 })

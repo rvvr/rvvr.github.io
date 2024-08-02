@@ -13,7 +13,6 @@ export const useUserStore = defineStore('user', {
       username: '',
     },
     avatar: '',
-    token: null,
   }),
 
   actions: {
@@ -29,19 +28,7 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async fetchUser() {
-      this.user = await api.get('/user/' + this.appUser.id)
-    },
-
-    async regUser() {
-      this.user = await api.post('/user', { user_telegram_id: this.appUser.id })
-    },
-
-    async updateAvatar() {
-      this.user = await api.post('/user/avatar', { user_telegram_id: this.appUser.id })
-    },
-
-    async getToken() {
+    async auth() {
       let data
       if (isDev()) {
         data =
@@ -49,8 +36,7 @@ export const useUserStore = defineStore('user', {
       } else {
         data = window.Telegram?.WebApp.initData
       }
-      const { token } = await api.post('/auth/signup', { data })
-      this.token = token
+      this.user = await api.post('/auth/signup', { data })
     },
 
     async setAvatar() {

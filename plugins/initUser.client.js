@@ -6,6 +6,4 @@ export default defineNuxtPlugin(async () => {
 
   await userStore.auth()
   if (!userStore.user.token) return
-
-  await userStore.setAvatar()
 })

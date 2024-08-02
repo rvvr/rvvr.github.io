@@ -12,7 +12,6 @@ export const useUserStore = defineStore('user', {
       id: null,
       username: '',
     },
-    avatar: '',
   }),
 
   actions: {
@@ -28,6 +27,11 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    async fetchUser() {
+      const user = await api.get('/user/' + this.appUser.id)
+      this.user = { ...this.user, ...user }
+    },
+
     async auth() {
       let data
       if (isDev()) {
@@ -37,15 +41,6 @@ export const useUserStore = defineStore('user', {
         data = window.Telegram?.WebApp.initData
       }
       this.user = await api.post('/auth/signup', { data })
-    },
-
-    async setAvatar() {
-      if (this.user.avatar_url) {
-        this.avatar = useRuntimeConfig().public.baseURL + this.user.avatar_url
-      } else {
-        let ip = await $fetch('https://checkip.amazonaws.com/')
-        this.avatar = `https://robohash.org/${ip}.png?set=set3`
-      }
     },
   },
 })

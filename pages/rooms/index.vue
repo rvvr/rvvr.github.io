@@ -15,15 +15,6 @@
       <Card v-for="(room, i) in rooms" :key="i" :join="join" :room="room" class="carousel-item" />
     </Loader>
   </div>
-
-  <!-- <div class="px-4 pt-4">
-    <div class="tabs tabs-bordered tabs-lg mb-2" role="tablist ">
-      <NuxtLink class="tab" active-class="tab-active" role="tab" to="/rooms/active/">Active</NuxtLink>
-      <NuxtLink class="tab" active-class="tab-active" role="tab" to="/rooms/available/">Available</NuxtLink>
-    </div>
-  </div>
-
-  <NuxtPage /> -->
 </template>
 
 <script>
@@ -32,16 +23,6 @@ import { setInterval } from '#imports'
 let interval = null
 
 export default {
-  setup() {
-    // definePageMeta({
-    //   middleware(to) {
-    //     if (to.matched.length === 2) {
-    //       return navigateTo('/rooms/active/')
-    //     }
-    //   },
-    // })
-  },
-
   data() {
     return {
       availableRooms: [],

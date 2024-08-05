@@ -27,9 +27,13 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    updateUser(data) {
+      this.user = { ...this.user, ...data }
+    },
+
     async fetchUser() {
       const user = await api.get('/user/' + this.appUser.id)
-      this.user = { ...this.user, ...user }
+      this.updateUser(user)
     },
 
     async auth() {

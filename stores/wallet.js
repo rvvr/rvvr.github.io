@@ -10,10 +10,6 @@ export const useWalletStore = defineStore('wallet', {
   }),
 
   actions: {
-    // async fetchBalance() {
-    //   const balance = await api.get('/balance')
-    // },
-
     async placeBet(bet_side, bet_amount) {
       const room_id = +useRoomStore().room.id
       return await api.post('/bet', { bet_amount, bet_side, room_id })
@@ -44,8 +40,7 @@ export const useWalletStore = defineStore('wallet', {
     },
 
     async saveTaps(taps) {
-      const user_id = useUserStore().user.user_id
-      return await api.post('/save_taps', { taps, user_id })
+      return await api.post('/save_taps', { taps })
     },
   },
 })

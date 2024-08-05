@@ -68,7 +68,6 @@ export default {
       currentX: 0,
       points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },
-      // lines
       xLines: [],
       xLinesLabels: [],
       freezeY: null,
@@ -108,7 +107,6 @@ export default {
       const center = [0, this.stage.height / 2]
       this.points = [...center, ...center]
 
-      // lines
       const tempo = Math.floor(xLinesCount / 2)
       const pixelsBetween = this.calcRateToPixels(moneyBetween)
       const startY = center[1] - tempo * pixelsBetween

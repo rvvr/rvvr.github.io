@@ -16,9 +16,10 @@ export default {
     ...mapState(useUserStore, ['user']),
 
     src() {
-      return this.user.avatar_url
-        ? useRuntimeConfig().public.baseURL + this.user.avatar_url
-        : `https://robohash.org/${this.user.user_id}.png?set=set3`
+      if (process.client)
+        return this.user.avatar_url
+          ? useRuntimeConfig().public.baseURL + this.user.avatar_url
+          : `https://robohash.org/${this.user.user_id}.png?set=set3`
     },
   },
 }

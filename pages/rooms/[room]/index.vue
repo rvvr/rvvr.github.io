@@ -4,8 +4,7 @@
       <div class="grid grid-cols-[1fr_1fr_1fr] justify-items-center gap-2">
         <div class="font-oswald flex items-center text-sm">
           <template v-if="current_round_number">
-            <!-- Rolls -->
-            <span class="mr-1">Play</span>
+            <!-- <span class="mr-1">Play</span> -->
             <IconsCycle class="mr-1 h-3.5 w-3.5 pt-px text-neutral-content" />
             {{ `${current_round_number}`.slice(-2) }}/{{ `${max_round_number}`.slice(-2) }}
           </template>
@@ -17,7 +16,7 @@
 
         <NuxtLink :to="`/rooms/${$route.params.room}/rating`" class="font-oswald flex items-center text-sm">
           <template v-if="userRating.position">
-            <span class="mr-1">Place</span>
+            <!-- <span class="mr-1">Place</span> -->
             <IconsTrophy class="mx-1 h-3 w-3 text-neutral-content" />
             {{ userRating.position }}/{{ roomRating.length }}
           </template>

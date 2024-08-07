@@ -12,8 +12,11 @@
 
 <script>
 import { mapState, mapActions } from 'pinia'
+import rooms from '~/mixins/rooms'
 
 export default {
+  mixins: [rooms],
+
   data() {
     return {
       wss: null,
@@ -23,7 +26,6 @@ export default {
     ...mapState(useUserStore, ['user']),
   },
   methods: {
-    ...mapActions(useRoomStore, ['openRoomSocket', 'manageSocketEvent']),
     ...mapActions(useUserStore, ['fetchUser']),
 
     async manageWinner() {
@@ -31,16 +33,11 @@ export default {
     },
   },
   mounted() {
-    timer.start()
-    this.wss = this.openRoomSocket()
-    this.wss.onmessage = this.manageSocketEvent
-
+    this.openRoomSocket(this.$route.params.room)
     this.$bus.on('winner', this.manageWinner)
   },
   unmounted() {
-    timer.stop()
-    this.wss.close()
-
+    this.closeRoomSocket()
     this.$bus.off('winner', this.manageWinner)
   },
 }

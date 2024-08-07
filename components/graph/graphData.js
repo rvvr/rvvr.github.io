@@ -8,16 +8,12 @@ export const xLine = {
 }
 
 export const xLinesLabel = {
-  x: 0,
+  width: 62,
+  offsetX: 62,
+  align: 'left',
   fontSize: 12,
   fontFamily: 'Oswald',
   fill: '#fff',
-  opacity: 0.3,
-  align: 'right',
-  offsetX: 8,
+  opacity: 0.2,
   offsetY: 5,
-  shadowColor: '#000',
-  shadowBlur: 0,
-  shadowSize: 10,
-  shadowOpacity: 1,
 }

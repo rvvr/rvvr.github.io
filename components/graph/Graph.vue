@@ -57,15 +57,16 @@ import { xLine, xLinesLabel } from './graphData'
 
 const step = 2
 const xLinesCount = 100
-const ratio = 10 // pixels for unit
-const moneyBetween = 5_0000
+const ratio = 4 // pixels for unit
+const divider = 1_00000000 // how much decimals
+const moneyBetween = 15 * divider
 const overflowSpace = 60
-const divider = 1_0000 // how much decimals
 
 export default {
   data() {
     return {
-      rate: 70_000_0000,
+      liveRate: null,
+      rate: null,
       currentX: 0,
       points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },
@@ -126,7 +127,7 @@ export default {
       const startPrice = this.rate + tempo * moneyBetween
       this.xLinesLabels = arrLines.map((c, i) => {
         return {
-          width: this.stage.width,
+          x: this.stage.width,
           text: this.convert(startPrice - i * moneyBetween).toFixed(4),
           ...xLinesLabel,
           ...c,
@@ -169,8 +170,8 @@ export default {
     setLastPointEnd(x, y) {
       this.points = this.points.slice(0, -2).concat([x, y])
     },
-    addPoint(x, y) {
-      this.points = this.points.concat([...this.lastPointEnd, x, y])
+    addPoint(y = this.currentY) {
+      this.points = this.points.concat([...this.lastPointEnd, this.currentX, y])
     },
     convert(num) {
       return num / divider
@@ -191,24 +192,16 @@ export default {
         if (this.freezeY) this.freezeY -= needMove
       }
     },
-    pushData(newRate) {
-      this.addPoint(this.currentX, this.currentY + this.calcRateToPixels(this.rate - newRate))
-      this.rate = newRate
-    },
+
     manageGraph() {
+      this.pushData()
       this.doStep()
-      let emulatedData = this.rate + this.randomize(10000, -10000)
-      this.pushData(emulatedData)
       this.handleYOverflow()
     },
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
     manageEvent({ round_status, left, next }) {
-      if (!this.currentX) {
-        this.$bus.on('nanoSec', this.manageGraph)
-      }
-
       if (round_status === 'open') {
       }
 
@@ -224,12 +217,18 @@ export default {
         this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
       }
 
+      this.centralize()
+    },
+
+    centralize() {
       const needMove = this.stage.height / 2 - this.currentY
+
       let count = 0
       const intervalId = setInterval(() => {
         this.moveLayer(1, -needMove / 20)
         this.moveLines(-needMove / 20)
         if (this.freezeY) this.freezeY += needMove / 20
+
         count++
         if (count === 20) clearInterval(intervalId)
       }, 50)
@@ -238,17 +237,31 @@ export default {
     manageWinner(side) {
       this.winSide = side
     },
+
+    pushData() {
+      this.addPoint(this.currentY + this.calcRateToPixels(this.rate - this.liveRate))
+      this.rate = this.liveRate
+    },
   },
 
   mounted() {
-    this.initStage()
-    this.$bus.on('start', this.manageEvent)
-    this.$bus.on('winner', this.manageWinner)
+    TradeSocket.start((price) => {
+      this.liveRate = +price * divider
+
+      if (this.rate) return
+
+      this.rate = this.liveRate
+      this.initStage()
+      this.$bus.on('nanoSec', this.manageGraph)
+      this.$bus.on('start', this.manageEvent)
+      this.$bus.on('winner', this.manageWinner)
+    })
   },
   unmounted() {
     this.$bus.off('nanoSec', this.manageGraph)
     this.$bus.off('start', this.manageEvent)
     this.$bus.off('winner', this.manageWinner)
+    TradeSocket.stop()
   },
 }
 </script>

@@ -66,27 +66,6 @@ export const useRoomStore = defineStore('room', {
       })
     },
 
-    openRoomSocket(room_id) {
-      this.$reset()
-      return new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
-    },
-
-    manageSocketEvent(event) {
-      const nuxtApp = useNuxtApp()
-      const data = JSON.parse(event.data)
-
-      this.$patch(data)
-      nuxtApp.$bus.emit('start', data)
-
-      if (this.winner_side) {
-        // nuxtApp.$bus.emit('winner', data.winner_side)
-      }
-
-      if (this.current_round_number === this.max_round_number && this.round_status === 'closed') {
-        nuxtApp.$bus.emit('closeRoom')
-      }
-    },
-
     addPlayer(side) {
       this.players[side].unshift(useUserStore().user)
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-rect :config="livePriceRateTextRect"></v-rect>
+  <!-- <v-rect :config="livePriceRateTextRect"></v-rect> -->
   <v-text :config="livePriceRateText"></v-text>
 </template>
 
@@ -7,11 +7,6 @@
 import { lime, red } from 'tailwindcss/colors'
 
 export default {
-  data() {
-    return {
-      livePriceX: this.stage.width - 85,
-    }
-  },
   props: ['rate', 'price', 'stage', 'currentY', 'sideHightLighted'],
 
   computed: {
@@ -25,16 +20,16 @@ export default {
     livePriceY() {
       return this.currentY - 10
     },
-    livePriceRateTextRect() {
-      return {
-        cornerRadius: 7,
-        fill: '#09090b',
-        height: 20,
-        width: 61,
-        x: this.livePriceX + 2 + 15,
-        y: this.livePriceY,
-      }
-    },
+    // livePriceRateTextRect() {
+    //   return {
+    //     fill: '#09090b',
+    //     height: 16,
+    //     width: 60,
+    //     offsetX: 62 + 2,
+    //     x: this.stage.width,
+    //     y: this.livePriceY + 2,
+    //   }
+    // },
     livePriceRateText() {
       return {
         align: 'left',
@@ -42,9 +37,12 @@ export default {
         fontFamily: 'Oswald',
         fontSize: 12,
         text: this.price,
-        width: 110,
-        x: this.livePriceX + 5 + 15,
+        x: this.stage.width,
         y: this.livePriceY + 5,
+        width: 62,
+        offsetX: 62,
+        shadowColor: '#09090b',
+        shadowBlur: 10,
       }
     },
   },

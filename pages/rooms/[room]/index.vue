@@ -35,20 +35,19 @@
 
 <script>
 import { mapState, mapActions } from 'pinia'
+import rooms from '~/mixins/rooms'
 
 export default {
+  mixins: [rooms],
   data() {
     return {
       wss: null,
     }
   },
   methods: {
-    ...mapActions(useRoomStore, ['openRoomSocket', 'manageSocketEvent']),
-
     closeRoom() {
       this.$refs.modal.showModal()
-      timer.stop()
-      this.wss.close()
+      this.closeRoomSocket()
     },
   },
   computed: {
@@ -61,16 +60,11 @@ export default {
     },
   },
   mounted() {
-    timer.start()
-    this.wss = this.openRoomSocket(this.$route.params.room)
-    this.wss.onmessage = this.manageSocketEvent
-
+    this.openRoomSocket(this.$route.params.room)
     this.$bus.on('closeRoom', this.closeRoom)
   },
   unmounted() {
-    timer.stop()
-    this.wss.close()
-
+    this.closeRoomSocket()
     this.$bus.off('closeRoom', this.closeRoom)
   },
 }

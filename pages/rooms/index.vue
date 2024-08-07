@@ -28,7 +28,6 @@
 
 <script>
 import { mapActions } from 'pinia'
-import { setInterval } from '#imports'
 let interval = null
 
 export default {

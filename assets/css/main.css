@@ -3,6 +3,10 @@
   --toastify-icon-color-error: theme(colors.red.500) !important;
 }
 
+* {
+  scrollbar-width: none;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-style: normal;

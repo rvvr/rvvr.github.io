@@ -88,6 +88,7 @@ export default {
 
   methods: {
     ...mapActions(useWalletStore, ['saveTaps']),
+    ...mapActions(useUserStore, ['updateUser']),
 
     storeEvent(event) {
       this.event = event
@@ -98,7 +99,7 @@ export default {
       this.taps = 0
       this.active = false
       let user = await this.saveTaps(taps)
-      if (!this.active && user.user_id) this.user = user
+      this.updateUser(user)
     }, 300),
 
     tap() {
@@ -109,19 +110,16 @@ export default {
         Object.values(this.event.touches).forEach((e) => this.animate(e))
       }
 
-      // all
-      // const canVibrate = window.navigator.vibrate
-      // if (canVibrate) window.navigator.vibrate(1)
       window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy')
     },
 
     animate(e) {
       let { pageX, pageY } = e
       let el = document.createElement('span')
+      let body = document.body
       el.innerHTML = '+1'
       el.setAttribute('class', 'anime')
       el.setAttribute('style', `top:${pageY}px;left:${pageX}px;`)
-      let body = document.body
       body.appendChild(el)
       this.$refs.circle.animate([{ transform: 'scale(1.01)' }], 100)
       el.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(-150px)' }], 1000)

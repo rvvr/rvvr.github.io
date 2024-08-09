@@ -12,8 +12,6 @@ export const useUserStore = defineStore('user', {
       id: null,
       username: '',
     },
-    avatar: '',
-    token: null,
   }),
 
   actions: {
@@ -23,31 +21,18 @@ export const useUserStore = defineStore('user', {
         : { ...window.Telegram?.WebApp.initDataUnsafe.user }
     },
 
+    updateUser(data) {
+      this.user = { ...this.user, ...data }
+    },
+
     async fetchUser() {
-      this.user = await api.get('/user/' + this.appUser.id)
+      const user = await api.get('/user/' + this.appUser.id)
+      this.updateUser(user)
     },
 
-    async regUser() {
-      this.user = await api.post('/user', { user_telegram_id: this.appUser.id })
-    },
-
-    async updateAvatar() {
-      this.user = await api.post('/user/avatar', { user_telegram_id: this.appUser.id })
-    },
-
-    async getToken() {
+    async auth() {
       const data = isDev() ? useRuntimeConfig().public.initData : window.Telegram?.WebApp.initData
-      const { token } = await api.post('/auth/signup', { data })
-      this.token = token
-    },
-
-    async setAvatar() {
-      if (this.user.avatar_url) {
-        this.avatar = useRuntimeConfig().public.baseURL + this.user.avatar_url
-      } else {
-        let ip = await $fetch('https://checkip.amazonaws.com/')
-        this.avatar = `https://robohash.org/${ip}.png?set=set3`
-      }
+      this.user = await api.post('/auth/signup', { data })
     },
   },
 })

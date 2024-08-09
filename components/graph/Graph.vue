@@ -28,10 +28,8 @@
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
 
-          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :winSide="winSide" />
-
-          <GraphVertLine :stage="stage" :x="startX || -50" />
-          <GraphVertLine :stage="stage" :x="finishX || -50" />
+          <GraphVertLine :stage="stage" :x="startX" />
+          <GraphVertLine :stage="stage" :x="finishX" />
 
           <GraphLivePrice
             :currentY="currentY"
@@ -42,8 +40,9 @@
           />
           <GraphShadow :stage="stage" />
 
-          <GraphStart :stage="stage" :x="startX || -50" />
-          <GraphFinish :stage="stage" :x="finishX || -50" />
+          <GraphStart v-if="startX != null" :stage="stage" :x="startX" />
+          <GraphFinish v-if="finishX != null" :stage="stage" :x="finishX" />
+          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :startX="startX" :winSide="winSide" />
         </v-layer>
       </v-stage>
     </client-only>
@@ -70,7 +69,6 @@ export default {
       currentX: 0,
       points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },
-      // lines
       xLines: [],
       xLinesLabels: [],
       freezeY: null,
@@ -110,7 +108,6 @@ export default {
       const center = [0, this.stage.height / 2]
       this.points = [...center, ...center]
 
-      // lines
       const tempo = Math.floor(xLinesCount / 2)
       const pixelsBetween = this.calcRateToPixels(moneyBetween)
       const startY = center[1] - tempo * pixelsBetween
@@ -139,11 +136,11 @@ export default {
         this.moveLayer(0, step / 2)
         setTimeout(() => this.moveLayer(0, step / 2), 50)
 
-        if (this.startX) {
+        if (this.startX !== null) {
           this.startX -= step / 2
           setTimeout(() => this.startX && (this.startX -= step / 2), 50)
         }
-        if (this.finishX) {
+        if (this.finishX !== null) {
           this.finishX -= step / 2
           setTimeout(() => this.finishX && (this.finishX -= step / 2), 50)
         }

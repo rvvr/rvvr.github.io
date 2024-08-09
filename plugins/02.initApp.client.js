@@ -10,7 +10,7 @@ export default defineNuxtPlugin(async ({ vueApp }) => {
   vueApp.use(VueKonva)
   vueApp.use(Vue3Toasity, {
     transition: toast.TRANSITIONS.FLIP,
-    position: toast.POSITION.TOP_CENTER,
+    position: toast.POSITION.BOTTOM_CENTER,
     theme: toast.THEME.DARK,
     hideProgressBar: true,
     autoClose: 1000,

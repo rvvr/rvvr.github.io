@@ -2,7 +2,7 @@
   <div :class="animationClass" class="z-10 w-full text-center">
     <span
       v-show="message"
-      class="font-oswald -mt-5 inline-block animate-pulse whitespace-break-spaces rounded-lg bg-[#09090b] bg-opacity-80 px-3 py-2 font-bold uppercase text-[#f4d56f]"
+      class="font-oswald -mt-5 inline-block animate-pulse whitespace-break-spaces rounded-lg bg-[#09090b] bg-opacity-80 px-3 py-2 text-sm font-bold uppercase text-[#f4d56f]"
     >
       {{ message }}
     </span>

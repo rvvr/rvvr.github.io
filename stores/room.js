@@ -43,10 +43,6 @@ export const useRoomStore = defineStore('room', {
   },
 
   actions: {
-    // async getRoom(room_id) {
-    //   return await api.get(`/room/${room_id}`)
-    // },
-
     async getRoomRating(id) {
       return await api.get('/standings/' + id)
     },
@@ -60,10 +56,7 @@ export const useRoomStore = defineStore('room', {
     },
 
     async joinRoom(room_id) {
-      return await api.post('/room/join', {
-        user_id: this.user_id,
-        room_id,
-      })
+      return await api.post('/room/join', { room_id })
     },
 
     addPlayer(side) {

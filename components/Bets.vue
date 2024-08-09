@@ -84,16 +84,14 @@ export default {
     ...mapActions(useRoomStore, ['addPlayer']),
 
     async bet(side, rate) {
-      // if (this.balance < 1) {
-      //   this.$refs.modal.showModal()
-      //   return
-      // }
+      if (this.balance < 1) {
+        this.$refs.modal.showModal()
+        return
+      }
       this.$toast.success(`${rate} for ${side} is placed!`)
       this.addPlayer(side)
       this.sides[side] = true
       const { down_total, up_total } = await this.placeBet(side, rate)
-
-      const total = down_total + up_total
 
       // temporary
       useRoomStore().$patch({
@@ -101,10 +99,6 @@ export default {
           up: up_total,
           down: down_total,
         },
-        // winRates: {
-        //   up: total / (up_total / 100) / 100,
-        //   down: total / (up_total / 100) / 100,
-        // },
       })
     },
 
@@ -126,7 +120,6 @@ export default {
 
   mounted() {
     this.$bus.on('winner', this.manageWinner)
-    // this.$refs.modal.showModal()
   },
 
   unmounted() {

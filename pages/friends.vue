@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       encodedText: encodeURIComponent('Lets play game!'),
-      url: 'https://t.me/bullfights_bot/start?startapp=id',
+      url: 'https://t.me/bullflagbot/start?startapp=id',
       encodedUrl: null,
     }
   },

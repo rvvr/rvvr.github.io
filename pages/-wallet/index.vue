@@ -67,7 +67,7 @@ export default {
     },
     renderTonConnect() {
       tonConnectUI.uiOptions = {
-        twaReturnUrl: 'https://t.me/bullfights_bot',
+        twaReturnUrl: 'https://t.me/bullflagbot',
         buttonRootId: 'connect',
       }
     },

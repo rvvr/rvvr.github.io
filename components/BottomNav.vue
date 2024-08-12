@@ -32,7 +32,7 @@
       <button class="h-5 w-6">
         <IconsBull class="h-6 w-6" />
       </button>
-      <span class="btm-nav-label text-xs">Exchange</span>
+      <span class="btm-nav-label text-xs">Airdrop</span>
     </NuxtLink>
   </div>
 </template>

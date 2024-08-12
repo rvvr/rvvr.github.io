@@ -15,7 +15,9 @@
 
     <div class="text-center">
       <div class="mb-4 mt-10">
-        <a class="btn btn-accent" href="https://v2.demo.cryptobull.io/" target="_blank">Go to Exchange</a>
+        <a :href="useRuntimeConfig().public.exchangeLink" class="btn btn-accent" target="_blank">
+          Go to Exchange
+        </a>
       </div>
     </div>
   </div>

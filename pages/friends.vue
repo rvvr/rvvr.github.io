@@ -45,7 +45,7 @@
               <div class="flex items-center gap-3">
                 <div class="avatar rounded-full bg-black outline outline-neutral-content">
                   <div class="mask mask-squircle h-12 w-12">
-                    <img :src="`https://robohash.org/${i}.png?set=set4`" />
+                    <img :src="`https://robohash.org/${friend.invited_user_id}.png?set=set4`" />
                   </div>
                 </div>
                 <div>

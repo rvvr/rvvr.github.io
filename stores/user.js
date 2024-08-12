@@ -34,5 +34,9 @@ export const useUserStore = defineStore('user', {
       const data = isDev() ? useRuntimeConfig().public.initData : window.Telegram?.WebApp.initData
       this.user = await api.post('/auth/signup', { data })
     },
+
+    async fetchFriends() {
+      return await api.get('/friends/')
+    },
   },
 })

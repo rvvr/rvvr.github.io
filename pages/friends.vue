@@ -36,21 +36,21 @@
       </div>
     </div>
 
-    <div class="font-oswald mt-8">List of your friends (4)</div>
+    <div v-if="friends" class="font-oswald mt-8">List of your friends ({{ friends.length }})</div>
     <div class="mt-2 overflow-x-auto">
       <table class="table table-zebra">
         <tbody>
-          <tr v-for="i in 4">
+          <tr v-for="friend in friends" :key="friend.invited_user_id">
             <td>
               <div class="flex items-center gap-3">
-                <div class="avatar">
+                <div class="avatar rounded-full bg-black outline outline-neutral-content">
                   <div class="mask mask-squircle h-12 w-12">
-                    <img :src="`https://robohash.org/${i}.png?set=set5`" />
+                    <img :src="`https://robohash.org/${i}.png?set=set4`" />
                   </div>
                 </div>
                 <div>
-                  <div class="font-bold">Hart Hagerty</div>
-                  <div class="text-sm opacity-50">@username</div>
+                  <div class="font-bold">@{{ friend.invited_user_name }}</div>
+                  <div class="text-sm opacity-50">#{{ friend.invited_user_id }}</div>
                 </div>
               </div>
             </td>
@@ -63,7 +63,7 @@
 
 <script>
 import copy from 'copy-to-clipboard'
-import { mapState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapActions } from '~/node_modules/pinia/dist/pinia'
 
 export default {
   data() {
@@ -71,16 +71,20 @@ export default {
       encodedText: encodeURIComponent('Lets play game!'),
       url: 'https://t.me/bullflagbot?start=',
       encodedUrl: null,
+      friends: null,
     }
   },
-  mounted() {
+  async mounted() {
     this.url += this.appUser.id
     this.encodedUrl = encodeURIComponent(this.url)
+    this.friends = await this.fetchFriends()
   },
   computed: {
     ...mapState(useUserStore, ['appUser']),
   },
   methods: {
+    ...mapActions(useUserStore, ['fetchFriends']),
+
     copy() {
       copy(this.href)
       this.$toast.success(`Invite link copied!`)

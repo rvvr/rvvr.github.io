@@ -15,7 +15,11 @@
 
     <div class="text-center">
       <div class="mb-4 mt-10">
-        <a :href="useRuntimeConfig().public.exchangeLink" class="btn btn-accent" target="_blank">
+        <a
+          :href="useRuntimeConfig().public.exchangeLink || 'https://v2.demo.cryptobull.io/'"
+          class="btn btn-accent"
+          target="_blank"
+        >
           Go to Exchange
         </a>
       </div>

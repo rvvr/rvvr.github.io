@@ -24,7 +24,7 @@
       <span class="label-text-alt">Withdraw Amount</span>
       <span class="label-text-alt">Minimum withdrawal: 1</span>
     </div>
-    <div class="join">
+    <div class="join border">
       <input class="input join-item input-bordered w-full" type="text" value="0.00" />
       <button class="btn btn-square join-item">25%</button>
       <button class="btn btn-square join-item">50%</button>

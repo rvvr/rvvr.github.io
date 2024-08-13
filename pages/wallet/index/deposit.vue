@@ -23,7 +23,7 @@
         <span class="label-text-alt">Deposit Amount</span>
         <span class="label-text-alt">Minimum deposit: 1</span>
       </div>
-      <div class="join">
+      <div class="join border">
         <input class="input join-item input-bordered w-full" placeholder="0.00" type="text" />
         <button class="btn btn-square join-item">25%</button>
         <button class="btn btn-square join-item">50%</button>
@@ -73,7 +73,7 @@
     </button>
   </div>
 
-  <div class="mt-4 flex text-sm text-primary opacity-40">
+  <div class="mt-4 flex text-sm opacity-40">
     <IconsInfo class="mr-1 h-4" />
     <span>
       Depositing any other currency to this deposit address may make your money lost forever. Always

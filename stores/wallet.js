@@ -25,7 +25,7 @@ export const useWalletStore = defineStore('wallet', {
     async onLogin(wallet) {
       this.wallet.icon = wallet.imageUrl
       this.getWalletAddress(wallet)
-      await this.getBalance(wallet)
+      await Promise.all([this.getBalance(wallet), this.regTonAddress(this.wallet.address)])
     },
 
     onLogout() {
@@ -41,6 +41,10 @@ export const useWalletStore = defineStore('wallet', {
 
     async saveTaps(taps) {
       return await api.post('/save_taps', { taps })
+    },
+
+    async regTonAddress(wallet_address) {
+      await api.post('/user/wallet_address', { wallet_address })
     },
   },
 })

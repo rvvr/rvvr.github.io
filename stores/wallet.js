@@ -44,6 +44,8 @@ export const useWalletStore = defineStore('wallet', {
     },
 
     async regTonAddress(wallet_address) {
+      const current = useUserStore().user.wallet_address
+      if (wallet_address === current) return
       await api.post('/user/wallet_address', { wallet_address })
     },
   },

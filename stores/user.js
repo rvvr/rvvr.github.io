@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', {
       username: null,
       balance: 0,
       avatar_url: null,
+      wallet_address: null,
     },
     appUser: {
       first_name: '',

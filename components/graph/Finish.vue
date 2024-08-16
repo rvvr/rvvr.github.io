@@ -1,5 +1,6 @@
 <template>
   <v-path
+    v-if="x !== null"
     :config="{
       x,
       scaleX: 0.03,

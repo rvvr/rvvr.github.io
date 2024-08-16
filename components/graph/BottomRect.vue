@@ -16,14 +16,17 @@ export default {
 
   computed: {
     width() {
-      if (!this.start && !this.finish) return 0
+      if (!this.start && this.finish === null) return 0
       let end
-      if (!this.finish || this.finish < this.start) {
+      if (this.finish === null || this.finish < this.start) {
         end = this.currentX
       } else {
         end = this.finish
       }
 
+      if (end - this.start > 400) {
+        console.log(this.finish)
+      }
       return end - this.start
     },
 
@@ -39,7 +42,7 @@ export default {
       return {
         width: this.width,
         height: this.stage.height - this.freezeY,
-        fill: this.finish ? this.fill : this.hightLight,
+        fill: this.finish != null ? this.fill : this.hightLight,
         x: this.start,
         y: this.freezeY,
       }

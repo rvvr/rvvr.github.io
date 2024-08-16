@@ -40,8 +40,8 @@
           />
           <GraphShadow :stage="stage" />
 
-          <GraphStart v-if="startX != null" :stage="stage" :x="startX" />
-          <GraphFinish v-if="finishX != null" :stage="stage" :x="finishX" />
+          <GraphStart :stage="stage" :x="startX" />
+          <GraphFinish :stage="stage" :x="finishX" />
           <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :startX="startX" :winSide="winSide" />
         </v-layer>
       </v-stage>
@@ -55,10 +55,10 @@
 import { xLine, xLinesLabel } from './graphData'
 
 const step = 2
-const xLinesCount = 100
-const ratio = 4 // pixels for unit
+const xLinesCount = 200
+const ratio = 0.5 // pixels for unit
 const divider = 1_00000000 // how much decimals
-const moneyBetween = 15 * divider
+const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
 
 export default {
@@ -192,26 +192,23 @@ export default {
 
     manageGraph() {
       this.pushData()
-      this.doStep()
-      this.handleYOverflow()
+      // this.doStep()
+      // this.handleYOverflow()
     },
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent({ round_status, left, next }) {
-      if (round_status === 'open') {
-      }
-
+    manageEvent({ round_status, startRate, endRate, winner_side }) {
       if (round_status === 'running') {
+        // this.pushData(pad(startRate))
         this.finishX = null
-
         this.startX = this.currentX
         this.freezeY = this.currentY
-        // this.finishX = this.startX + (left / 100) * step
       }
       if (round_status === 'closed') {
+        // this.pushData(pad(endRate))
         this.finishX = this.currentX
-        this.$bus.emit('winner', this.freezeY > this.currentY ? 'up' : 'down')
+        this.$bus.emit('winner', winner_side)
       }
 
       this.centralize()
@@ -235,15 +232,21 @@ export default {
       this.winSide = side
     },
 
-    pushData() {
-      this.addPoint(this.currentY + this.calcRateToPixels(this.rate - this.liveRate))
-      this.rate = this.liveRate
+    pushData(rate) {
+      const newRate = rate || this.liveRate
+      const change = this.calcRateToPixels(this.rate - newRate)
+      this.addPoint(this.currentY + change)
+      this.rate = newRate
+      this.doStep()
+      this.handleYOverflow()
     },
   },
 
   mounted() {
-    TradeSocket.start((price) => {
-      this.liveRate = +price * divider
+    PriceSocket.start((price) => {
+      // price = Number(price).toFixed(8).replace(/\./g, '')
+      this.liveRate = pad(price)
+      arr.push(this.liveRate)
 
       if (this.rate) return
 
@@ -258,7 +261,9 @@ export default {
     this.$bus.off('nanoSec', this.manageGraph)
     this.$bus.off('start', this.manageEvent)
     this.$bus.off('winner', this.manageWinner)
-    TradeSocket.stop()
+    PriceSocket.stop()
   },
 }
+
+let arr = []
 </script>

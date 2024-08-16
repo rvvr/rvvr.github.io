@@ -24,9 +24,6 @@ export default {
         end = this.finish
       }
 
-      if (end - this.start > 400) {
-        console.log(this.finish)
-      }
       return end - this.start
     },
 

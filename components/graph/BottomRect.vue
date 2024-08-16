@@ -1,5 +1,5 @@
 <template>
-  <v-rect v-if="start" :config="config"></v-rect>
+  <v-rect v-if="start !== null" :config="config"></v-rect>
 </template>
 
 <script>

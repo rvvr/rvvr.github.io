@@ -6,7 +6,7 @@
           <template v-if="current_round_number">
             <!-- <span class="mr-1">Play</span> -->
             <IconsCycle class="mr-1 h-3.5 w-3.5 pt-px text-neutral-content" />
-            {{ `${current_round_number}`.slice(-2) }}/{{ `${max_round_number}`.slice(-2) }}
+            {{ roundNumber }}/{{ `${max_round_number}`.slice(-2) }}
           </template>
         </div>
 
@@ -42,10 +42,19 @@
   <dialog class="modal" ref="modal">
     <ModalsRoomClosed :room-rating="roomRating" :user="user" />
   </dialog>
+
+  <dialog class="modal" ref="modalsRoundClosed">
+    <ModalsRoundClosed
+      :room-rating="roomRating"
+      :roundNumber="roundNumber"
+      :user="user"
+      :userRating="userRating"
+    />
+  </dialog>
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia'
+import { mapState } from 'pinia'
 import rooms from '~/mixins/rooms'
 
 export default {
@@ -60,6 +69,12 @@ export default {
       this.$refs.modal.showModal()
       this.closeRoomSocket()
     },
+      if (round_status === 'closed') {
+        setTimeout(() => this.$refs.modalsRoundClosed.showModal(), 3000)
+      } else {
+        this.$refs.modalsRoundClosed.open = false
+      }
+    },
   },
   computed: {
     ...mapState(useRoomStore, ['userRating', 'roomRating', 'current_round_number', 'max_round_number']),
@@ -69,14 +84,21 @@ export default {
       const left = this.max_round_number - this.current_round_number + 1
       return left > 99 ? '99+' : left
     },
+
+    roundNumber() {
+      return `${this.current_round_number}`.slice(-2)
+    },
   },
   mounted() {
+    // this.$refs.modalsRoundClosed.showModal()
     this.openRoomSocket(this.$route.params.room)
     this.$bus.on('closeRoom', this.closeRoom)
+    this.$bus.on('start', this.manageEvent)
   },
   unmounted() {
     this.closeRoomSocket()
     this.$bus.off('closeRoom', this.closeRoom)
+    this.$bus.off('start', this.manageEvent)
   },
 }
 </script>

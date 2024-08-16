@@ -12,7 +12,7 @@
               ? useRuntimeConfig().public.baseURL + player.avatar_url
               : `https://robohash.org/${i}.png?set=set3`
           "
-          class="h-7 w-7"
+          class="h-7 w-7 bg-black"
         />
       </div>
     </div>

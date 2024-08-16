@@ -24,9 +24,7 @@
                       : `https://robohash.org/${i}.png?set=set3`
                   "
                   class="mr-2 h-8 w-8 rounded-full"
-                />
-
-                {{ row.username }}
+                /><span class="inline-block w-48 overflow-hidden overflow-ellipsis">{{ row.username }}</span>
               </div>
             </td>
             <td

@@ -56,7 +56,7 @@ import { xLine, xLinesLabel } from './graphData'
 
 const step = 2
 const xLinesCount = 200
-const ratio = 1 // pixels for unit
+const ratio = 1.5 // pixels for unit
 const divider = 1_00000000 // how much decimals
 const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
@@ -229,6 +229,7 @@ export default {
 
     pushData(rate) {
       const newRate = rate || this.liveRate
+      if (this.rate === newRate) return
       const change = this.calcRateToPixels(this.rate - newRate)
       this.addPoint(this.currentY + change)
       this.rate = newRate

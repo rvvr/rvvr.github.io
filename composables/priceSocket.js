@@ -30,8 +30,7 @@ export class PriceSocket {
       if (symbol_id.includes('_PERP_')) return
       // if (ask_price < 56000) return
       // if (ask_price > 65000) return
-
-      // if (oldPrice && Math.abs(oldPrice - ask_price) > 100) return
+      if (oldPrice && Math.abs(oldPrice - ask_price) > 2000) return
       arr.push(ask_price)
     })
 

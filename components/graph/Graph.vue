@@ -246,7 +246,6 @@ export default {
     PriceSocket.start((price) => {
       // price = Number(price).toFixed(8).replace(/\./g, '')
       this.liveRate = pad(price)
-      arr.push(this.liveRate)
 
       if (this.rate) return
 
@@ -264,6 +263,4 @@ export default {
     PriceSocket.stop()
   },
 }
-
-let arr = []
 </script>

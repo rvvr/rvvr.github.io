@@ -56,7 +56,7 @@ import { xLine, xLinesLabel } from './graphData'
 
 const step = 2
 const xLinesCount = 200
-const ratio = 0.5 // pixels for unit
+const ratio = 1 // pixels for unit
 const divider = 1_00000000 // how much decimals
 const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
@@ -190,11 +190,6 @@ export default {
       }
     },
 
-    manageGraph() {
-      this.pushData()
-      // this.doStep()
-      // this.handleYOverflow()
-    },
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
@@ -244,20 +239,23 @@ export default {
 
   mounted() {
     PriceSocket.start((price) => {
-      // price = Number(price).toFixed(8).replace(/\./g, '')
-      this.liveRate = pad(price)
+      price = pad(price)
+      if (!this.liveRate) this.liveRate = price
+
+      const step = (this.liveRate - price) / 10
+      const intervalId = setInterval(() => (this.liveRate -= step), 100)
+      setTimeout(() => clearInterval(intervalId), 1000)
 
       if (this.rate) return
-
       this.rate = this.liveRate
       this.initStage()
-      this.$bus.on('nanoSec', this.manageGraph)
+      this.$bus.on('nanoSec', this.pushData)
       this.$bus.on('start', this.manageEvent)
       this.$bus.on('winner', this.manageWinner)
     })
   },
   unmounted() {
-    this.$bus.off('nanoSec', this.manageGraph)
+    this.$bus.off('nanoSec', this.pushData)
     this.$bus.off('start', this.manageEvent)
     this.$bus.off('winner', this.manageWinner)
     PriceSocket.stop()

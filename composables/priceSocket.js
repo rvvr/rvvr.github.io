@@ -28,14 +28,8 @@ export class PriceSocket {
       const { ask_price, symbol_id } = JSON.parse(data)
       if (symbol_id.includes('_OPT_')) return
       if (symbol_id.includes('_PERP_')) return
-      // if (ask_price < 56000) {
-      //   console.log(symbol_id)
-      //   return
-      // }
-      // if (ask_price > 65000) {
-      //   console.log(symbol_id)
-      //   return
-      // }
+      // if (ask_price < 56000) return
+      // if (ask_price > 65000) return
 
       // if (oldPrice && Math.abs(oldPrice - ask_price) > 100) return
       arr.push(ask_price)
@@ -49,7 +43,7 @@ export class PriceSocket {
         oldPrice = price
         cb(price)
         arr = []
-      }, 500),
+      }, 1000),
     )
   }
 

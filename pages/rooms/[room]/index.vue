@@ -69,6 +69,7 @@ export default {
       this.$refs.modal.showModal()
       this.closeRoomSocket()
     },
+    manageEvent({ round_status }) {
       if (round_status === 'closed') {
         setTimeout(() => this.$refs.modalsRoundClosed.showModal(), 3000)
       } else {

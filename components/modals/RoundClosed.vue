@@ -72,3 +72,9 @@ export default {
   props: ['roomRating', 'user', 'roundNumber', 'userRating'],
 }
 </script>
+
+<style scoped>
+.table :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child) {
+  border-bottom-width: 0 !important;
+}
+</style>

@@ -51,14 +51,6 @@ export const useRoomStore = defineStore('room', {
       return await api.get(`/rooms/`)
     },
 
-    async getUserRooms() {
-      return await api.get(`/rooms/active/` + this.user_id)
-    },
-
-    async getOpenRooms() {
-      return await api.get(`/rooms/available/` + this.user_id)
-    },
-
     async joinRoom(room_id) {
       return await api.post('/room/join', { room_id })
     },

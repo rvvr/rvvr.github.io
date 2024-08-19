@@ -46,12 +46,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(useRoomStore, ['getUserRooms', 'getOpenRooms', 'joinRoom', 'getRooms']),
+    ...mapActions(useRoomStore, ['joinRoom', 'getRooms']),
 
     async fetch() {
       const { active, available } = await this.getRooms()
 
-      // const [activeRooms, availableRooms] = await Promise.all([this.getUserRooms(), this.getOpenRooms()])
       this.activeRooms = active
         .filter((r) => r.status !== 'ended')
         .map((r) => {

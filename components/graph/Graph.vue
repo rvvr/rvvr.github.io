@@ -63,7 +63,6 @@ const divider = 1_00000000 // how much decimals
 const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
 const tempo = Math.floor(xLinesCount / 2)
-let stageReady = false
 
 export default {
   data() {
@@ -79,6 +78,8 @@ export default {
       startX: null,
       finishX: null,
       winSide: null,
+
+      stageReady: false,
     }
   },
 
@@ -130,7 +131,7 @@ export default {
           ...c,
         }
       })
-      stageReady = true
+      this.stageReady = true
     },
     doStep() {
       if (this.currentX >= this.stage.width - 100) {
@@ -196,7 +197,7 @@ export default {
     manageEvent({ round_status, startRate, endRate, winner_side, left }) {
       this.liveRate = pad(+endRate || +startRate)
 
-      if (!stageReady) {
+      if (!this.stageReady) {
         this.initStage(this.liveRate)
         this.$bus.on('nanoSec', this.pushData)
       }

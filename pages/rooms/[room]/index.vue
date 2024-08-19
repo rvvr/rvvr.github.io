@@ -71,7 +71,7 @@ export default {
     },
     manageEvent({ round_status }) {
       if (round_status === 'closed') {
-        setTimeout(() => this.$refs.modalsRoundClosed.showModal(), 3000)
+        his.$refs.modalsRoundClosed.showModal()
       } else {
         this.$refs.modalsRoundClosed.open = false
       }

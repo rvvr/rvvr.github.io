@@ -194,8 +194,6 @@ export default {
       return this.convert(rate) * ratio
     },
     manageEvent({ round_status, startRate, endRate, winner_side, left }) {
-      if (round_status === 'open') return
-
       this.liveRate = pad(+endRate || +startRate)
 
       if (!stageReady) {
@@ -231,7 +229,8 @@ export default {
       this.winSide = side
     },
     pushData() {
-      const newRate = this.liveRate || random(this.rate - 10_00000000, this.rate + 10_00000000)
+      const randomRate = random(this.rate - 10_00000000, this.rate + 10_00000000)
+      const newRate = this.liveRate || randomRate
 
       const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)

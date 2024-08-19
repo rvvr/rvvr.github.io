@@ -197,6 +197,8 @@ export default {
     manageEvent({ round_status, startRate, endRate, winner_side, left }) {
       this.liveRate = pad(+endRate || +startRate)
 
+      this.pushData(this.liveRate)
+
       if (!this.stageReady) {
         this.initStage(this.liveRate)
         this.$bus.on('nanoSec', this.pushData)
@@ -229,8 +231,8 @@ export default {
     manageWinner(side) {
       this.winSide = side
     },
-    pushData() {
-      const newRate = this.liveRate || random(this.rate - 10_00000000, this.rate + 10_00000000)
+    pushData(rate) {
+      const newRate = rate || random(this.rate - 10_00000000, this.rate + 10_00000000)
 
       const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)
@@ -239,7 +241,6 @@ export default {
       this.rate = newRate
       this.doStep()
       this.handleYOverflow()
-      this.liveRate = null
     },
   },
 

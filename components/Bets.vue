@@ -11,7 +11,7 @@
         <span v-show="!disabled">{{ 'up' }}</span>
       </button>
 
-      <div class="relative">
+      <!-- <div class="relative">
         <div class="bottom-2 mb-2 mt-1 w-full text-center text-xs leading-none text-white opacity-50">
           Wager
         </div>
@@ -22,7 +22,9 @@
         >
           <option v-for="(btnRate, i) in rates" :key="i" :value="btnRate">{{ btnRate }}%</option>
         </select>
-      </div>
+      </div> -->
+
+      <Timer />
 
       <button
         :key="'down'"

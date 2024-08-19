@@ -45,3 +45,7 @@ body {
   color: theme(colors.neutral-content);
   display: none;
 }
+
+.modal::backdrop {
+  filter: blur(5px);
+}

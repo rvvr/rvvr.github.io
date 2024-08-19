@@ -25,7 +25,7 @@
     </template>
   </NavbarView>
 
-  <div class="font-oswald flex items-center justify-between bg-[#09090b] pb-2 pl-4 pr-1.5 text-xs">
+  <!-- <div class="font-oswald flex items-center justify-between bg-[#09090b] pb-2 pl-4 pr-1.5 text-xs">
     <div class="flex pt-px">
       <div><IconsTrophy class="inline h-3 w-3 align-baseline text-neutral-content" /> 3 USDT</div>
       <div class="mx-1.5 opacity-50">/</div>
@@ -35,22 +35,24 @@
     </div>
 
     <div class="btn btn-neutral btn-xs">How to play?</div>
-  </div>
+  </div> -->
 
   <Game />
 
-  <dialog class="modal" ref="modal">
-    <ModalsRoomClosed :room-rating="roomRating" :user="user" />
-  </dialog>
+  <Teleport to="#modals">
+    <dialog class="modal" ref="modal">
+      <ModalsRoomClosed :room-rating="roomRating" :user="user" />
+    </dialog>
 
-  <dialog class="modal" ref="modalsRoundClosed">
-    <ModalsRoundClosed
-      :room-rating="roomRating"
-      :roundNumber="roundNumber"
-      :user="user"
-      :userRating="userRating"
-    />
-  </dialog>
+    <dialog class="modal" ref="modalsRoundClosed">
+      <ModalsRoundClosed
+        :room-rating="roomRating"
+        :roundNumber="roundNumber"
+        :user="user"
+        :userRating="userRating"
+      />
+    </dialog>
+  </Teleport>
 </template>
 
 <script>
@@ -72,11 +74,17 @@ export default {
     manageEvent({ round_status }) {
       if (round_status === 'closed') {
         setTimeout(() => {
-          if (this.$refs.modalsRoundClosed) this.$refs.modalsRoundClosed.showModal()
+          if (this.$refs.modalsRoundClosed) {
+            document.getElementById('main').classList.add('blur-sm')
+            this.$refs.modalsRoundClosed.showModal()
+          }
         }, 2000)
         setTimeout(() => {
-          if (this.$refs.modalsRoundClosed) this.$refs.modalsRoundClosed.close()
-        }, 7000)
+          if (this.$refs.modalsRoundClosed) {
+            this.$refs.modalsRoundClosed.close()
+            document.getElementById('main').classList.remove('blur-sm')
+          }
+        }, 10000)
       }
     },
   },
@@ -94,7 +102,6 @@ export default {
     },
   },
   mounted() {
-    // this.$refs.modalsRoundClosed.showModal()
     this.openRoomSocket(this.$route.params.room)
     this.$bus.on('closeRoom', this.closeRoom)
     this.$bus.on('start', this.manageEvent)

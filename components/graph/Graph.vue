@@ -5,6 +5,7 @@
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
           <GraphBottomRect
+            v-if="roundStatus != 'open'"
             :current-x="currentX"
             :currentY="currentY"
             :finish="finishX"
@@ -13,6 +14,7 @@
             :start="startX"
           />
           <GraphTopRect
+            v-if="roundStatus != 'open'"
             :current-x="currentX"
             :currentY="currentY"
             :finish="finishX"
@@ -43,7 +45,13 @@
 
           <GraphStart :stage="stage" :x="startX" />
           <GraphFinish :stage="stage" :x="finishX" />
-          <GraphWinnerSign :finishX="finishX" :freezeY="freezeY" :startX="startX" :winSide="winSide" />
+          <GraphWinnerSign
+            v-if="roundStatus === 'closed'"
+            :finishX="finishX"
+            :freezeY="freezeY"
+            :startX="startX"
+            :winSide="winSide"
+          />
         </v-layer>
       </v-stage>
     </client-only>
@@ -78,7 +86,7 @@ export default {
       startX: null,
       finishX: null,
       winSide: null,
-
+      roundStatus: null,
       stageReady: false,
     }
   },
@@ -196,7 +204,8 @@ export default {
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent({ round_status, startRate, endRate, winner_side, left }) {
+    manageEvent({ round_status, startRate, endRate, winner_side, left, next }) {
+      this.roundStatus = round_status
       this.liveRate = pad(+endRate || +startRate)
 
       this.pushData(this.liveRate)
@@ -204,6 +213,11 @@ export default {
       if (!this.stageReady) {
         this.initStage(this.liveRate)
         this.$bus.on('nanoSec', this.pushData)
+      }
+
+      if (round_status === 'open') {
+        this.startX = this.currentX + (left / 100) * step
+        this.finishX = this.startX + (next / 100) * step
       }
 
       if (round_status === 'running') {
@@ -242,7 +256,7 @@ export default {
 
       // do not change
       this.rate = newRate
-      if (!rate) this.doStep()
+      this.doStep()
     },
   },
 

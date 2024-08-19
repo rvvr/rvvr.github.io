@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-box p-4">
+  <div class="p-4">
     <h3 class="text-center text-lg font-bold">
       Round <span class="">{{ roundNumber }}</span> finished
     </h3>

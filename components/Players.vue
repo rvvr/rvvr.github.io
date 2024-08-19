@@ -5,15 +5,14 @@
         <div>{{ players.up.length }} players</div>
         <div class="text-right font-bold text-lime-500">{{ treasury.up }}</div>
       </div>
-      <PlayersGrid side="up" />
+      <!-- <PlayersGrid side="up" /> -->
     </div>
-    <Timer />
     <div class="flex-1 px-4">
       <div class="flex justify-between">
         <div class="font-bold text-red-500">{{ treasury.down }}</div>
         <div class="text-right">{{ players.down.length }} players</div>
       </div>
-      <PlayersGrid side="down" />
+      <!-- <PlayersGrid side="down" /> -->
     </div>
   </div>
 </template>

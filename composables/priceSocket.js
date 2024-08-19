@@ -1,6 +1,5 @@
 import throttle from 'lodash.throttle'
 import mean from 'lodash.mean'
-import times from 'lodash.times'
 
 let arr = []
 let oldPrice = null

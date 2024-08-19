@@ -32,6 +32,7 @@
           <GraphVertLine :stage="stage" :x="finishX" />
 
           <GraphLivePrice
+            v-if="rate"
             :currentY="currentY"
             :price="livePrice"
             :rate="rate"
@@ -53,18 +54,22 @@
 
 <script>
 import { xLine, xLinesLabel } from './graphData'
+import random from 'lodash.random'
 
 const step = 2
 const xLinesCount = 200
-const ratio = 1.5 // pixels for unit
+const ratio = 1 // pixels for unit
 const divider = 1_00000000 // how much decimals
 const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
+const tempo = Math.floor(xLinesCount / 2)
+let stageReady = false
+let time = null
 
 export default {
   data() {
     return {
-      liveRate: null,
+      realRate: null,
       rate: null,
       currentX: 0,
       points: [0, 0, 0, 0],
@@ -99,16 +104,12 @@ export default {
   },
 
   methods: {
-    randomize(min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min)
-    },
-    initStage() {
+    initStage(rate) {
       this.stage.width = this.$refs.graph.clientWidth
       this.stage.height = this.$refs.graph.clientHeight
       const center = [0, this.stage.height / 2]
       this.points = [...center, ...center]
 
-      const tempo = Math.floor(xLinesCount / 2)
       const pixelsBetween = this.calcRateToPixels(moneyBetween)
       const startY = center[1] - tempo * pixelsBetween
 
@@ -121,7 +122,7 @@ export default {
         ...xLine,
       }))
 
-      const startPrice = this.rate + tempo * moneyBetween
+      const startPrice = rate + tempo * moneyBetween
       this.xLinesLabels = arrLines.map((c, i) => {
         return {
           x: this.stage.width,
@@ -130,6 +131,7 @@ export default {
           ...c,
         }
       })
+      stageReady = true
     },
     doStep() {
       if (this.currentX >= this.stage.width - 100) {
@@ -189,26 +191,31 @@ export default {
         if (this.freezeY) this.freezeY -= needMove
       }
     },
-
     calcRateToPixels(rate) {
       return this.convert(rate) * ratio
     },
-    manageEvent({ round_status, startRate, endRate, winner_side }) {
+    manageEvent({ round_status, startRate, endRate, winner_side, left }) {
+      if (round_status === 'open') return
+
+      this.liveRate = pad(+endRate || +startRate)
+      time = left
+
+      if (!stageReady) {
+        this.initStage(this.liveRate)
+        this.$bus.on('nanoSec', this.pushData)
+      }
+
       if (round_status === 'running') {
-        // this.pushData(pad(startRate))
         this.finishX = null
         this.startX = this.currentX
         this.freezeY = this.currentY
       }
       if (round_status === 'closed') {
-        // this.pushData(pad(endRate))
         this.finishX = this.currentX
         this.$bus.emit('winner', winner_side)
       }
-
       this.centralize()
     },
-
     centralize() {
       const needMove = this.stage.height / 2 - this.currentY
 
@@ -220,46 +227,34 @@ export default {
 
         count++
         if (count === 20) clearInterval(intervalId)
-      }, 50)
+      }, 100)
     },
-
     manageWinner(side) {
       this.winSide = side
     },
+    pushData() {
+      console.log(time)
+      const newRate = this.liveRate || random(this.rate - time * 100000, this.rate + time * 100000)
+      time -= 100
 
-    pushData(rate) {
-      const newRate = rate || this.liveRate
-      if (this.rate === newRate) return
-      const change = this.calcRateToPixels(this.rate - newRate)
+      const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)
+
       this.rate = newRate
       this.doStep()
       this.handleYOverflow()
+      this.liveRate = null
     },
   },
 
   mounted() {
-    PriceSocket.start((price) => {
-      price = pad(price)
-      if (!this.liveRate) this.liveRate = price
-
-      const step = (this.liveRate - price) / 10
-      const intervalId = setInterval(() => (this.liveRate -= step), 100)
-      setTimeout(() => clearInterval(intervalId), 1000)
-
-      if (this.rate) return
-      this.rate = this.liveRate
-      this.initStage()
-      this.$bus.on('nanoSec', this.pushData)
-      this.$bus.on('start', this.manageEvent)
-      this.$bus.on('winner', this.manageWinner)
-    })
+    this.$bus.on('start', this.manageEvent)
+    this.$bus.on('winner', this.manageWinner)
   },
   unmounted() {
     this.$bus.off('nanoSec', this.pushData)
     this.$bus.off('start', this.manageEvent)
     this.$bus.off('winner', this.manageWinner)
-    PriceSocket.stop()
   },
 }
 </script>

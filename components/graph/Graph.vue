@@ -229,12 +229,12 @@ export default {
       this.winSide = side
     },
     pushData() {
-      const randomRate = random(this.rate - 10_00000000, this.rate + 10_00000000)
-      const newRate = this.liveRate || randomRate
+      const newRate = this.liveRate || random(this.rate - 10_00000000, this.rate + 10_00000000)
 
       const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)
 
+      // do not change
       this.rate = newRate
       this.doStep()
       this.handleYOverflow()

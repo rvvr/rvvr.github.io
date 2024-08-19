@@ -153,6 +153,8 @@ export default {
       } else {
         this.currentX += step
       }
+
+      this.handleYOverflow()
     },
     moveLayer(start, step) {
       for (let i = start; i < this.points.length; i += 2) {
@@ -213,6 +215,7 @@ export default {
         this.finishX = this.currentX
         this.$bus.emit('winner', winner_side)
       }
+
       this.centralize()
     },
     centralize() {
@@ -239,8 +242,7 @@ export default {
 
       // do not change
       this.rate = newRate
-      this.doStep()
-      this.handleYOverflow()
+      if (!rate) this.doStep()
     },
   },
 

@@ -71,9 +71,12 @@ export default {
     },
     manageEvent({ round_status }) {
       if (round_status === 'closed') {
-        this.$refs.modalsRoundClosed.showModal()
-      } else {
-        this.$refs.modalsRoundClosed.open = false
+        setTimeout(() => {
+          if (this.$refs.modalsRoundClosed) this.$refs.modalsRoundClosed.showModal()
+        }, 2000)
+        setTimeout(() => {
+          if (this.$refs.modalsRoundClosed) this.$refs.modalsRoundClosed.close()
+        }, 7000)
       }
     },
   },

@@ -64,7 +64,6 @@ const moneyBetween = (50 / ratio) * divider
 const overflowSpace = 60
 const tempo = Math.floor(xLinesCount / 2)
 let stageReady = false
-let time = null
 
 export default {
   data() {
@@ -198,7 +197,6 @@ export default {
       if (round_status === 'open') return
 
       this.liveRate = pad(+endRate || +startRate)
-      time = left
 
       if (!stageReady) {
         this.initStage(this.liveRate)
@@ -233,9 +231,7 @@ export default {
       this.winSide = side
     },
     pushData() {
-      console.log(time)
-      const newRate = this.liveRate || random(this.rate - time * 100000, this.rate + time * 100000)
-      time -= 100
+      const newRate = this.liveRate || random(this.rate - 10_00000000, this.rate + 10_00000000)
 
       const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)

@@ -46,17 +46,19 @@ export default {
   },
 
   methods: {
-    ...mapActions(useRoomStore, ['getUserRooms', 'getOpenRooms', 'joinRoom']),
+    ...mapActions(useRoomStore, ['getUserRooms', 'getOpenRooms', 'joinRoom', 'getRooms']),
 
     async fetch() {
-      const [activeRooms, availableRooms] = await Promise.all([this.getUserRooms(), this.getOpenRooms()])
-      this.activeRooms = activeRooms
+      const { active, available } = await this.getRooms()
+
+      // const [activeRooms, availableRooms] = await Promise.all([this.getUserRooms(), this.getOpenRooms()])
+      this.activeRooms = active
         .filter((r) => r.status !== 'ended')
         .map((r) => {
           r.active = true
           return r
         })
-      this.availableRooms = availableRooms //.sort((a, b) => a.id - b.id)
+      this.availableRooms = available //.sort((a, b) => a.id - b.id)
     },
 
     async join(id, event) {

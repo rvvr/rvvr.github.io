@@ -47,6 +47,10 @@ export const useRoomStore = defineStore('room', {
       return await api.get('/standings/' + id)
     },
 
+    async getRooms() {
+      return await api.get(`/rooms/`)
+    },
+
     async getUserRooms() {
       return await api.get(`/rooms/active/` + this.user_id)
     },

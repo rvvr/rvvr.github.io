@@ -1,5 +1,8 @@
 <template>
-  <v-line :config="{ points: [x, 0, x, stage.height], stroke: '#f4d56f', strokeWidth: 1 }"></v-line>
+  <v-line
+    v-if="x !== null"
+    :config="{ points: [x, 0, x, stage.height], stroke: '#f4d56f', strokeWidth: 1 }"
+  ></v-line>
 </template>
 
 <script>

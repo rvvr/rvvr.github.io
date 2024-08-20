@@ -224,7 +224,6 @@ export default {
       }
       if (round_status === 'closed') {
         this.finishX = this.currentX
-        this.$bus.emit('winner', winner_side)
       }
 
       this.centralize()

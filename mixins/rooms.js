@@ -21,7 +21,7 @@ export default {
       useRoomStore().$patch(data)
 
       if (data.winner_side) {
-        // nuxtApp.$bus.emit('winner', data.winner_side)
+        nuxtApp.$bus.emit('winner', data.winner_side)
       }
 
       if (data.current_round_number === data.max_round_number && data.round_status === 'closed') {

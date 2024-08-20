@@ -22,11 +22,6 @@ body {
   @apply !border-neutral-content !text-neutral-content;
 }
 
-.graph-wrap {
-  //border-top: 1px solid rgba(255, 255, 255, 0.12);
-  //border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
 .Toastify__toast-container--bottom-center {
   z-index: 99 !important;
 }
@@ -44,8 +39,4 @@ body {
 .Toastify__close-button {
   color: theme(colors.neutral-content);
   display: none;
-}
-
-.modal::backdrop {
-  filter: blur(5px);
 }

@@ -1,3 +1,5 @@
+import { mapState } from 'pinia'
+
 export default {
   methods: {
     openRoomSocket(room_id) {
@@ -14,8 +16,8 @@ export default {
     manageSocketEvent(data) {
       const nuxtApp = useNuxtApp()
 
-      useRoomStore().$patch(data)
       nuxtApp.$bus.emit('start', data)
+      useRoomStore().$patch(data)
 
       if (data.winner_side) {
         // nuxtApp.$bus.emit('winner', data.winner_side)
@@ -25,5 +27,16 @@ export default {
         nuxtApp.$bus.emit('closeRoom')
       }
     },
+  },
+
+  computed: {
+    ...mapState(useUserStore, ['user']),
+  },
+
+  mounted() {
+    this.openRoomSocket(this.$route.params.room)
+  },
+  unmounted() {
+    this.closeRoomSocket()
   },
 }

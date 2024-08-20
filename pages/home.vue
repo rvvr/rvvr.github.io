@@ -40,11 +40,6 @@
 
     <div class="flex flex-col items-center justify-center">
       <div class="text-center">
-        <div class="font-oswald flex items-center justify-center text-center text-sm opacity-50">
-          <IconsInfo class="mr-1 inline h-4 w-4" />
-          Your balance, tap bull to earn more coins
-        </div>
-
         <div class="mt-4 inline-flex items-center justify-center" ref="balance">
           <img class="mr-2 h-6 w-6" alt="" src="/coin.png" />
           <span class="font-mono text-3xl font-bold text-lime-500">{{ user.balance }}</span>
@@ -63,6 +58,11 @@
           @touchstart="storeEvent($event)"
           class="absolute left-0 top-0 h-full w-full no-underline hover:no-underline"
         ></button>
+      </div>
+
+      <div class="font-oswald mt-4 flex items-center justify-center text-center text-sm opacity-50">
+        <IconsInfo class="mr-1 inline h-4 w-4" />
+        Tap bull to earn more coins
       </div>
     </div>
   </div>

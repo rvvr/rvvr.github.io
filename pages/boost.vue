@@ -11,20 +11,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia'
+import { mapActions } from 'pinia'
 import rooms from '~/mixins/rooms'
 
 export default {
   mixins: [rooms],
 
-  data() {
-    return {
-      wss: null,
-    }
-  },
-  computed: {
-    ...mapState(useUserStore, ['user']),
-  },
   methods: {
     ...mapActions(useUserStore, ['fetchUser']),
 
@@ -33,11 +25,9 @@ export default {
     },
   },
   mounted() {
-    this.openRoomSocket(this.$route.params.room)
     this.$bus.on('winner', this.manageWinner)
   },
   unmounted() {
-    this.closeRoomSocket()
     this.$bus.off('winner', this.manageWinner)
   },
 }

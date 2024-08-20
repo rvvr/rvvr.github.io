@@ -218,6 +218,7 @@ export default {
 
       if (round_status === 'open') {
         this.startX = this.currentX + (left / 100) * step
+        this.finishX = null
       }
 
       if (round_status === 'running') {

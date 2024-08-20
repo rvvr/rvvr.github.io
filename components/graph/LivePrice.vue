@@ -7,9 +7,14 @@
 import { lime, red } from 'tailwindcss/colors'
 
 export default {
-  props: ['rate', 'price', 'stage', 'currentY', 'sideHightLighted'],
+  props: ['rate', 'price', 'stage', 'currentY', 'roundStatus', 'freezeY'],
 
   computed: {
+    sideHightLighted() {
+      if (this.roundStatus !== 'running') return false
+      return this.currentY > this.freezeY ? 'down' : 'up'
+    },
+
     fillColor() {
       if (this.sideHightLighted) {
         return this.sideHightLighted === 'up' ? lime['500'] : red['500']
@@ -20,16 +25,7 @@ export default {
     livePriceY() {
       return this.currentY - 10
     },
-    // livePriceRateTextRect() {
-    //   return {
-    //     fill: '#09090b',
-    //     height: 16,
-    //     width: 60,
-    //     offsetX: 62 + 2,
-    //     x: this.stage.width,
-    //     y: this.livePriceY + 2,
-    //   }
-    // },
+
     livePriceRateText() {
       return {
         align: 'left',

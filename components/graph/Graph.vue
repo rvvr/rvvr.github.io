@@ -37,9 +37,10 @@
           <GraphLivePrice
             v-if="rate"
             :currentY="currentY"
+            :freeze-y="freezeY"
             :price="livePrice"
             :rate="rate"
-            :sideHightLighted="sideHightLighted"
+            :roundStatus="roundStatus"
             :stage="stage"
           />
           <GraphShadow :stage="stage" />
@@ -104,11 +105,6 @@ export default {
     },
     livePrice() {
       return this.convert(this.rate).toFixed(4)
-    },
-    sideHightLighted() {
-      const running = this.startX && !this.finishX
-      const winningSide = this.currentY > this.freezeY ? 'down' : 'up'
-      return running ? winningSide : false
     },
   },
 

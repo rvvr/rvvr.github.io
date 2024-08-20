@@ -8,6 +8,8 @@
   </NavbarView>
 
   <Game />
+
+  <ModalsRoundClosed />
 </template>
 
 <script>

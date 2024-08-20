@@ -25,13 +25,14 @@
           <GraphBack :stage="stage" />
 
           <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
+
+          <GraphVertLine :stage="stage" :x="startX" />
+          <GraphVertLine :stage="stage" :x="finishX" />
+
           <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
           <GraphLine :points="points" :stage="stage" />
           <GraphLineEnd :currentX="currentX" :currentY="currentY" />
-
-          <GraphVertLine :stage="stage" :x="startX" />
-          <GraphVertLine :stage="stage" :x="finishX" />
 
           <GraphLivePrice
             v-if="rate"
@@ -217,7 +218,6 @@ export default {
 
       if (round_status === 'open') {
         this.startX = this.currentX + (left / 100) * step
-        this.finishX = this.startX + (next / 100) * step
       }
 
       if (round_status === 'running') {

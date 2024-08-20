@@ -1,6 +1,6 @@
 let manage
 let on = false
-const tick = 90
+const tick = 100
 
 const getTime = () => performance.now()
 

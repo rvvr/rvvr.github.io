@@ -28,6 +28,8 @@ export const useRoomStore = defineStore('room', {
     standings: [],
     current_round_number: null,
     max_round_number: null,
+    actual_time_left: null,
+    rewards: {},
   }),
 
   getters: {

@@ -1,7 +1,8 @@
 <template>
   <div class="p-4">
     <h3 class="text-center text-lg font-bold">
-      Round <span class="">{{ roundNumber }}</span> finished
+      Round <span class="">{{ `${current_round_number}`.slice(-2) }}</span> of
+      {{ `${max_round_number}`.slice(-2) }} finished. {{ roundsLeft }} rounds left.
     </h3>
 
     <div class="grid grid-cols-[1fr_auto] grid-rows-3 gap-x-2 py-2 text-sm text-white text-opacity-80">
@@ -68,8 +69,18 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+
 export default {
-  props: ['roomRating', 'user', 'roundNumber', 'userRating'],
+  computed: {
+    ...mapState(useRoomStore, ['userRating', 'roomRating', 'current_round_number', 'max_round_number']),
+    ...mapState(useUserStore, ['user']),
+
+    roundsLeft() {
+      const left = this.max_round_number - this.current_round_number + 1
+      return left > 99 ? '99+' : left
+    },
+  },
 }
 </script>
 

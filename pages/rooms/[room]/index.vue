@@ -45,12 +45,7 @@
     </dialog>
 
     <dialog class="modal" ref="modalsRoundClosed">
-      <ModalsRoundClosed
-        :room-rating="roomRating"
-        :roundNumber="roundNumber"
-        :user="user"
-        :userRating="userRating"
-      />
+      <ModalsRoundClosed />
     </dialog>
   </Teleport>
 </template>

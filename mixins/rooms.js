@@ -17,6 +17,7 @@ export default {
       const nuxtApp = useNuxtApp()
 
       nuxtApp.$bus.emit('start', data)
+      useRoomStore().$reset()
       useRoomStore().$patch(data)
 
       if (data.winner_side) {

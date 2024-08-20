@@ -31,13 +31,13 @@
           <div class="font-bold text-neutral-content">
             {{ userRating.position }}
           </div>
-          <template v-if="rewardInfo">
-            <div>You {{ rewardInfo.win_size > 0 ? 'won' : 'lost' }} in Round</div>
+          <template v-if="winSize">
+            <div>You {{ winSize > 0 ? 'won' : 'lost' }} in Round</div>
             <div
-              :class="[rewardInfo.win_size > 0 ? 'text-lime-500' : 'text-red-500']"
+              :class="[winSize > 0 ? 'text-lime-500' : 'text-red-500']"
               class="font-bold text-neutral-content"
             >
-              {{ Math.abs(rewardInfo.win_size) }}
+              {{ Math.abs(winSize) }}
             </div>
           </template>
           <div>Balance after Round</div>
@@ -96,15 +96,12 @@
       </template>
 
       <div
-        v-else-if="rewardInfo"
+        v-else-if="winSize"
         class="grid grid-cols-[1fr_auto] grid-rows-2 gap-x-2 pb-6 text-white text-opacity-80"
       >
-        <div>You {{ rewardInfo.win_size > 0 ? 'won' : 'lost' }} in Round</div>
-        <div
-          :class="[rewardInfo.win_size > 0 ? 'text-lime-500' : 'text-red-500']"
-          class="font-bold text-neutral-content"
-        >
-          {{ Math.abs(rewardInfo.win_size) }}
+        <div>You {{ winSize > 0 ? 'won' : 'lost' }} in Round</div>
+        <div :class="[winSize > 0 ? 'text-lime-500' : 'text-red-500']" class="font-bold text-neutral-content">
+          {{ Math.abs(winSize) }}
         </div>
         <div>Balance after Round</div>
         <div class="font-bold text-neutral-content">{{ user.balance }}</div>
@@ -144,8 +141,9 @@ export default {
       return this.winner_side === 'up'
     },
 
-    rewardInfo() {
-      return this.rewards[this.user.user_id]
+    winSize() {
+      const rewardInfo = this.rewards?.[this.user.user_id]
+      return rewardInfo ? rewardInfo.win_size : false
     },
   },
 

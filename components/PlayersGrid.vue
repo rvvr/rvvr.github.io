@@ -38,17 +38,17 @@ export default {
   computed: {
     ...mapState(useRoomStore, ['players']),
   },
-  methods: {
-    manageWinner(side) {
-      this.animation = side === this.side ? 'animate-bounce' : ''
-      setTimeout(() => (this.animation = ''), 3500)
-    },
-  },
-  mounted() {
-    this.$bus.on('winner', this.manageWinner)
-  },
-  unmounted() {
-    this.$bus.off('winner', this.manageWinner)
-  },
+  // methods: {
+  //   manageWinner(side) {
+  //     this.animation = side === this.side ? 'animate-bounce' : ''
+  //     setTimeout(() => (this.animation = ''), 3500)
+  //   },
+  // },
+  // mounted() {
+  //   this.$bus.on('winner', this.manageWinner)
+  // },
+  // unmounted() {
+  //   this.$bus.off('winner', this.manageWinner)
+  // },
 }
 </script>

@@ -1,13 +1,13 @@
-export class GameSocket {
-  wss = null
+let wss = null
 
+export class GameSocket {
   static start(room_id) {
     useRoomStore().$reset()
 
-    this.wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
+    wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
     Timer.start()
 
-    this.wss.onmessage = ({ data }) => {
+    wss.onmessage = ({ data }) => {
       data = JSON.parse(data)
 
       const nuxtApp = useNuxtApp()
@@ -23,7 +23,7 @@ export class GameSocket {
   }
 
   static stop() {
-    this.wss.close()
+    wss.close()
     Timer.stop()
   }
 }

@@ -8,7 +8,7 @@ export default {
   mounted() {
     GameSocket.start(this.$route.params.room)
   },
-  unmounted() {
+  beforeUnmount() {
     GameSocket.stop()
   },
 }

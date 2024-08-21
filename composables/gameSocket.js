@@ -5,7 +5,7 @@ export class GameSocket {
     useRoomStore().$reset()
 
     this.wss = new WebSocket('wss://game.demo.cryptobull.io/api/v1/ws' + (room_id ? `/${room_id}` : ''))
-    timer.start()
+    Timer.start()
 
     this.wss.onmessage = ({ data }) => {
       data = JSON.parse(data)
@@ -24,6 +24,6 @@ export class GameSocket {
 
   static stop() {
     this.wss.close()
-    timer.stop()
+    Timer.stop()
   }
 }

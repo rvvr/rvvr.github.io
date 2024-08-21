@@ -1,29 +1,24 @@
-let manage
-let on = false
-const tick = 100
+import throttle from 'lodash.throttle'
 
-const getTime = () => performance.now()
+const action = throttle(() => {
+  useNuxtApp().$bus.emit('nanoSec')
+}, 100)
 
-export const timer = {
-  start: () => {
-    if (on) return
-    on = true
-    let zero = getTime()
-    manage = () => {
-      const now = getTime()
-      if (getTime() - zero > tick) {
-        const offset = now - zero - tick
-        zero = getTime() + offset
-        useNuxtApp().$bus.emit('nanoSec')
-      }
-      if (on) {
-        window.requestAnimationFrame(manage)
-      }
-    }
-    window.requestAnimationFrame(manage)
-  },
+const run = () => {
+  if (stopped) return
+  action()
+  window.requestAnimationFrame(run)
+}
 
-  stop: () => {
-    on = false
-  },
+let stopped = true
+
+export class Timer {
+  static start() {
+    stopped = false
+    run()
+  }
+
+  static stop() {
+    stopped = true
+  }
 }

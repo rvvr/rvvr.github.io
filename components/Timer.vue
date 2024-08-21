@@ -74,12 +74,10 @@ export default {
 
   mounted() {
     this.$bus.on('start', this.startTimer)
-    this.$bus.on('closeRoom', this.stopTimer)
   },
 
   unmounted() {
     this.$bus.off('start', this.startTimer)
-    this.$bus.off('closeRoom', this.stopTimer)
   },
 }
 </script>

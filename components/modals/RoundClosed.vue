@@ -133,7 +133,7 @@ export default {
     ...mapState(useUserStore, ['user']),
 
     roundsLeft() {
-      const left = this.max_round_number - this.current_round_number + 1
+      const left = this.max_round_number - this.current_round_number
       return left > 99 ? '99+' : left
     },
 

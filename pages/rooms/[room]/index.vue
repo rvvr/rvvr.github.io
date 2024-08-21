@@ -39,22 +39,23 @@ import rooms from '~/mixins/rooms'
 export default {
   mixins: [rooms],
 
-  methods: {
-    closeRoom() {
-      this.$refs.modal.showModal()
-      this.closeRoomSocket()
-    },
-  },
-
   computed: {
-    ...mapState(useRoomStore, ['userRating', 'roomRating', 'current_round_number', 'max_round_number']),
+    ...mapState(useRoomStore, [
+      'userRating',
+      'roomRating',
+      'current_round_number',
+      'max_round_number',
+      'round_status',
+    ]),
   },
 
-  mounted() {
-    this.$bus.on('closeRoom', this.closeRoom)
-  },
-  unmounted() {
-    this.$bus.off('closeRoom', this.closeRoom)
+  watch: {
+    current_round_number(current_round_number) {
+      if (this.current_round_number === this.max_round_number && this.round_status === 'closed') {
+        this.$refs.modal.showModal()
+        this.closeRoomSocket()
+      }
+    },
   },
 }
 </script>

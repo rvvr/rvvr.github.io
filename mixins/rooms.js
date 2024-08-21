@@ -1,12 +1,6 @@
 import { mapState } from 'pinia'
 
 export default {
-  methods: {
-    closeRoomSocket() {
-      GameSocket.stop()
-    },
-  },
-
   computed: {
     ...mapState(useUserStore, ['user']),
   },
@@ -15,6 +9,6 @@ export default {
     GameSocket.start(this.$route.params.room)
   },
   unmounted() {
-    this.closeRoomSocket()
+    GameSocket.stop()
   },
 }

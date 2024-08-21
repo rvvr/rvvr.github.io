@@ -50,7 +50,8 @@
         </NuxtLink>
 
         <button v-else class="btn w-full !text-opacity-80" disabled>
-          You will be able to join {{ time }}...
+          <span v-if="timeStamp > Date.now()"> You will be able to join {{ time }}... </span>
+          <span v-else>Starting...</span>
         </button>
       </div>
     </div>
@@ -102,6 +103,9 @@ export default {
   },
 
   computed: {
+    timeStamp() {
+      return dayjs.tz(this.room.start_date, 'Etc/UCT')
+    },
     time() {
       return dayjs.tz(this.room.start_date, 'Etc/UCT').fromNow()
     },

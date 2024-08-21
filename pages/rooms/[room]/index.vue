@@ -25,10 +25,7 @@
 
   <Game />
 
-  <dialog class="modal" ref="modal">
-    <ModalsRoomClosed :room-rating="roomRating" :user="user" />
-  </dialog>
-
+  <ModalsRoomClosed />
   <ModalsRoundClosed />
 </template>
 
@@ -40,22 +37,7 @@ export default {
   mixins: [rooms],
 
   computed: {
-    ...mapState(useRoomStore, [
-      'userRating',
-      'roomRating',
-      'current_round_number',
-      'max_round_number',
-      'round_status',
-    ]),
-  },
-
-  watch: {
-    current_round_number(current_round_number) {
-      if (this.current_round_number === this.max_round_number && this.round_status === 'closed') {
-        this.$refs.modal.showModal()
-        this.closeRoomSocket()
-      }
-    },
+    ...mapState(useRoomStore, ['userRating', 'roomRating', 'current_round_number', 'max_round_number']),
   },
 }
 </script>

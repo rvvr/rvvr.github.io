@@ -75,7 +75,7 @@ export default {
     })
     tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(tonConnectUI.wallet) : this.onLogout()))
   },
-  unmounted() {
+  beforeUnmount() {
     if (tonConnectUI) tonConnectUI.uiOptions = { buttonRootId: null }
   },
 }

@@ -76,7 +76,7 @@ export default {
     this.$bus.on('start', this.startTimer)
   },
 
-  unmounted() {
+  beforeUnmount() {
     this.$bus.off('start', this.startTimer)
   },
 }

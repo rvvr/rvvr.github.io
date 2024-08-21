@@ -72,7 +72,7 @@ export default {
     interval = setInterval(() => this.fetch(), 10000)
   },
 
-  unmounted() {
+  beforeUnmount() {
     clearInterval(interval)
   },
 }

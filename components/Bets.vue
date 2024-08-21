@@ -127,7 +127,7 @@ export default {
     this.$bus.on('winner', this.manageWinner)
   },
 
-  unmounted() {
+  beforeUnmount() {
     this.$bus.off('winner', this.manageWinner)
   },
 }

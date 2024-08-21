@@ -260,7 +260,7 @@ export default {
     this.$bus.on('start', this.manageEvent)
     this.$bus.on('winner', this.manageWinner)
   },
-  unmounted() {
+  beforeUnmount() {
     this.$bus.off('nanoSec', this.pushData)
     this.$bus.off('start', this.manageEvent)
     this.$bus.off('winner', this.manageWinner)

@@ -26,11 +26,7 @@
     <div class="overflow-x-auto">
       <table class="table-sm">
         <tbody>
-          <tr
-            v-for="(row, i) in roomRating.slice(0, 3)"
-            :key="i"
-            :class="{ 'bg-base-300 font-bold text-neutral-content': row.user_id === user.user_id }"
-          >
+          <tr v-for="(row, i) in roomRating.slice(0, 3)" :key="i">
             <td class="w-1">{{ row.position }}</td>
             <td>
               <div class="flex items-center">

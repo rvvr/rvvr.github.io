@@ -23,8 +23,11 @@
 
       <template v-if="roomRating.length">
         <h3 class="font-oswald text-lg">
-          Round <span class="">{{ `${current_round_number}`.slice(-2) }}</span> of
-          {{ `${max_round_number}`.slice(-2) }} finished. Rounds left {{ roundsLeft }}
+          <template v-if="roundsLeft">
+            Round <span class="">{{ `${current_round_number}`.slice(-2) }}</span> of
+            {{ `${max_round_number}`.slice(-2) }} finished. Rounds left {{ roundsLeft }}
+          </template>
+          <template v-else>Room finished!</template>
         </h3>
         <div class="grid grid-cols-[1fr_auto] grid-rows-3 gap-x-2 py-2 text-white text-opacity-80">
           <div>Position in the tournament</div>
@@ -104,7 +107,8 @@
       </div>
 
       <div class="mt-2 text-center">
-        <button @click="closeModal" class="btn btn-neutral">Close</button>
+        <button v-if="roundsLeft" @click="closeModal" class="btn btn-neutral">Close</button>
+        <button v-else @click="navigateTo('/rooms')" class="btn btn-neutral">Leave</button>
       </div>
     </div>
   </dialog>
@@ -151,13 +155,14 @@ export default {
 
   watch: {
     round_status(round_status, old) {
-      if (round_status === 'closed' && old) {
+      if (round_status === 'closed') {
+        if (this.current_round_number === this.max_round_number) {
+          GameSocket.stop()
+        }
         setTimeout(() => {
           if (this.$refs.modalsRoundClosed) this.$refs.modalsRoundClosed.showModal()
-        }, 2000)
-        return
-      }
-      this.closeModal()
+        }, 1000)
+      } else this.closeModal()
     },
   },
 }

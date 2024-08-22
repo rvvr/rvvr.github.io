@@ -7,7 +7,8 @@
     </template>
   </NavbarView>
 
-  <Game />
+  <Graph />
+  <Bets class="pb-4 pt-2" />
 
   <ModalsRoundClosed />
 </template>

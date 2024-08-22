@@ -23,8 +23,10 @@
     </template>
   </NavbarView>
 
-  <Players class="bg-[#09090b] pb-2" />
-  <Game />
+  <Players />
+
+  <Graph />
+  <Bets class="pb-4 pt-2" />
 
   <ModalsRoundClosed />
 </template>

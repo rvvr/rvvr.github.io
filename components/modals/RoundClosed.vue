@@ -25,7 +25,7 @@
         <h3 class="font-oswald text-lg">
           <template v-if="roundsLeft">
             Round <span class="">{{ `${current_round_number}`.slice(-2) }}</span> of
-            {{ `${max_round_number}`.slice(-2) }} finished. Rounds left {{ roundsLeft }}
+            {{ `${max_round_number}`.slice(-2) }} finished. Rounds left: {{ roundsLeft }}
           </template>
           <template v-else>Room finished!</template>
         </h3>

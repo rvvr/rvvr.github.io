@@ -5,10 +5,11 @@
         :key="'up'"
         @click="bet('up')"
         :disabled="disabled"
-        class="btn mx-2 h-14 flex-1 border-2 border-lime-700 bg-lime-500 pb-1 text-3xl font-bold uppercase leading-none text-white"
+        class="btn mx-2 h-14 flex-1 items-center border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase leading-none text-white"
+        type="button"
       >
         <IconsLock v-show="disabled" class="h-8 w-8" />
-        <span v-show="!disabled">up</span>
+        <IconsTriangle v-show="!disabled" class="h-8 w-8" />
       </button>
 
       <Timer />
@@ -18,15 +19,20 @@
         @click="bet('down')"
         :disabled="disabled"
         class="btn mx-2 h-14 flex-1 border-2 border-red-700 bg-red-500 pb-1 text-3xl font-bold uppercase leading-none text-white"
+        type="button"
       >
         <IconsLock v-show="disabled" class="h-8 w-8" />
-        <span v-show="!disabled">down</span>
+        <IconsTriangle v-show="!disabled" class="h-8 w-8 rotate-180" />
       </button>
     </div>
 
     <div class="grid grid-cols-3 gap-2 px-4 pt-2">
       <div></div>
-      <div class="font-oswald text-center leading-none">{{ rateAmount }}</div>
+
+      <div class="font-oswald text-center leading-none">
+        {{ rateAmount }}
+      </div>
+
       <div></div>
     </div>
 
@@ -68,7 +74,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useRoomStore, ['round_status', 'userRating']),
+    ...mapState(useRoomStore, ['round_status', 'userRating', 'winRates']),
     ...mapState(useUserStore, ['user']),
 
     disabled() {

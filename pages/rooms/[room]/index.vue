@@ -26,7 +26,7 @@
   <Players />
 
   <Graph />
-  <Bets class="pb-4 pt-2" />
+  <Bets />
 
   <ModalsRoundClosed />
 </template>

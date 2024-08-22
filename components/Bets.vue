@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <div class="font-oswald flex px-2">
+  <div class="pb-4 pt-2">
+    <div class="font-oswald flex px-3">
       <button
         :key="'up'"
         @click="bet('up')"
+        :class="{ '!bg-base-300': disabled, '!text-lime-500': side === 'up' }"
         :disabled="disabled"
-        class="btn mx-2 h-14 flex-1 items-center border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase leading-none text-white"
+        class="btn h-14 flex-1 items-center border-2 border-lime-700 bg-lime-500 text-3xl font-bold uppercase leading-none text-white"
         type="button"
       >
-        <IconsLock v-show="disabled" class="h-8 w-8" />
-        <IconsTriangle v-show="!disabled" class="h-8 w-8" />
+        <IconsLock v-show="disabled && side !== 'up'" class="h-8 w-8" />
+        <IconsTriangle v-show="!disabled || side === 'up'" class="h-8 w-8" />
       </button>
 
-      <Timer />
+      <Timer class="mx-2" />
 
       <button
         :key="'down'"
         @click="bet('down')"
+        :class="{ '!bg-base-300': disabled, '!text-red-500': side === 'down' }"
         :disabled="disabled"
-        class="btn mx-2 h-14 flex-1 border-2 border-red-700 bg-red-500 pb-1 text-3xl font-bold uppercase leading-none text-white"
+        class="btn h-14 flex-1 border-2 border-red-700 bg-red-500 pb-1 text-3xl font-bold uppercase leading-none text-white"
         type="button"
       >
-        <IconsLock v-show="disabled" class="h-8 w-8" />
-        <IconsTriangle v-show="!disabled" class="h-8 w-8 rotate-180" />
+        <IconsLock v-show="disabled && side !== 'down'" class="h-8 w-8" />
+        <IconsTriangle v-show="!disabled || side === 'down'" class="h-8 w-8 rotate-180" />
       </button>
     </div>
 
@@ -69,16 +71,16 @@ export default {
   data() {
     return {
       rate: 5,
-      sides: {},
+      side: null,
     }
   },
 
   computed: {
-    ...mapState(useRoomStore, ['round_status', 'userRating', 'winRates']),
+    ...mapState(useRoomStore, ['round_status', 'userRating', 'winRates', 'winner_side']),
     ...mapState(useUserStore, ['user']),
 
     disabled() {
-      return this.round_status !== 'open'
+      return this.side || this.round_status !== 'open'
     },
 
     balance() {
@@ -101,7 +103,7 @@ export default {
       }
       this.$toast.success(`${this.rateAmount} for ${side} is placed!`)
       this.addPlayer(side)
-      this.sides[side] = true
+      this.side = side
       const { down_total, up_total } = await this.placeBet(side, this.rateAmount)
 
       // temporary
@@ -113,28 +115,26 @@ export default {
       })
     },
 
-    manageWinner(side, sides) {
-      if (this.sides[side]) {
+    manageWinner() {
+      if (this.side === this.winner_side) {
         confetti({
           particleCount: 100,
           spread: 30,
           origin: {
-            x: side === 'up' ? 0.25 : 0.75,
+            x: this.side === 'up' ? 0.25 : 0.75,
             y: 0.8,
           },
           gravity: 4,
         })
       }
-      this.sides = {}
     },
   },
 
-  mounted() {
-    this.$bus.on('winner', this.manageWinner)
-  },
-
-  beforeUnmount() {
-    this.$bus.off('winner', this.manageWinner)
+  watch: {
+    round_status(round_status) {
+      if (round_status === 'open') this.side = null
+      if (this.winner_side) this.manageWinner()
+    },
   },
 }
 </script>

@@ -21,7 +21,7 @@ export default {
       return {
         open: 'UP OR DOWN? PLACE YOUR TRADE!',
         running: 'No more trades! wait for results...',
-        // closed: `${this.winSide ? this.winSide + ' wins! ' : ''}Distributing payouts`,
+        closed: `${this.winSide ? this.winSide + ' wins! ' : ''}Distributing payouts`,
       }[this.round_status]
     },
     animationClass() {

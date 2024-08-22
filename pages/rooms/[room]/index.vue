@@ -23,6 +23,7 @@
     </template>
   </NavbarView>
 
+  <Players class="bg-[#09090b] pb-2" />
   <Game />
 
   <ModalsRoomClosed />

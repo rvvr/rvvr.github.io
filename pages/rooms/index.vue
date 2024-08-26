@@ -6,6 +6,13 @@
   </NavbarView>
 
   <div class="px-4">
+    <NuxtLink to="rooms/withdraw">
+      <button class="btn btn-neutral my-4 w-full">
+        <IconsTrophy class="h-3 w-3 text-neutral-content" />
+        <span>My rewards</span>
+      </button>
+    </NuxtLink>
+
     <Loader :data="rooms">
       <template #empty>
         {{ rooms }}

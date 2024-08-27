@@ -15,7 +15,6 @@
 
     <Loader :data="rooms">
       <template #empty>
-        {{ rooms }}
         <div class="text-center opacity-50">No active rooms yet</div>
       </template>
 

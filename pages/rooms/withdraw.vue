@@ -78,19 +78,19 @@
 
 <script>
 import { TonConnectUI } from '@tonconnect/ui'
-import { mapState, mapActions } from 'pinia'
+import { mapState, mapActions, mapWritableState } from 'pinia'
 import dayjs from 'dayjs'
 
 export default {
   data() {
     return {
       rewards: null,
-      tonConnectUI: null,
     }
   },
 
   computed: {
     ...mapState(useWalletStore, ['wallet']),
+    ...mapWritableState(useWalletStore, ['tonConnectUI']),
 
     dates() {
       return this.rewards?.map((c) => dayjs(c.data).format('DD.MM.YYYY'))

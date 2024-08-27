@@ -7,6 +7,7 @@ export const useWalletStore = defineStore('wallet', {
       icon: null,
       balance: 0,
     },
+    tonConnectUI: null,
   }),
 
   actions: {

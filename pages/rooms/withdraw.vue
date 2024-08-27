@@ -7,99 +7,146 @@
 
   <div class="flex-1 p-4">
     <div class="text-center">
-      <span>Total</span>
-      <div class="mb-4 flex items-baseline justify-center">
-        <span class="text-2xl font-bold">9999</span>
-        <span class="ml-1 text-xs opacity-50">TON</span>
+      <div class="flex h-8 items-baseline justify-center">
+        <span class="text-2xl font-bold">{{ total }}</span>
+        <span v-show="rewards !== null" class="ml-1 text-xs opacity-50">TON</span>
       </div>
+      <div class="mb-4 text-xs">Total won</div>
 
-      <button class="mb-2 h-10" id="connect"></button>
+      <div class="h-10">
+        <button v-show="tonConnectUI" class="h-10" id="connect"></button>
+      </div>
     </div>
-
-    <p v-if="!wallet.address" class="py-2 opacity-50">
-      Connect your TON wallet to proceed with the withdrawal.
-    </p>
 
     <div class="mb-2 mt-4 flex items-baseline text-lg font-bold">
       <IconsTrophy class="mr-2 h-4 w-4 text-neutral-content" />
-      Winnings
+      Rewards history
     </div>
 
     <div class="-ml-2 -mr-2 overflow-x-auto">
-      <table class="table table-xs">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th class="text-center">Place</th>
-            <th class="text-center">Amount</th>
-            <th class="text-center">Reward</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>13.02.2000</td>
-            <td class="text-center">1</td>
-            <td class="text-center">
-              15
-              <span class="text-xs opacity-50">TON</span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-neutral btn-xs">Recieve</button>
-            </td>
-          </tr>
-          <tr>
-            <td>13.02.2000</td>
-            <td class="text-center">1</td>
-            <td class="text-center">
-              15
-              <span class="text-xs opacity-50">TON</span>
-            </td>
-            <td class="text-center"><div class="leading-6 text-white text-opacity-50">Sended</div></td>
-          </tr>
-        </tbody>
-      </table>
+      <Loader :data="rewards">
+        <template #empty>
+          <div class="text-center opacity-50">No rewards yet</div>
+        </template>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th class="text-center">Place</th>
+              <th class="text-center">Amount</th>
+              <th class="text-center">Reward</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(r, i) in rewards" :key="i">
+              <td>{{ dates[i] }}</td>
+              <td class="text-center">{{ r.place }}</td>
+              <td class="text-center">
+                {{ r.reward }}
+                <span class="text-xs opacity-50">TON</span>
+              </td>
+              <td class="text-center">
+                <button
+                  v-if="r.status == 'new'"
+                  @click="noWallet ? $refs.modal.showModal() : cash($event, r.id, i)"
+                  class="btn btn-neutral btn-sm w-20"
+                >
+                  Recieve
+                </button>
+                <div v-else class="w-20 leading-8 text-white text-opacity-50">Sended</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Loader>
     </div>
   </div>
+
+  <dialog class="modal" ref="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">One more step!</h3>
+      <p class="py-4">To recieve your rewards, please connect your TON wallet.</p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
 </template>
 
 <script>
 import { TonConnectUI } from '@tonconnect/ui'
 import { mapState, mapActions } from 'pinia'
-let tonConnectUI
+import dayjs from 'dayjs'
 
 export default {
+  data() {
+    return {
+      rewards: null,
+      tonConnectUI: null,
+    }
+  },
+
   computed: {
     ...mapState(useWalletStore, ['wallet']),
+
+    dates() {
+      return this.rewards?.map((c) => dayjs(c.data).format('DD.MM.YYYY'))
+    },
+    noWallet() {
+      return this.rewards && !this.wallet.address
+    },
+    total() {
+      return this.rewards?.reduce((summ, { reward }) => summ + reward, 0)
+    },
   },
 
   methods: {
-    ...mapActions(useWalletStore, ['onLogin', 'onLogout']),
+    ...mapActions(useWalletStore, ['onLogin', 'onLogout', 'getRewards', 'cashReward']),
 
     async logout() {
-      await tonConnectUI.disconnect()
+      await this.tonConnectUI.disconnect()
     },
     initTonConnect() {
-      tonConnectUI = new TonConnectUI({
+      this.tonConnectUI = new TonConnectUI({
         manifestUrl: 'https://rvvr.github.io/tonconnect-manifest.json',
       })
     },
     renderTonConnect() {
-      tonConnectUI.uiOptions = {
+      this.tonConnectUI.uiOptions = {
         twaReturnUrl: 'https://t.me/bullflagbot',
         buttonRootId: 'connect',
       }
     },
+
+    async cash(e, reward_id, i) {
+      e.target.disabled = true
+      await this.cashReward(reward_id)
+
+      this.rewards[i].status = 'withdrawn'
+    },
+
+    async fetch() {
+      this.rewards = await this.getRewards()
+    },
   },
-  mounted() {
-    if (!tonConnectUI) this.initTonConnect()
+
+  async mounted() {
+    if (!this.tonConnectUI) this.initTonConnect()
     this.renderTonConnect()
-    tonConnectUI.connectionRestored.then((restored) => {
-      if (restored && !this.wallet.address) this.onLogin(tonConnectUI.wallet)
+    this.tonConnectUI.connectionRestored.then(async (restored) => {
+      if (restored && !this.wallet.address) await this.onLogin(this.tonConnectUI.wallet)
     })
-    tonConnectUI.onStatusChange((wallet) => (wallet ? this.onLogin(tonConnectUI.wallet) : this.onLogout()))
+    this.tonConnectUI.onStatusChange(async (wallet) =>
+      wallet ? await this.onLogin(this.tonConnectUI.wallet) : this.onLogout(),
+    )
+
+    await this.fetch()
   },
   beforeUnmount() {
-    if (tonConnectUI) tonConnectUI.uiOptions = { buttonRootId: null }
+    if (this.tonConnectUI) this.tonConnectUI.uiOptions = { buttonRootId: null }
   },
 }
 </script>

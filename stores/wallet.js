@@ -48,5 +48,13 @@ export const useWalletStore = defineStore('wallet', {
       if (wallet_address === current) return
       await api.post('/user/wallet_address', { wallet_address })
     },
+
+    async getRewards() {
+      return await api.get('/rewards/')
+    },
+
+    async cashReward(reward_id) {
+      return await api.post('/rewards/withdraw', { reward_id })
+    },
   },
 })

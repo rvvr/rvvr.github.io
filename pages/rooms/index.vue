@@ -6,9 +6,9 @@
   </NavbarView>
 
   <div class="px-4">
-    <NuxtLink to="rooms/withdraw">
-      <button class="btn btn-neutral my-4 w-full">
-        <IconsTrophy class="h-3 w-3 text-neutral-content" />
+    <NuxtLink to="rooms/rewards">
+      <button class="font-oswald btn btn-neutral my-4 w-full text-lg leading-none">
+        <IconsTrophy class="h-4 w-4 text-neutral-content" />
         <span>My rewards</span>
       </button>
     </NuxtLink>

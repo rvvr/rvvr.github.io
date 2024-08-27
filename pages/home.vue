@@ -15,9 +15,9 @@
             ></span>
             <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
           </span>
-          <div class="card-body">
+          <div class="card-body items-center">
             <img class="mx-auto h-12" src="/rocket.png" />
-            <p class="text-center">Boost balance</p>
+            <p class="font-oswald">Boost balance</p>
           </div>
         </div>
       </NuxtLink>
@@ -32,7 +32,7 @@
 
           <div class="card-body items-center">
             <img class="mx-auto h-12" src="/money.png" />
-            <p>Freeroll rooms</p>
+            <p class="font-oswald">Freeroll rooms</p>
           </div>
         </div>
       </NuxtLink>
@@ -40,9 +40,9 @@
 
     <div class="flex flex-col items-center justify-center">
       <div class="text-center">
-        <div class="mt-4 inline-flex items-center justify-center" ref="balance">
+        <div class="mt-4 inline-flex items-baseline justify-center" ref="balance">
           <img class="mr-2 h-6 w-6" alt="" src="/coin.png" />
-          <span class="font-mono text-3xl font-bold text-lime-500">{{ user.balance }}</span>
+          <span class="font-oswald text-3xl font-bold text-lime-500">{{ user.balance }}</span>
         </div>
       </div>
 

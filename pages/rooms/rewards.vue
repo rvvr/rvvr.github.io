@@ -8,18 +8,18 @@
   <div class="flex-1 p-4">
     <div class="text-center">
       <div class="flex h-8 items-baseline justify-center">
-        <span class="text-2xl font-bold">{{ total }}</span>
+        <span class="font-oswald text-2xl font-bold">{{ total }}</span>
         <span v-show="rewards !== null" class="ml-1 text-xs opacity-50">TON</span>
       </div>
-      <div class="mb-4 text-xs">Total won</div>
+      <div class="mb-4 mt-2 text-xs">Total won</div>
 
       <div class="h-10">
         <button v-show="tonConnectUI" class="h-10" id="connect"></button>
       </div>
     </div>
 
-    <div class="mb-2 mt-4 flex items-baseline text-lg font-bold">
-      <IconsTrophy class="mr-2 h-4 w-4 text-neutral-content" />
+    <div class="font-oswald mb-2 mt-4 flex items-baseline">
+      <IconsTrophy class="mr-1 h-3 w-3 text-neutral-content" />
       Rewards history
     </div>
 
@@ -54,7 +54,7 @@
                 >
                   Recieve
                 </button>
-                <div v-else class="w-20 leading-8 text-white text-opacity-50">Sended</div>
+                <div v-else class="inline-block w-20 leading-8 text-white text-opacity-50">Sended</div>
               </td>
             </tr>
           </tbody>

@@ -12,7 +12,7 @@
       </div>
     </figure>
     <div class="card-body">
-      <h2 class="card-title block">
+      <h2 class="font-oswald card-title block">
         {{ room.name }}
       </h2>
       <div class="flex justify-between">
@@ -42,11 +42,10 @@
               {{ room.invite_only ? room.invite_text : room.enter_fee }}
             </span>
           </div>
-          <div v-else>Enter</div>
         </button>
 
         <NuxtLink v-else-if="room.status === 'running'" :to="`/rooms/${room.id}`" class="w-full">
-          <button class="btn btn-neutral w-full">Enter room</button>
+          <button class="btn btn-accent w-full">Enter room</button>
         </NuxtLink>
 
         <button v-else class="btn w-full !text-opacity-80" disabled>

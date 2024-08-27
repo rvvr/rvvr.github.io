@@ -13,9 +13,9 @@
 
     <div class="justify-self-end">
       <slot v-if="$slots.right" name="right" />
-      <NuxtLink v-else class="flex w-8 justify-center" to="/wallet">
-        <NavbarAvatar class="h-8 w-8" />
-      </NuxtLink>
+      <!-- <NuxtLink v-else class="flex w-8 justify-center" to="/wallet"> -->
+      <NavbarAvatar v-else class="h-8 w-8" />
+      <!-- </NuxtLink> -->
     </div>
   </div>
 </template>

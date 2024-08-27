@@ -28,10 +28,16 @@
       </button>
     </div>
 
-    <div class="grid grid-cols-3 gap-2 px-4 pt-2">
+    <div class="grid h-8 grid-cols-3 gap-2 px-4 pt-3">
       <div></div>
 
-      <div class="font-oswald text-center leading-none">
+      <div v-show="round_status" class="font-oswald text-center leading-none">
+        <span class="opacity-50">Bet:</span>
+        <img
+          :src="`/${standings.length ? 'point' : 'coin'}.png`"
+          class="align-center mb-1 ml-2 inline-block inline h-4 w-4"
+          alt=""
+        />
         {{ rateAmount }}
       </div>
 
@@ -76,7 +82,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useRoomStore, ['round_status', 'userRating', 'winRates', 'winner_side']),
+    ...mapState(useRoomStore, ['round_status', 'userRating', 'winRates', 'winner_side', 'standings']),
     ...mapState(useUserStore, ['user']),
 
     disabled() {

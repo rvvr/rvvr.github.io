@@ -10,6 +10,8 @@ export class GameSocket {
     wss.onmessage = ({ data }) => {
       data = JSON.parse(data)
 
+      if (data.current_price) return
+
       const nuxtApp = useNuxtApp()
 
       nuxtApp.$bus.emit('start', data)

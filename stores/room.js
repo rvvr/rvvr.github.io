@@ -30,6 +30,7 @@ export const useRoomStore = defineStore('room', {
     max_round_number: null,
     actual_time_left: null,
     rewards: null,
+    current_price: null,
   }),
 
   getters: {

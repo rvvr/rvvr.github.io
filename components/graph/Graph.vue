@@ -1,6 +1,5 @@
 <template>
   <div class="graph-wrap relative flex-1 bg-[#09090b]" ref="graph">
-    <!-- <Timer class="absolute left-1/2 top-1/2 z-10 -ml-7 -mt-7" /> -->
     <client-only>
       <v-stage :config="stage">
         <v-layer :config="{ x: 0, y: 0 }">
@@ -65,6 +64,7 @@
 <script>
 import { xLine, xLinesLabel } from './graphData'
 import random from 'lodash.random'
+import { mapState } from 'pinia'
 
 const step = 2
 const xLinesCount = 200
@@ -94,6 +94,8 @@ export default {
   },
 
   computed: {
+    ...mapState(useRoomStore, ['current_price']),
+
     message() {
       return false
     },
@@ -253,6 +255,12 @@ export default {
       // do not change
       this.rate = newRate
       this.doStep()
+    },
+  },
+
+  watch: {
+    current_price(val) {
+      if (val) this.pushData(pad(+val))
     },
   },
 

@@ -38,6 +38,7 @@
               <th class="text-center">Amount</th>
               <th class="text-center">Reward</th>
               <th class="text-center">back status</th>
+              <th class="text-center"></th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +60,15 @@
                 <div v-else class="inline-block w-20 leading-8 text-white text-opacity-50">Sended</div>
               </td>
               <td>{{ r.status }}</td>
+              <td>
+                <button
+                  v-if="r.status !== 'new' && r.status !== 'withdrawn'"
+                  @click="cash($event, r.id, i)"
+                  class="btn btn-neutral btn-xs"
+                >
+                  <IconsReload class="h-3 w-3" />
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

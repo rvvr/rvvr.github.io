@@ -27,7 +27,15 @@
             Round <span class="">{{ `${current_round_number}`.slice(-2) }}</span> of
             {{ `${max_round_number}`.slice(-2) }} finished. Rounds left: {{ roundsLeft }}
           </template>
-          <template v-else>Room finished!</template>
+          <div v-else class="flex justify-between align-bottom">
+            <span>Room finished!</span>
+            <NuxtLink
+              :to="`/rooms/${$route.params.room}/history`"
+              class="font-roboto inline pt-1.5 text-sm text-info"
+            >
+              View history
+            </NuxtLink>
+          </div>
         </h3>
         <div class="grid grid-cols-[1fr_auto] grid-rows-3 gap-x-2 py-2 text-white text-opacity-80">
           <div>Position in the tournament</div>

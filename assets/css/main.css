@@ -13,6 +13,10 @@ body {
   font-weight: normal;
 }
 
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
 .font-oswald {
   font-family: 'Oswald', sans-serif;
   font-optical-sizing: auto;

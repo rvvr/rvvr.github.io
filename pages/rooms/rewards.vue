@@ -38,7 +38,6 @@
               <th class="text-center">Amount</th>
               <th class="text-center">Reward</th>
               <th class="text-center">back status</th>
-              <th class="text-center"></th>
             </tr>
           </thead>
           <tbody>
@@ -52,23 +51,20 @@
               <td class="text-center">
                 <button
                   v-if="r.status == 'new'"
-                  @click="noWallet ? $refs.modal.showModal() : cash($event, r.id, i)"
+                  @click="noWallet ? $refs.modal.showModal() : cash($event, r.id)"
                   class="btn btn-neutral btn-sm w-20"
                 >
                   Recieve
                 </button>
-                <div v-else class="inline-block w-20 leading-8 text-white text-opacity-50">Sended</div>
+                <div v-else class="flex w-20 items-center leading-8 text-white text-opacity-50">
+                  Sended
+
+                  <button @click="cash($event, r.id, i)" class="btn btn-neutral btn-xs ml-2">
+                    <IconsReload class="h-3 w-3" />
+                  </button>
+                </div>
               </td>
               <td>{{ r.status }}</td>
-              <td>
-                <button
-                  v-if="r.status !== 'new' && r.status !== 'withdrawn'"
-                  @click="cash($event, r.id, i)"
-                  class="btn btn-neutral btn-xs"
-                >
-                  <IconsReload class="h-3 w-3" />
-                </button>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -134,15 +130,17 @@ export default {
       }
     },
 
-    async cash(e, reward_id, i) {
-      e.target.disabled = true
+    async cash(e, reward_id) {
+      const target = e.currentTarget
+      target.disabled = true
       await this.cashReward(reward_id)
-
-      this.rewards[i].status = 'withdrawn'
+      await this.fetch()
+      target.disabled = false
     },
 
     async fetch() {
-      this.rewards = await this.getRewards()
+      const rewards = await this.getRewards()
+      this.rewards = rewards
     },
   },
 

@@ -41,7 +41,7 @@
             <img v-if="room.enter_fee" class="mr-1 h-5 w-5" alt="" src="/coin.png" />
 
             <span class="font-oswald text-lg leading-none">
-              {{ room.invite_only ? room.invite_text : room.enter_fee }}
+              {{ room.invite_only ? inviteOnlyText : room.enter_fee }}
             </span>
           </div>
         </button>
@@ -107,6 +107,9 @@ export default {
   computed: {
     ...mapState(useUserStore, ['user', 'friends']),
 
+    inviteOnlyText() {
+      return this.notEnoughFriends ? this.room.invite_text : 'Enter'
+    },
     notEnoughFriends() {
       return this.room.invite_only && this.friends.length < 5
     },

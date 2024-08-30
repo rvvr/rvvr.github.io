@@ -9,8 +9,8 @@
     </template>
   </NavbarView>
 
-  <Loader :data="standings">
-    <div class="p-4">
+  <div class="py-4">
+    <Loader :data="standings">
       <div class="overflow-x-auto">
         <table class="table">
           <thead>
@@ -26,7 +26,7 @@
               :key="i"
               :class="{ 'bg-base-300 font-bold text-neutral-content': row.user_id === user.user_id }"
             >
-              <th>{{ row.position }}</th>
+              <td class="text-center">{{ row.position }}</td>
               <td>
                 <div class="flex items-center">
                   <img
@@ -51,8 +51,8 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </Loader>
+    </Loader>
+  </div>
 </template>
 
 <script>

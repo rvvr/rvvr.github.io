@@ -21,6 +21,7 @@
     <div class="font-oswald mb-2 mt-4 flex items-baseline">
       <IconsTrophy class="mr-1 h-3 w-3 text-neutral-content" />
       Rewards history
+      <button @click="fetch" class="font-roboto btn btn-neutral btn-xs ml-1 font-normal">reload</button>
     </div>
 
     <div class="-ml-2 -mr-2 overflow-x-auto">
@@ -29,13 +30,14 @@
           <div class="text-center opacity-50">No rewards yet</div>
         </template>
 
-        <table class="table">
+        <table class="table table-xs">
           <thead>
             <tr>
               <th>Date</th>
               <th class="text-center">Place</th>
               <th class="text-center">Amount</th>
               <th class="text-center">Reward</th>
+              <th class="text-center">back status</th>
             </tr>
           </thead>
           <tbody>
@@ -56,6 +58,7 @@
                 </button>
                 <div v-else class="inline-block w-20 leading-8 text-white text-opacity-50">Sended</div>
               </td>
+              <td>{{ r.status }}</td>
             </tr>
           </tbody>
         </table>

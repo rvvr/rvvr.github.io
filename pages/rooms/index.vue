@@ -46,13 +46,13 @@ export default {
   computed: {
     rooms() {
       const rooms = [...this.activeRooms, ...this.availableRooms]
-
       return rooms.length ? rooms.sort((a, b) => a.id - b.id) : null
     },
   },
 
   methods: {
     ...mapActions(useRoomStore, ['joinRoom', 'getRooms']),
+    ...mapActions(useUserStore, ['fetchFriends']),
 
     async fetch() {
       const { active, available } = await this.getRooms()
@@ -74,7 +74,7 @@ export default {
   },
 
   async mounted() {
-    await this.fetch()
+    await Promise.all([this.fetch(), this.fetchFriends()])
     interval = setInterval(() => this.fetch(), 10000)
   },
 

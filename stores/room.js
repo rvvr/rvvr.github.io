@@ -50,12 +50,16 @@ export const useRoomStore = defineStore('room', {
       return await api.get('/standings/' + id)
     },
 
+    async getRoomHistory(id) {
+      return await api.get('/stats/' + id)
+    },
+
     async getRooms() {
       return await api.get(`/rooms/`)
     },
 
     async joinRoom(room_id) {
-      return await api.post('/room/join', { room_id })
+      return await api.post('/room/join', { room_id, user_id: this.user_id })
     },
 
     addPlayer(side) {

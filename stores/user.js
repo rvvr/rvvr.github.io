@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', {
       id: null,
       username: '',
     },
+    friends: [],
   }),
 
   actions: {
@@ -37,7 +38,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async fetchFriends() {
-      return await api.get('/friends/')
+      this.friends = await api.get('/friends/')
     },
   },
 })

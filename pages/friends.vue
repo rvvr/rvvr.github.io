@@ -36,9 +36,9 @@
       </div>
     </div>
 
-    <div v-if="friends" class="font-oswald mt-8">List of your friends ({{ friends.length }})</div>
+    <div class="font-oswald mt-8">List of your friends ({{ friends.length }})</div>
     <div class="mt-2 overflow-x-auto">
-      <table class="table table-zebra">
+      <table v-if="friends.length" class="table table-zebra">
         <tbody>
           <tr v-for="friend in friends" :key="friend.invited_user_id">
             <td>
@@ -57,6 +57,7 @@
           </tr>
         </tbody>
       </table>
+      <div v-else class="text-sm opacity-50">No invited friends yet</div>
     </div>
   </div>
 </template>
@@ -71,16 +72,15 @@ export default {
       encodedText: encodeURIComponent('Lets play game!'),
       url: 'https://t.me/bullflagbot?start=',
       encodedUrl: null,
-      friends: null,
     }
   },
   async mounted() {
     this.url += this.appUser.id
     this.encodedUrl = encodeURIComponent(this.url)
-    this.friends = await this.fetchFriends()
+    await this.fetchFriends()
   },
   computed: {
-    ...mapState(useUserStore, ['appUser']),
+    ...mapState(useUserStore, ['appUser', 'friends']),
   },
   methods: {
     ...mapActions(useUserStore, ['fetchFriends']),
@@ -92,5 +92,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

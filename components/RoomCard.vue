@@ -33,11 +33,13 @@
         <button
           v-if="!room.active"
           @click="join(room.id, $event)"
-          class="btn btn-neutral relative w-full justify-center"
+          :disabled="disabled"
+          class="btn btn-neutral relative w-full justify-center !text-white"
         >
           <IconsMultiTicket class="absolute left-3 top-[3px] h-10 w-auto" />
           <div v-if="room.enter_fee || room.invite_only" class="flex">
             <img v-if="room.enter_fee" class="mr-1 h-5 w-5" alt="" src="/coin.png" />
+
             <span class="font-oswald text-lg leading-none">
               {{ room.invite_only ? room.invite_text : room.enter_fee }}
             </span>
@@ -62,6 +64,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import { mapState } from '~/node_modules/pinia/dist/pinia'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -102,6 +105,17 @@ export default {
   },
 
   computed: {
+    ...mapState(useUserStore, ['user', 'friends']),
+
+    notEnoughFriends() {
+      return this.room.invite_only && this.friends.length < 5
+    },
+    notEnoughBalance() {
+      return this.room.enter_fee && this.room.enter_fee > this.user.balance
+    },
+    disabled() {
+      return this.notEnoughFriends || this.notEnoughBalance
+    },
     timeStamp() {
       return dayjs.tz(this.room.start_date, 'Etc/UCT')
     },

@@ -94,7 +94,8 @@ export default {
     },
 
     rateAmount() {
-      return +this.rate ? Math.ceil((this.balance / 100) * this.rate) : 1
+      const rate = +this.rate ? Math.ceil((this.balance / 100) * this.rate) : 1
+      return rate > 1 ? rate : 1
     },
   },
 
@@ -103,7 +104,7 @@ export default {
     ...mapActions(useRoomStore, ['addPlayer']),
 
     async bet(side) {
-      if (this.balance < this.rateAmount) {
+      if (!this.balance || this.balance < this.rateAmount) {
         this.$refs.modal.showModal()
         return
       }

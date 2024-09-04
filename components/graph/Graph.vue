@@ -68,10 +68,12 @@ import { mapState } from 'pinia'
 
 const step = 2
 const xLinesCount = 200
-const ratio = 1 // pixels for unit
+const ratio = 10 // pixels for unit
+const randomizer = 30_0000000
 const divider = 1_00000000 // how much decimals
+const overflowSpace = 100
+
 const moneyBetween = (50 / ratio) * divider
-const overflowSpace = 60
 const tempo = Math.floor(xLinesCount / 2)
 
 export default {
@@ -247,7 +249,7 @@ export default {
       this.winSide = side
     },
     pushData(rate) {
-      const newRate = rate || random(this.rate - 10_00000000, this.rate + 10_00000000)
+      const newRate = rate || random(this.rate - randomizer, this.rate + randomizer)
 
       const change = this.rate ? this.calcRateToPixels(this.rate - newRate) : 0
       this.addPoint(this.currentY + change)

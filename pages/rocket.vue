@@ -70,7 +70,7 @@ export default {
     const pushData = throttle(() => {
       this.pushData(this.rate + random(-randomizer, randomizer))
       RAF = window.requestAnimationFrame(pushData)
-    }, 1)
+    }, 50)
 
     RAF = window.requestAnimationFrame(pushData)
   },

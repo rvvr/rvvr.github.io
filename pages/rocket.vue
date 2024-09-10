@@ -30,17 +30,17 @@ import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
 
-const step = 2
-const xLinesCount = 200
-const ratio = 10 // pixels for unit
-const randomizer = 10_0000000
+const step = 1
+const xLinesCount = 100
+const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
-const multiplier = 0.00000001
-const overflowSpace = 100
-const multiplierXratio = multiplier * ratio
+const ratio = 10 // cent per pixel
 
-const moneyBetween = (50 / ratio) * divider
-const tempo = Math.floor(xLinesCount / 2)
+const rateToPixels = ratio / divider
+const pixelsToRate = divider / ratio
+const randomizer = 1 * divider
+
+let RAF
 
 export default {
   data() {
@@ -54,40 +54,29 @@ export default {
 
       // initial computed values
       xEdge: null,
-      maxPoints: null,
       heightMinusOverflow: null,
+      overflowSpace: null,
     }
   },
 
   mounted() {
-    // Timer.start()
     this.rate = pad(70000)
     this.initStage()
-    this.xEdge = this.stage.width - 100
-    this.maxPoints = this.stage.width * (4 / step)
-    this.heightMinusOverflow = this.stage.height - overflowSpace
 
-    const action = throttle(() => {
-      this.pushData()
-    }, 50)
+    this.xEdge = this.stage.width / 2
+    this.overflowSpace = Math.round(this.stage.height / 8)
+    this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
     const pushData = throttle(() => {
-      this.pushData(random(this.rate - randomizer, this.rate + randomizer))
-    }, 50)
+      this.pushData(this.rate + random(-randomizer, randomizer))
+      RAF = window.requestAnimationFrame(pushData)
+    }, 1)
 
-    const run = () => {
-      // action()
-      pushData()
-      window.requestAnimationFrame(run)
-    }
-    run()
-
-    // this.$bus.on('nanoSec', this.pushData)
+    RAF = window.requestAnimationFrame(pushData)
   },
 
   beforeUnmount() {
-    // Timer.stop()
-    // this.$bus.off('nanoSec', this.pushData)
+    window.cancelAnimationFrame(RAF)
   },
 
   computed: {
@@ -105,11 +94,12 @@ export default {
     initStage() {
       this.stage.width = this.$refs.graph.clientWidth
       this.stage.height = this.$refs.graph.clientHeight
-      const center = [0, this.stage.height / 2]
+      const center = [0, ~~(this.stage.height / 2)]
       this.points = [...center, ...center]
 
-      const pixelsBetween = this.calcRateToPixels(moneyBetween)
-      const startY = center[1] - tempo * pixelsBetween
+      const moneyBetween = pixelsBetween * pixelsToRate
+      const halfXLinesCount = Math.floor(xLinesCount / 2)
+      const startY = center[1] - halfXLinesCount * pixelsBetween
 
       const arrLines = [...Array(xLinesCount)].map((c, i) => ({
         y: startY + i * pixelsBetween,
@@ -120,11 +110,12 @@ export default {
         ...xLine,
       }))
 
-      const startPrice = this.rate + tempo * moneyBetween
+      const startPrice = this.rate + halfXLinesCount * moneyBetween
       this.xLinesLabels = arrLines.map((c, i) => {
+        const price = (startPrice - i * moneyBetween) / divider
         return {
           x: this.stage.width,
-          text: this.convert(startPrice - i * moneyBetween).toFixed(4),
+          text: price.toFixed(4),
           ...xLinesLabel,
           ...c,
         }
@@ -134,8 +125,8 @@ export default {
     pushData(rate) {
       this.doStep()
       if (rate) {
-        const change = this.calcRateToPixels(this.rate - rate)
-        this.moveY(change)
+        const change = (this.rate - rate) * rateToPixels
+        this.moveY(Math.round(change))
         this.rate = rate
       } else {
         this.moveY()
@@ -144,9 +135,8 @@ export default {
     doStep() {
       if (this.currentX >= this.xEdge) {
         this.moveLayer(0, step)
-        if (this.points.length > this.maxPoints) {
-          this.points = this.points.slice(4)
-        }
+        this.currentX = this.xEdge
+        this.points = this.points.slice(4)
       } else {
         this.currentX += step
       }
@@ -158,18 +148,12 @@ export default {
       // leftToBottom
       if (this.currentY > this.heightMinusOverflow) needMove = -(this.heightMinusOverflow - this.currentY)
       // leftToTop
-      else if (overflowSpace > this.currentY) needMove = this.currentY - overflowSpace
+      else if (this.overflowSpace > this.currentY) needMove = this.currentY - this.overflowSpace
       if (needMove) {
         this.moveLayer(1, needMove)
         this.moveLines(needMove)
         // if (this.freezeY) this.freezeY -= needMove
       }
-    },
-    convert(num) {
-      return num / divider
-    },
-    calcRateToPixels(rate) {
-      return rate * multiplierXratio
     },
     moveY(change = 0) {
       this.points = this.points.concat([...this.lastPointEnd, this.currentX, this.currentY + change])

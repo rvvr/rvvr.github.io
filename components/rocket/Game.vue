@@ -103,8 +103,8 @@ export default {
     }, 300)
 
     const run = () => {
-      this.pushData(this.rate + random(-6_000000, 6_000000))
-      if (!this.busy) pushData()
+      if (!this.busy) this.pushData(this.rate + random(-6_000000, 6_000000))
+      pushData()
       RAF = window.requestAnimationFrame(run)
     }
     RAF = window.requestAnimationFrame(run)

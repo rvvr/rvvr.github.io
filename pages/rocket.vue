@@ -9,10 +9,10 @@
 
   <div class="flex flex-1 bg-[#09090b]">
     <RocketGame :class="{ 'opacity-0': false }" class="flex-1" />
-    <div class="absolute left-0 top-1/2 w-full px-4 text-center">
+    <!-- <div class="absolute left-0 top-1/2 w-full px-4 text-center">
       <div class="font-oswald">Waiting for next round</div>
       <progress class="progress progress-error w-1/2" max="100" value="50"></progress>
-    </div>
+    </div> -->
   </div>
 
   <RocketBet />

@@ -32,6 +32,10 @@
         <RocketIcon :currentX="currentX" :currentY="currentY" />
       </v-layer>
     </v-stage>
+
+    <div class="meteors-container">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
   </div>
 </template>
 
@@ -41,7 +45,7 @@ import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
 
-const step = 10
+const step = 5
 const xLinesCount = 100
 const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
@@ -49,7 +53,7 @@ const ratio = 10 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 2 * divider
+const randomizer = 10 * divider
 
 let RAF
 
@@ -79,8 +83,17 @@ export default {
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
     const pushData = throttle(() => {
-      this.pushData(this.rate + random(-randomizer, randomizer))
-    }, 200)
+      const newRate = this.rate + random(-randomizer, randomizer)
+      let change = Math.abs(this.rate - newRate)
+      let step = 2_0000_000
+      const isNeg = newRate < this.rate
+
+      Framer.start(() => {
+        this.pushData(this.rate + (isNeg ? -step : step))
+        change -= step
+        if (change < 0) Framer.stop()
+      })
+    }, 300)
 
     const run = () => {
       this.pushData(this.rate + random(-6_000000, 6_000000))
@@ -186,3 +199,47 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.meteors-container {
+  position: absolute;
+  z-index: 998;
+  width: calc(100% - 75px);
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+.meteors-container span {
+  position: absolute;
+  width: 75px;
+  border-bottom: 2px solid #fff;
+}
+
+$nbmeteors: 6;
+$particles-color: #fff;
+
+@for $i from 0 to $nbmeteors {
+  $top: (100 / $nbmeteors) * ($i + 1) + '%';
+  $speed: (random(10) + 5)/20;
+
+  .meteors-container span:nth-child(#{$i + 1}) {
+    top: #{$top};
+    left: 100%;
+    box-shadow: 0px 0px 5px $particles-color;
+    animation: meterosAnim-#{$i} linear ($speed + s) infinite;
+  }
+  @keyframes meterosAnim-#{$i} {
+    0% {
+      left: 100%;
+    }
+    75% {
+      left: calc(0% - 75px);
+    }
+    100% {
+      left: calc(0% - 75px);
+    }
+  }
+}
+</style>

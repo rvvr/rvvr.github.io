@@ -49,7 +49,7 @@ const ratio = 10 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 1 * divider
+const randomizer = 2 * divider
 
 let RAF
 
@@ -80,10 +80,14 @@ export default {
 
     const pushData = throttle(() => {
       this.pushData(this.rate + random(-randomizer, randomizer))
-      RAF = window.requestAnimationFrame(pushData)
-    }, 50)
+    }, 200)
 
-    RAF = window.requestAnimationFrame(pushData)
+    const run = () => {
+      this.pushData(this.rate + random(-6_000000, 6_000000))
+      pushData()
+      RAF = window.requestAnimationFrame(run)
+    }
+    RAF = window.requestAnimationFrame(run)
   },
 
   beforeUnmount() {

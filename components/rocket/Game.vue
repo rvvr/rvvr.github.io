@@ -71,6 +71,9 @@ export default {
       xEdge: null,
       heightMinusOverflow: null,
       overflowSpace: null,
+
+      // state
+      busy: false,
     }
   },
 
@@ -89,15 +92,19 @@ export default {
       const isNeg = newRate < this.rate
 
       Framer.start(() => {
+        this.busy = true
         this.pushData(this.rate + (isNeg ? -step : step))
         change -= step
-        if (change < 0) Framer.stop()
+        if (change < 0) {
+          Framer.stop()
+          this.busy = false
+        }
       })
     }, 300)
 
     const run = () => {
       this.pushData(this.rate + random(-6_000000, 6_000000))
-      pushData()
+      if (!this.busy) pushData()
       RAF = window.requestAnimationFrame(run)
     }
     RAF = window.requestAnimationFrame(run)

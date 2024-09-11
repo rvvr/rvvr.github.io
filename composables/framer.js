@@ -10,7 +10,7 @@ const run = () => {
 }
 
 export class Framer {
-  static start(cb, w) {
+  static start(cb) {
     stopped = false
     callBack = cb
     run()

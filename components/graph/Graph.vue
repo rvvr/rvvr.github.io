@@ -98,9 +98,6 @@ export default {
   computed: {
     ...mapState(useRoomStore, ['current_price']),
 
-    message() {
-      return false
-    },
     lastPointEnd() {
       return this.points.slice(-2)
     },

@@ -4,7 +4,7 @@ export const useUserStore = defineStore('user', {
       user_id: null,
       user_telegram_id: null,
       username: null,
-      balance: 0,
+      balance: null,
       avatar_url: null,
       wallet_address: null,
     },

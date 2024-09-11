@@ -30,17 +30,15 @@
 
     <div class="grid h-8 grid-cols-3 gap-2 px-4 pt-3">
       <div></div>
-
       <div v-show="round_status" class="font-oswald text-center leading-none">
         <span class="opacity-50">Bet:</span>
         <img
           :src="`/${standings.length ? 'point' : 'coin'}.png`"
-          class="align-center mb-1 ml-2 inline-block inline h-4 w-4"
+          class="align-center mb-1 ml-2 inline-block h-4 w-4"
           alt=""
         />
         {{ rateAmount }}
       </div>
-
       <div></div>
     </div>
 

@@ -7,7 +7,7 @@
 import { lime, red } from 'tailwindcss/colors'
 
 export default {
-  props: ['rate', 'price', 'stage', 'currentY', 'roundStatus', 'freezeY'],
+  props: ['price', 'stage', 'currentY', 'roundStatus', 'freezeY'],
 
   computed: {
     sideHightLighted() {

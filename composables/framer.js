@@ -18,5 +18,6 @@ export class Framer {
 
   static stop() {
     stopped = true
+    callBack = null
   }
 }

@@ -30,6 +30,8 @@
         />
 
         <RocketIcon :currentX="currentX" :currentY="currentY" />
+
+        <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
     </v-stage>
 
@@ -45,7 +47,7 @@ import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
 
-const step = 5
+const step = 2
 const xLinesCount = 100
 const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
@@ -74,6 +76,7 @@ export default {
 
       // state
       busy: false,
+      livePrice: null,
     }
   },
 
@@ -86,21 +89,25 @@ export default {
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
     const pushData = throttle(() => {
+      Framer.stop()
+      this.busy = true
+
       const newRate = this.rate + random(-randomizer, randomizer)
       let change = Math.abs(this.rate - newRate)
-      let step = 2_0000_000
       const isNeg = newRate < this.rate
 
+      this.livePrice = (newRate / divider).toFixed(4)
+
       Framer.start(() => {
-        this.busy = true
-        this.pushData(this.rate + (isNeg ? -step : step))
-        change -= step
+        let part = random(1_000, 4_0000_000)
+        this.pushData(this.rate + (isNeg ? -part : part))
+        change -= part
         if (change < 0) {
           Framer.stop()
           this.busy = false
         }
       })
-    }, 300)
+    }, 400)
 
     const run = () => {
       if (!this.busy) this.pushData(this.rate + random(-6_000000, 6_000000))
@@ -211,7 +218,7 @@ export default {
 .meteors-container {
   position: absolute;
   z-index: 998;
-  width: calc(100% - 75px);
+  width: calc(100% - 70px);
   height: 100%;
   overflow: hidden;
   top: 0;

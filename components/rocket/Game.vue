@@ -110,8 +110,11 @@ export default {
     }, 400)
 
     const run = () => {
-      if (!this.busy) this.pushData(this.rate + random(-6_000000, 6_000000))
-      pushData()
+      if (!this.busy) {
+        this.doStep()
+        this.addY(this.rate + random(-6_000000, 6_000000))
+      }
+      // pushData()
       RAF = window.requestAnimationFrame(run)
     }
     RAF = window.requestAnimationFrame(run)
@@ -162,6 +165,12 @@ export default {
           ...c,
         }
       })
+    },
+
+    addY(rate) {
+      const change = (this.rate - rate) * rateToPixels
+      this.moveY(Math.round(change))
+      this.rate = rate
     },
 
     pushData(rate) {

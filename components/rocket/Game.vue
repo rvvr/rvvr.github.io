@@ -9,7 +9,7 @@
         <v-line
           :config="{
             points,
-            // points: messyPoints,
+            points: messyPoints,
             stroke: 'yellow',
             strokeWidth: 8,
 
@@ -23,7 +23,7 @@
         <v-line
           :config="{
             points,
-            // points: messyPoints,
+            points: messyPoints,
             stroke: 'gold',
             strokeWidth: 4,
             lineCap: 'round',
@@ -31,8 +31,8 @@
           }"
         />
 
-        <RocketIcon :currentX="currentX" :currentY="currentY" />
-        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" /> -->
+        <!-- <RocketIcon :currentX="currentX" :currentY="currentY" /> -->
+        <RocketIcon :currentX="messyX" :currentY="messyY" />
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
@@ -50,7 +50,7 @@ import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
 
-const step = 4
+const step = 8
 const xLinesCount = 100
 const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
@@ -79,7 +79,7 @@ export default {
       // state
       livePrice: null,
       pushDataLoop: null,
-      pushEmptyLoop: null,
+      pushRealLoop: null,
     }
   },
 
@@ -91,20 +91,17 @@ export default {
     this.overflowSpace = Math.round(this.stage.height / 8)
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
-    this.pushDataLoop = new Loop(() => this.pushData(), 20).start()
+    let rndm = 0
+    this.pushDataLoop = new Loop(() => this.pushData(this.rate + rndm), 20).start()
 
-    this.pushEmptyLoop = new Loop(() => {
-      this.pushDataLoop.stop()
-
-      this.pushData(this.rate + random(-randomizer, randomizer))
-
-      this.pushDataLoop.start()
+    this.pushRealLoop = new Loop(() => {
+      rndm = rndm ? 0 : random(-randomizer, randomizer)
     }, 100).start()
   },
 
   beforeUnmount() {
     this.pushDataLoop.stop()
-    this.pushEmptyLoop.stop()
+    this.pushRealLoop.stop()
   },
 
   computed: {

@@ -9,18 +9,18 @@
         <v-line
           :config="{
             points,
-            // points: messyPoints,
+            points: messyPoints,
             stroke: '#f4d56f',
             strokeWidth: 8,
 
-            // shadowColor: 'yellow',
-            // shadowBlur: 6,
-            // shadowEnabled: true,
-            // shadowOffset: { x: 0, y: 0 },
+            shadowColor: 'yellow',
+            shadowBlur: 6,
+            shadowEnabled: true,
+            shadowOffset: { x: 0, y: 0 },
           }"
         />
 
-        <!-- <v-line
+        <v-line
           :config="{
             points,
             // points: messyPoints,
@@ -29,10 +29,10 @@
             lineCap: 'round',
             lineJoin: 'round',
           }"
-        /> -->
+        />
 
-        <RocketIcon :currentX="currentX" :currentY="currentY" />
-        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" /> -->
+        <!-- <RocketIcon :currentX="currentX" :currentY="currentY" /> -->
+        <RocketIcon :currentX="messyX" :currentY="messyY" />
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
@@ -58,7 +58,7 @@ const ratio = 10 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 1 * divider
+const randomizer = 0.5 * divider
 
 let RAF
 

@@ -8,7 +8,8 @@
 
         <v-line
           :config="{
-            points: messyPoints,
+            // points: messyPoints,
+            points,
             stroke: 'yellow',
             strokeWidth: 8,
 
@@ -21,7 +22,8 @@
 
         <v-line
           :config="{
-            points: messyPoints,
+            // points: messyPoints,
+            points,
             stroke: 'gold',
             strokeWidth: 4,
             lineCap: 'round',
@@ -29,7 +31,8 @@
           }"
         />
 
-        <RocketIcon :currentX="currentX" :currentY="messyY" />
+        <RocketIcon :currentX="currentX" :currentY="currentY" />
+        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" /> -->
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
@@ -55,7 +58,7 @@ const ratio = 10 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 5 * divider
+const randomizer = 1 * divider
 
 let RAF
 
@@ -63,7 +66,6 @@ export default {
   data() {
     return {
       rate: null,
-      currentX: 0,
       points: [],
       stage: { width: 0, height: 0 },
       xLines: [],
@@ -75,7 +77,6 @@ export default {
       overflowSpace: null,
 
       // state
-      busy: false,
       livePrice: null,
       pushDataLoop: null,
       pushEmptyLoop: null,
@@ -98,7 +99,7 @@ export default {
       this.pushData(this.rate + random(-randomizer, randomizer))
 
       this.pushDataLoop.start()
-    }, 1000).start()
+    }, 100).start()
   },
 
   beforeUnmount() {
@@ -109,17 +110,23 @@ export default {
   computed: {
     ...mapState(useUserStore, ['user']),
 
-    lastPointEnd() {
+    lastPoint() {
       return this.points.slice(-2)
     },
     currentY() {
-      return this.lastPointEnd[1]
+      return this.lastPoint[1]
+    },
+    currentX() {
+      return this.lastPoint[0]
     },
     messyPoints() {
       return this.points.map((c, i) => (i % 2 ? c + random(-1, 1) : c))
     },
     messyY() {
-      return this.lastPointEnd[1] + random(0, 1)
+      return this.lastPoint[1] + random(0, 1)
+    },
+    messyX() {
+      return this.lastPoint[0] + random(0, 1)
     },
   },
 
@@ -155,50 +162,39 @@ export default {
       })
     },
 
-    pushData(rate, theStep = step) {
-      this.doStep(theStep)
-      if (rate) {
-        this.moveY((this.rate - rate) * rateToPixels)
-        this.rate = rate
-      } else {
-        this.moveY()
-      }
-    },
-    doStep(xPx) {
-      if (this.currentX >= this.xEdge) {
-        this.moveLayer(0, xPx)
-        // this.currentX = this.xEdge
-        this.points = this.points.slice(4)
-      } else {
-        this.currentX += xPx
-      }
+    pushData(rate = this.rate) {
+      let points = [...this.points]
+      let newX = this.currentX + step
+      let newY = this.currentY + (this.rate - rate) * rateToPixels
+      points.push(...this.lastPoint, newX, newY)
 
-      this.handleYOverflow()
+      let diffX = newX > this.xEdge ? step : 0
+      if (diffX) points.splice(0, 4)
+
+      let diffY = 0
+      if (newY > this.heightMinusOverflow) diffY = newY - this.heightMinusOverflow
+      else if (this.overflowSpace > newY) diffY = newY - this.overflowSpace
+
+      for (let i = 0; i < points.length; i++) points[i] -= i % 2 ? diffY : diffX
+      this.moveLines(diffY)
+      this.points = points
+      this.rate = rate
     },
-    handleYOverflow() {
-      let needMove
-      // leftToBottom
-      if (this.currentY > this.heightMinusOverflow) needMove = -(this.heightMinusOverflow - this.currentY)
-      // leftToTop
-      else if (this.overflowSpace > this.currentY) needMove = this.currentY - this.overflowSpace
-      if (needMove) {
-        this.moveLayer(1, needMove)
-        this.moveLines(needMove)
-        // if (this.freezeY) this.freezeY -= needMove
-      }
+
+    movePoints(points, diffX, diffY) {
+      for (let i = 0; i < this.points.length; i++) this.points[i] -= i % 2 ? diffY : diffX
     },
-    moveY(change = 0) {
-      this.points = this.points.concat([...this.lastPointEnd, this.currentX, this.currentY + change])
-    },
-    moveLayer(start, step) {
-      for (let i = start; i < this.points.length; i += 2) this.points[i] -= step
-    },
-    moveLines(yOffset) {
+    moveLines(diffY) {
+      if (!diffY) return
+      const xLinesLabels = [...this.xLinesLabels]
+      const xLines = [...this.xLines]
       for (let i = 0; i < this.xLines.length; i++) {
-        this.xLinesLabels[i].y -= yOffset
-        this.xLines[i].points[1] -= yOffset
-        this.xLines[i].points[3] -= yOffset
+        xLinesLabels[i].y -= diffY
+        xLines[i].points[1] -= diffY
+        xLines[i].points[3] -= diffY
       }
+      this.xLinesLabels = [...xLinesLabels]
+      this.xLines = [...xLines]
     },
   },
 }

@@ -8,7 +8,7 @@
 
         <v-line
           :config="{
-            points,
+            points: messyPoints,
             stroke: 'yellow',
             strokeWidth: 8,
 
@@ -21,7 +21,7 @@
 
         <v-line
           :config="{
-            points,
+            points: messyPoints,
             stroke: 'gold',
             strokeWidth: 4,
             lineCap: 'round',
@@ -29,7 +29,7 @@
           }"
         />
 
-        <RocketIcon :currentX="currentX" :currentY="currentY" />
+        <RocketIcon :currentX="messyX" :currentY="messyY" />
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
@@ -77,13 +77,19 @@ export default {
       // state
       busy: false,
       livePrice: null,
+      liveRate: null,
+      pushDataLoop: null,
+      pushRateLoop: null,
+      // messyX: null,
+      // messyY: null
     }
   },
 
   mounted() {
     this.rate = pad(70000)
-    this.initStage()
+    this.liveRate = pad(70000)
 
+    this.initStage()
     this.xEdge = Math.ceil(this.stage.width / 2)
     this.overflowSpace = Math.round(this.stage.height / 8)
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
@@ -99,7 +105,7 @@ export default {
       this.livePrice = (newRate / divider).toFixed(4)
 
       Framer.start(() => {
-        let part = random(1_0000, 4_0000_000)
+        let part = random(1_0000, 6_0000_000)
         this.pushData(this.rate + (isNeg ? -part : part))
         change -= part
         if (change < 0) {
@@ -109,21 +115,21 @@ export default {
       })
     }, 400)
 
-    const pushEmpty = throttle(() => {
-      this.doStep()
-      this.addY(this.rate + random(-6_000000, 6_000000))
-    }, 20)
+    // this.pushRateLoop = new Loop(() => {
+    //   this.liveRate = this.rate + random(-randomizer, randomizer)
+    //   this.livePrice = (this.liveRate / divider).toFixed(4)
+    // }, 15000).start()
 
-    const run = () => {
-      if (!this.busy) pushEmpty()
-      pushData()
-      RAF = window.requestAnimationFrame(run)
-    }
-    RAF = window.requestAnimationFrame(run)
+    this.pushDataLoop = new Loop(() => {
+      const randVal = 1 * divider
+      const rate = this.rate
+      this.pushData(rate)
+    }, 20).start()
   },
 
   beforeUnmount() {
-    window.cancelAnimationFrame(RAF)
+    this.pushDataLoop.stop()
+    this.pushRateLoop.stop()
   },
 
   computed: {
@@ -134,6 +140,15 @@ export default {
     },
     currentY() {
       return this.lastPointEnd[1]
+    },
+    messyPoints() {
+      return this.points.map((c, i) => (i % 2 ? c + random(-1, 1) : c))
+    },
+    messyY() {
+      return this.lastPointEnd[1] + random(-1, 1)
+    },
+    messyX() {
+      return this.currentX + random(-1, 1)
     },
   },
 
@@ -169,21 +184,11 @@ export default {
       })
     },
 
-    addY(rate) {
-      const change = (this.rate - rate) * rateToPixels
-      this.moveY(Math.round(change))
-      this.rate = rate
-    },
-
     pushData(rate) {
       this.doStep()
-      if (rate) {
-        const change = (this.rate - rate) * rateToPixels
-        this.moveY(Math.round(change))
-        this.rate = rate
-      } else {
-        this.moveY()
-      }
+      const change = (this.rate - rate) * rateToPixels
+      this.moveY(change)
+      this.rate = rate
     },
     doStep() {
       if (this.currentX >= this.xEdge) {

@@ -29,7 +29,7 @@
           }"
         />
 
-        <RocketIcon :currentX="messyX" :currentY="messyY" />
+        <RocketIcon :currentX="currentX" :currentY="messyY" />
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>
@@ -55,7 +55,7 @@ const ratio = 10 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 10 * divider
+const randomizer = 5 * divider
 
 let RAF
 
@@ -77,59 +77,33 @@ export default {
       // state
       busy: false,
       livePrice: null,
-      liveRate: null,
       pushDataLoop: null,
-      pushRateLoop: null,
-      // messyX: null,
-      // messyY: null
+      pushEmptyLoop: null,
     }
   },
 
   mounted() {
     this.rate = pad(70000)
-    this.liveRate = pad(70000)
 
     this.initStage()
     this.xEdge = Math.ceil(this.stage.width / 2)
     this.overflowSpace = Math.round(this.stage.height / 8)
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
-    const pushData = throttle(() => {
-      Framer.stop()
-      this.busy = true
+    this.pushDataLoop = new Loop(() => this.pushData(), 20).start()
 
-      const newRate = this.rate + random(-randomizer, randomizer)
-      let change = Math.abs(this.rate - newRate)
-      const isNeg = newRate < this.rate
+    this.pushEmptyLoop = new Loop(() => {
+      this.pushDataLoop.stop()
 
-      this.livePrice = (newRate / divider).toFixed(4)
+      this.pushData(this.rate + random(-randomizer, randomizer))
 
-      Framer.start(() => {
-        let part = random(1_0000, 6_0000_000)
-        this.pushData(this.rate + (isNeg ? -part : part))
-        change -= part
-        if (change < 0) {
-          Framer.stop()
-          this.busy = false
-        }
-      })
-    }, 400)
-
-    // this.pushRateLoop = new Loop(() => {
-    //   this.liveRate = this.rate + random(-randomizer, randomizer)
-    //   this.livePrice = (this.liveRate / divider).toFixed(4)
-    // }, 15000).start()
-
-    this.pushDataLoop = new Loop(() => {
-      const randVal = 1 * divider
-      const rate = this.rate
-      this.pushData(rate)
-    }, 20).start()
+      this.pushDataLoop.start()
+    }, 1000).start()
   },
 
   beforeUnmount() {
     this.pushDataLoop.stop()
-    this.pushRateLoop.stop()
+    this.pushEmptyLoop.stop()
   },
 
   computed: {
@@ -145,10 +119,7 @@ export default {
       return this.points.map((c, i) => (i % 2 ? c + random(-1, 1) : c))
     },
     messyY() {
-      return this.lastPointEnd[1] + random(-1, 1)
-    },
-    messyX() {
-      return this.currentX + random(-1, 1)
+      return this.lastPointEnd[1] + random(0, 1)
     },
   },
 
@@ -184,19 +155,22 @@ export default {
       })
     },
 
-    pushData(rate) {
-      this.doStep()
-      const change = (this.rate - rate) * rateToPixels
-      this.moveY(change)
-      this.rate = rate
+    pushData(rate, theStep = step) {
+      this.doStep(theStep)
+      if (rate) {
+        this.moveY((this.rate - rate) * rateToPixels)
+        this.rate = rate
+      } else {
+        this.moveY()
+      }
     },
-    doStep() {
+    doStep(xPx) {
       if (this.currentX >= this.xEdge) {
-        this.moveLayer(0, step)
+        this.moveLayer(0, xPx)
         // this.currentX = this.xEdge
         this.points = this.points.slice(4)
       } else {
-        this.currentX += step
+        this.currentX += xPx
       }
 
       this.handleYOverflow()

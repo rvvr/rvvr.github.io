@@ -47,7 +47,7 @@ import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
 
-const step = 2
+const step = 4
 const xLinesCount = 100
 const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
@@ -99,7 +99,7 @@ export default {
       this.livePrice = (newRate / divider).toFixed(4)
 
       Framer.start(() => {
-        let part = random(1_000, 4_0000_000)
+        let part = random(1_0000, 4_0000_000)
         this.pushData(this.rate + (isNeg ? -part : part))
         change -= part
         if (change < 0) {
@@ -109,12 +109,14 @@ export default {
       })
     }, 400)
 
+    const pushEmpty = throttle(() => {
+      this.doStep()
+      this.addY(this.rate + random(-6_000000, 6_000000))
+    }, 20)
+
     const run = () => {
-      if (!this.busy) {
-        this.doStep()
-        this.addY(this.rate + random(-6_000000, 6_000000))
-      }
-      // pushData()
+      if (!this.busy) pushEmpty()
+      pushData()
       RAF = window.requestAnimationFrame(run)
     }
     RAF = window.requestAnimationFrame(run)

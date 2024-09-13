@@ -201,7 +201,7 @@ export default {
 .meteors-container {
   position: absolute;
   z-index: 998;
-  width: calc(100% - 70px);
+  width: calc(100%);
   height: 100%;
   overflow: hidden;
   top: 0;

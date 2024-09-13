@@ -10,13 +10,13 @@
           :config="{
             points,
             // points: messyPoints,
-            stroke: 'yellow',
+            stroke: '#f4d56f',
             strokeWidth: 8,
 
-            shadowColor: 'yellow',
-            shadowBlur: 6,
-            shadowEnabled: true,
-            shadowOffset: { x: 0, y: 0 },
+            // shadowColor: 'yellow',
+            // shadowBlur: 6,
+            // shadowEnabled: true,
+            // shadowOffset: { x: 0, y: 0 },
           }"
         />
 
@@ -79,7 +79,6 @@ export default {
       // state
       livePrice: null,
       pushDataLoop: null,
-      pushRealLoop: null,
     }
   },
 
@@ -92,16 +91,15 @@ export default {
     this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
     let rndm = 0
-    this.pushDataLoop = new Loop(() => this.pushData(this.rate + rndm), 20).start()
-
-    this.pushRealLoop = new Loop(() => {
-      rndm = rndm ? 0 : random(-randomizer, randomizer)
-    }, 100).start()
+    const rndmFn = throttle(() => (rndm = rndm ? 0 : random(-randomizer, randomizer)), 100)
+    this.pushDataLoop = new Loop(() => {
+      this.pushData(this.rate + rndm)
+      rndmFn()
+    }, 20).start()
   },
 
   beforeUnmount() {
     this.pushDataLoop.stop()
-    this.pushRealLoop.stop()
   },
 
   computed: {

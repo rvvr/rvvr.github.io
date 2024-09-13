@@ -9,7 +9,7 @@
         <v-line
           :config="{
             points,
-            points: messyPoints,
+            // points: messyPoints,
             stroke: 'yellow',
             strokeWidth: 8,
 
@@ -20,19 +20,19 @@
           }"
         />
 
-        <v-line
+        <!-- <v-line
           :config="{
             points,
-            points: messyPoints,
+            // points: messyPoints,
             stroke: 'gold',
             strokeWidth: 4,
             lineCap: 'round',
             lineJoin: 'round',
           }"
-        />
+        /> -->
 
-        <!-- <RocketIcon :currentX="currentX" :currentY="currentY" /> -->
-        <RocketIcon :currentX="messyX" :currentY="messyY" />
+        <RocketIcon :currentX="currentX" :currentY="currentY" />
+        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" /> -->
 
         <GraphLivePrice v-if="rate" :currentY="currentY" :price="livePrice" :stage="stage" />
       </v-layer>

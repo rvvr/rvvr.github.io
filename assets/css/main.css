@@ -44,3 +44,13 @@ body {
   color: theme(colors.neutral-content);
   display: none;
 }
+
+.v-leave-active,
+.v-enter-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}

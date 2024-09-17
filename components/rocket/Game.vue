@@ -29,57 +29,21 @@
         />
 
         <v-line
-          :config="{
-            points: [0, topRateY, stage.width, topRateY],
-            stroke: '#22c55e',
-            dash: [6, 6],
-            strokeWidth: 1,
-            offsetX: 70,
-          }"
+          :config="{ points: [0, topRateY, stage.width, topRateY], stroke: '#22c55e', ...edgesConfig }"
         />
         <v-line
-          :config="{
-            points: [0, bottomRateY, stage.width, bottomRateY],
-            stroke: '#ef4444',
-            dash: [6, 6],
-            strokeWidth: 1,
-            offsetX: 70,
-          }"
+          :config="{ points: [0, bottomRateY, stage.width, bottomRateY], stroke: '#ef4444', ...edgesConfig }"
         />
+        <v-text :config="{ fill: '#22c55e', text: formatRate(topRate), y: topRateY, ...ratesConfig }" />
+        <v-text :config="{ fill: '#ef4444', text: formatRate(bottomRate), y: bottomRateY, ...ratesConfig }" />
+        <v-text :config="{ fill: '#f4d56f', text: formatRate(rate), y: currentY, ...ratesConfig }" />
 
-        <v-text
-          :config="{
-            fill: '#22c55e',
-            text: formatRate(topRate),
-            y: topRateY,
-            ...ratesConfig,
-          }"
-        />
-        <v-text
-          :config="{
-            fill: '#ef4444',
-            text: formatRate(bottomRate),
-            y: bottomRateY,
-            ...ratesConfig,
-          }"
-        />
-        <v-text
-          :config="{
-            fill: '#f4d56f',
-            text: formatRate(rate),
-            y: currentY,
-            ...ratesConfig,
-          }"
-        />
-
-        <RocketIcon :currentX="currentX" :currentY="currentY" :live="pushDataLoop?.isActive" />
-        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" :live="pushDataLoop?.isActive" /> -->
+        <RocketIcon :currentX="currentX" :currentY="currentY" :live="notCrashed" />
+        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" :live="notCrashed" /> -->
       </v-layer>
     </v-stage>
 
-    <div v-show="pushDataLoop?.isActive" class="meteors-container">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
+    <div v-show="notCrashed" class="meteors"><span v-for="i in 6" :key="i" /></div>
   </div>
 </template>
 
@@ -98,8 +62,6 @@ const ratio = 10 // cent per pixel
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
 const randomizer = 1 * divider
-
-let RAF
 
 export default {
   data() {
@@ -120,18 +82,8 @@ export default {
       topRateY: null,
       bottomRate: null,
       bottomRateY: null,
-      pushDataLoop: null,
+      randomDiff: 0,
     }
-  },
-
-  mounted() {
-    this.rate = pad(70000)
-    this.initStage()
-    this.start()
-  },
-
-  beforeUnmount() {
-    this.pushDataLoop.stop()
   },
 
   computed: {
@@ -155,7 +107,13 @@ export default {
     messyX() {
       return this.lastPoint[0] + random(0, 1)
     },
-
+    edgesConfig() {
+      return {
+        dash: [6, 6],
+        strokeWidth: 1,
+        offsetX: 70,
+      }
+    },
     ratesConfig() {
       return {
         align: 'left',
@@ -169,9 +127,25 @@ export default {
         shadowBlur: 10,
       }
     },
+    notCrashed() {
+      return this.rate > this.bottomRate
+    },
   },
 
   methods: {
+    start() {
+      this.rate = pad(70000)
+      this.initStage()
+    },
+    run() {
+      this.pushData(this.rate + this.randomDiff)
+      this.setRandomDiff()
+    },
+
+    setRandomDiff: throttle(function () {
+      this.randomDiff = this.randomDiff ? 0 : random(-randomizer, randomizer)
+    }, 100),
+
     initStage() {
       this.stage.width = this.$refs.graph.clientWidth
       this.stage.height = this.$refs.graph.clientHeight
@@ -180,7 +154,7 @@ export default {
       this.overflowSpace = Math.round(this.stage.height / 8)
       this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
-      const center = [0, ~~(this.stage.height / 2)]
+      const center = [-48, ~~(this.stage.height / 2)]
       this.points = [...center, ...center]
 
       const moneyBetween = pixelsBetween * pixelsToRate
@@ -243,18 +217,6 @@ export default {
     formatRate(rate) {
       return (rate / divider).toFixed(4)
     },
-
-    start() {
-      let rndm = 0
-      const rndmFn = throttle(() => {
-        rndm = rndm ? 0 : random(-randomizer, randomizer)
-      }, 100)
-
-      this.pushDataLoop = new Loop(() => {
-        this.pushData(this.rate + rndm)
-        rndmFn()
-      }, 20).start()
-    },
   },
 
   watch: {
@@ -265,7 +227,6 @@ export default {
         this.bottomRate = this.rate - 10 * divider
         this.bottomRateY = this.currentY + 10 * divider * rateToPixels
       } else if (val <= this.bottomRate) {
-        this.pushDataLoop.stop()
         this.$emit('end')
       }
     },
@@ -274,7 +235,7 @@ export default {
 </script>
 
 <style lang="scss">
-.meteors-container {
+.meteors {
   position: absolute;
   z-index: 998;
   width: calc(100%);
@@ -284,7 +245,7 @@ export default {
   left: 0;
 }
 
-.meteors-container span {
+.meteors span {
   position: absolute;
   width: 75px;
   border-bottom: 2px solid #fff;
@@ -297,7 +258,7 @@ $particles-color: #fff;
   $top: (100 / $nbmeteors) * ($i + 1) + '%';
   $speed: (random(10) + 5)/20;
 
-  .meteors-container span:nth-child(#{$i + 1}) {
+  .meteors span:nth-child(#{$i + 1}) {
     top: #{$top};
     left: 100%;
     box-shadow: 0px 0px 5px $particles-color;

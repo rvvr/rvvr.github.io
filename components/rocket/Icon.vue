@@ -1,23 +1,25 @@
 <template>
   <v-image
-    v-if="live"
     :config="{
       image: rocket,
       width: 48,
       height: 48,
       x: currentX,
-      y: currentY - 24,
+      y: currentY,
+      offsetY: 24,
     }"
   />
 
   <v-image
-    v-else
+    v-if="!live"
     :config="{
       image: bang,
-      width: 58,
-      height: 58,
-      x: currentX - 15,
-      y: currentY - 30,
+      width: 90,
+      height: 90,
+      offsetY: 45,
+      offsetX: 25,
+      x: currentX,
+      y: currentY,
     }"
   />
 </template>
@@ -29,6 +31,7 @@ export default {
     return {
       rocket: null,
       bang: null,
+      scale: 0,
     }
   },
   created() {

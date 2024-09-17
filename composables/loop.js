@@ -14,6 +14,7 @@ export class Loop {
 
   stop() {
     window.cancelAnimationFrame(this.isActive)
-    this.isActive = null
   }
 }
+
+export const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

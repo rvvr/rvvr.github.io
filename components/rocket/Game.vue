@@ -62,12 +62,14 @@ const ratio = 10 // cent per pixel
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
 const randomizer = 1 * divider
+const range = 14 * divider
 
 export default {
+  components: ['v-stage'],
   data() {
     return {
       rate: null,
-      points: [],
+      points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },
       xLines: [],
       xLinesLabels: [],
@@ -79,9 +81,9 @@ export default {
 
       // state
       topRate: null,
-      topRateY: null,
+      topRateY: 0,
       bottomRate: null,
-      bottomRateY: null,
+      bottomRateY: 0,
       randomDiff: 0,
     }
   },
@@ -132,12 +134,15 @@ export default {
     },
   },
 
+  mounted() {
+    this.rate = pad(70000)
+    this.topRate = this.rate + range / 2
+    this.bottomRate = this.rate - range / 2
+    this.initStage()
+  },
+
   methods: {
     start() {
-      this.rate = pad(70000)
-      this.initStage()
-    },
-    run() {
       this.pushData(this.rate + this.randomDiff)
       this.setRandomDiff()
     },
@@ -154,8 +159,11 @@ export default {
       this.overflowSpace = Math.round(this.stage.height / 8)
       this.heightMinusOverflow = this.stage.height - this.overflowSpace
 
-      const center = [-48, ~~(this.stage.height / 2)]
+      const center = [0, ~~(this.stage.height / 2)]
+
       this.points = [...center, ...center]
+      this.topRateY = this.currentY - (range / 2) * rateToPixels
+      this.bottomRateY = this.currentY + (range / 2) * rateToPixels
 
       const moneyBetween = pixelsBetween * pixelsToRate
       const halfXLinesCount = Math.floor(xLinesCount / 2)
@@ -183,6 +191,8 @@ export default {
     },
 
     pushData(rate = this.rate) {
+      if (rate <= this.bottomRate) rate = this.bottomRate
+
       let points = [...this.points]
       let newX = this.currentX + step
       let newY = this.currentY + (this.rate - rate) * rateToPixels
@@ -199,6 +209,16 @@ export default {
       this.moveLines(diffY)
       this.points = points
       this.rate = rate
+
+      if (rate > this.topRate) {
+        this.topRate = rate
+        this.bottomRate = rate - range
+        this.topRateY = this.currentY
+        this.bottomRateY = this.currentY + range * rateToPixels
+      } else if (rate <= this.bottomRate) {
+        this.$emit('end')
+        this.start = () => {}
+      }
     },
 
     moveLines(diffY) {
@@ -219,19 +239,19 @@ export default {
     },
   },
 
-  watch: {
-    rate(val) {
-      if (val > this.topRate) {
-        this.topRate = this.rate
-        this.topRateY = this.currentY
-        this.bottomRate = this.rate - 10 * divider
-        this.bottomRateY = this.currentY + 10 * divider * rateToPixels
-      } else if (val <= this.bottomRate) {
-        this.pushData(this.bottomRate)
-        this.$emit('end')
-      }
-    },
-  },
+  // watch: {
+  //   rate(val) {
+  //     if (val > this.topRate) {
+  //       this.topRate = this.rate
+  //       this.topRateY = this.currentY
+  //       this.bottomRate = this.rate - 10 * divider
+  //       this.bottomRateY = this.currentY + 10 * divider * rateToPixels
+  //     } else if (val <= this.bottomRate) {
+  //       console.log('aa')
+  //       this.$emit('end')
+  //     }
+  //   },
+  // },
 }
 </script>
 

@@ -34,9 +34,9 @@
         <v-line
           :config="{ points: [0, bottomRateY, stage.width, bottomRateY], stroke: '#ef4444', ...edgesConfig }"
         />
+        <v-text :config="{ fill: '#f4d56f', text: formatRate(rate), y: currentY, ...ratesConfig }" />
         <v-text :config="{ fill: '#22c55e', text: formatRate(topRate), y: topRateY, ...ratesConfig }" />
         <v-text :config="{ fill: '#ef4444', text: formatRate(bottomRate), y: bottomRateY, ...ratesConfig }" />
-        <v-text :config="{ fill: '#f4d56f', text: formatRate(rate), y: currentY, ...ratesConfig }" />
 
         <RocketIcon :currentX="currentX" :currentY="currentY" :live="notCrashed" />
         <!-- <RocketIcon :currentX="messyX" :currentY="messyY" :live="notCrashed" /> -->
@@ -227,6 +227,7 @@ export default {
         this.bottomRate = this.rate - 10 * divider
         this.bottomRateY = this.currentY + 10 * divider * rateToPixels
       } else if (val <= this.bottomRate) {
+        this.pushData(this.bottomRate)
         this.$emit('end')
       }
     },

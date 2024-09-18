@@ -16,7 +16,7 @@
             <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
           </span>
           <div class="card-body items-center">
-            <img class="mx-auto h-12" src="/rocket.png" />
+            <img class="mx-auto h-12" src="/coinb.png" />
             <p class="font-oswald">Boost balance</p>
           </div>
         </div>

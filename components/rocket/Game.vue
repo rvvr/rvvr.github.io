@@ -142,7 +142,7 @@ export default {
   },
 
   methods: {
-    start() {
+    run() {
       this.pushData(this.rate + this.randomDiff)
       this.setRandomDiff()
     },
@@ -217,7 +217,7 @@ export default {
         this.bottomRateY = this.currentY + range * rateToPixels
       } else if (rate <= this.bottomRate) {
         this.$emit('end')
-        this.start = () => {}
+        this.run = () => {}
       }
     },
 
@@ -238,20 +238,6 @@ export default {
       return (rate / divider).toFixed(4)
     },
   },
-
-  // watch: {
-  //   rate(val) {
-  //     if (val > this.topRate) {
-  //       this.topRate = this.rate
-  //       this.topRateY = this.currentY
-  //       this.bottomRate = this.rate - 10 * divider
-  //       this.bottomRateY = this.currentY + 10 * divider * rateToPixels
-  //     } else if (val <= this.bottomRate) {
-  //       console.log('aa')
-  //       this.$emit('end')
-  //     }
-  //   },
-  // },
 }
 </script>
 
@@ -273,11 +259,11 @@ export default {
 }
 
 $nbmeteors: 6;
-$particles-color: #fff;
+$particles-color: rgba(255, 255, 255, 0.5);
 
 @for $i from 0 to $nbmeteors {
   $top: (100 / $nbmeteors) * ($i + 1) + '%';
-  $speed: (random(10) + 5)/20;
+  $speed: calc((random(10) + 5) / 15);
 
   .meteors span:nth-child(#{$i + 1}) {
     top: #{$top};

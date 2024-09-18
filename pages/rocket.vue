@@ -22,9 +22,11 @@
         </div>
       </div>
     </Transition>
+
+    <RocketMultiplier ref="multiplier" />
   </div>
 
-  <RocketBet />
+  <RocketBet :blocked="running" />
 </template>
 
 <script>
@@ -37,7 +39,7 @@ export default {
 
   data() {
     return {
-      running: true,
+      running: false,
       counter: 0,
       loop: null,
     }
@@ -45,14 +47,14 @@ export default {
 
   mounted() {
     this.loop = new Loop(() => {
-      this.$refs.game?.start()
+      this.$refs.game?.run()
+      this.$refs.multiplier?.run()
     }, 20)
-    this.run()
+    this.prepare()
   },
 
   methods: {
     run() {
-      console.log('run')
       this.running = true
       this.loop.start()
     },
@@ -61,6 +63,10 @@ export default {
       this.loop.stop()
       await sleep(2000)
       this.running = false
+      await this.prepare()
+    },
+
+    async prepare() {
       while (this.counter < 100) {
         this.counter++
         await sleep(50)

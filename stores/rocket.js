@@ -4,5 +4,6 @@ export const useRocketStore = defineStore('rocket', {
     rate: 0,
     ds: 0,
     multiplier: 1,
+    betPlaced: 0,
   }),
 })

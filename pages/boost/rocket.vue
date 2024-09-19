@@ -23,12 +23,12 @@
       </div>
     </Transition>
 
-    <div class="absolute bottom-0 left-0">
+    <div class="absolute bottom-8 left-0 w-full">
       <RocketMultiplier v-if="running" ref="multiplier" />
     </div>
   </div>
 
-  <RocketBet :blocked="running" />
+  <RocketBet :running="running" />
 </template>
 
 <script>

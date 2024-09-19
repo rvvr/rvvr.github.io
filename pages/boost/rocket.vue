@@ -23,18 +23,21 @@
       </div>
     </Transition>
 
-    <RocketMultiplier ref="multiplier" />
+    <div class="absolute bottom-0 left-0">
+      <RocketMultiplier v-if="running" ref="multiplier" />
+    </div>
   </div>
 
   <RocketBet :blocked="running" />
 </template>
 
 <script>
-import { mapState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
 
 export default {
   computed: {
     ...mapState(useUserStore, ['user']),
+    ...mapWritableState(useRocketStore, ['ds', 'rate']),
   },
 
   data() {
@@ -67,9 +70,10 @@ export default {
     },
 
     async prepare() {
+      this.rate = pad(70000)
       while (this.counter < 100) {
         this.counter++
-        await sleep(50)
+        await sleep(25)
       }
       this.counter = 0
       this.run()

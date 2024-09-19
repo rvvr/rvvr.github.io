@@ -1,7 +1,7 @@
 <template>
   <NavbarView>
     <template #center>
-      <div class="font-bold text-neutral-content">Boost games</div>
+      <div class="font-bold text-neutral-content">Boost</div>
     </template>
   </NavbarView>
 

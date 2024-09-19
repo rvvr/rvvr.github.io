@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
 import { xLine, xLinesLabel } from '~/components/graph/graphData'
 import throttle from 'lodash.throttle'
 import random from 'lodash.random'
@@ -57,18 +57,16 @@ const step = 8
 const xLinesCount = 50
 const pixelsBetween = 50 // between price lines
 const divider = 1_00000000 // how much decimals
-const ratio = 10 // cent per pixel
+const ratio = 40 // cent per pixel
 
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
-const randomizer = 1 * divider
-const range = 14 * divider
+const randomizer = 0.2 * divider
+const range = divider * 5
 
 export default {
-  components: ['v-stage'],
   data() {
     return {
-      rate: null,
       points: [0, 0, 0, 0],
       stage: { width: 0, height: 0 },
       xLines: [],
@@ -84,11 +82,11 @@ export default {
       topRateY: 0,
       bottomRate: null,
       bottomRateY: 0,
-      randomDiff: 0,
     }
   },
 
   computed: {
+    ...mapWritableState(useRocketStore, ['rate', 'randomDiff', 'ds']),
     ...mapState(useUserStore, ['user']),
 
     lastPoint() {
@@ -135,7 +133,7 @@ export default {
   },
 
   mounted() {
-    this.rate = pad(70000)
+    this.ds = 0
     this.topRate = this.rate + range / 2
     this.bottomRate = this.rate - range / 2
     this.initStage()
@@ -149,6 +147,7 @@ export default {
 
     setRandomDiff: throttle(function () {
       this.randomDiff = this.randomDiff ? 0 : random(-randomizer, randomizer)
+      this.ds++
     }, 100),
 
     initStage() {

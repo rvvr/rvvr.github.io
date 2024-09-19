@@ -3,5 +3,6 @@ export const useRocketStore = defineStore('rocket', {
     randomDiff: 0,
     rate: 0,
     ds: 0,
+    multiplier: 1,
   }),
 })

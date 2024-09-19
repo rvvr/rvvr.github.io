@@ -1,17 +1,18 @@
 <template>
   <div class="font-mono">
-    [sf: {{ sf.toFixed(1) }}] [sum_mov: {{ moveSum.toFixed(2) }}] [pm: {{ payoutMultiplier.toFixed(4) }}]
+    [sf: {{ sf.toFixed(1) }}] [sum_mov: {{ moveSum.toFixed(2) }}] [pm: {{ multiplier.toFixed(2) }}]
   </div>
 </template>
 
 <script>
-import { mapState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
 export default {
   data() {
     return {
-      av: 0.005,
+      av: 0.01,
       lastRate: 0,
       moveSum: 0,
+      sf: 0.5,
     }
   },
   methods: {
@@ -24,22 +25,15 @@ export default {
 
   computed: {
     ...mapState(useRocketStore, ['ds', 'randomDiff', 'rate']),
-
-    sf() {
-      return (Math.floor(this.ds * 0.1) + 1) / 2
-    },
-
-    payoutMultiplier() {
-      return this.moveSum * this.sf * this.av + 1
-    },
+    ...mapWritableState(useRocketStore, ['multiplier']),
   },
 
   watch: {
     ds(val) {
-      // if (val % 10 === 0) {
+      if (val % 10 === 0) this.sf += 0.5
       this.moveSum += Math.abs(this.rate - this.lastRate) / 1_00000000
       this.lastRate = this.rate
-      // }
+      this.multiplier = this.moveSum * this.sf * this.av + 1
     },
   },
 }

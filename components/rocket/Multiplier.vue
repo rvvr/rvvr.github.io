@@ -1,10 +1,13 @@
 <template>
-  <div class="font-oswald w-full text-center text-5xl font-bold text-neutral-content">
-    {{ multiplier.toFixed(2) }}x
-  </div>
-  <!-- <div class="font-mono">
-    [sf: {{ sf.toFixed(1) }}] [sum_mov: {{ moveSum.toFixed(2) }}] [pm: {{ multiplier.toFixed(2) }}]
+  <!-- <div class="absolute bottom-8 left-0 w-full animate-pulse">
+    <div class="font-oswald w-full text-center text-5xl font-bold text-neutral-content">
+      {{ multiplier.toFixed(2) }}x
+    </div>
   </div> -->
+
+  <div class="font-oswald absolute bottom-2 z-10 w-full animate-pulse text-center font-bold uppercase">
+    <span class="-mt-5 inline-block py-2 text-sm text-[#f4d56f]">{{ multiplier.toFixed(2) }}x</span>
+  </div>
 </template>
 
 <script>
@@ -22,7 +25,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useRocketStore, ['ds', 'randomDiff', 'rate']),
+    ...mapState(useRocketStore, ['ds', 'rate']),
     ...mapWritableState(useRocketStore, ['multiplier']),
   },
 

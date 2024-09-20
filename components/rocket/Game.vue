@@ -6,27 +6,27 @@
         <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
         <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
-        <!-- <v-line
+        <v-line
           :config="{
             points,
             // points: messyPoints,
             stroke: '#f4d56f',
             strokeWidth: 8,
 
-            shadowColor: 'yellow',
-            shadowBlur: 6,
-            shadowEnabled: true,
-            shadowOffset: { x: 0, y: 0 },
+            // shadowColor: 'yellow',
+            // shadowBlur: 6,
+            // shadowEnabled: true,
+            // shadowOffset: { x: 0, y: 0 },
           }"
-        /> -->
-        <v-line
+        />
+        <!-- <v-line
           :config="{
             points,
             // points: messyPoints,
             stroke: 'gold',
             strokeWidth: 4,
           }"
-        />
+        /> -->
 
         <v-line
           :config="{ points: [0, topRateY, stage.width, topRateY], stroke: '#22c55e', ...edgesConfig }"
@@ -62,7 +62,7 @@ const ratio = 40 // cent per pixel
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
 const randomizer = 0.2 * divider
-const range = divider * 5
+const range = divider * 3
 
 export default {
   data() {

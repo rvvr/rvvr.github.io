@@ -23,9 +23,7 @@
       </div>
     </Transition>
 
-    <div class="absolute bottom-8 left-0 w-full">
-      <RocketMultiplier v-if="running" ref="multiplier" />
-    </div>
+    <RocketMultiplier v-if="running" ref="multiplier" />
   </div>
 
   <RocketBet :running="running" />
@@ -49,6 +47,7 @@ export default {
   },
 
   mounted() {
+    useRocketStore().$reset()
     this.loop = new Loop(() => {
       this.$refs.game?.run()
       this.$refs.multiplier?.run()

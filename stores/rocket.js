@@ -5,5 +5,6 @@ export const useRocketStore = defineStore('rocket', {
     ds: 0,
     multiplier: 1,
     betPlaced: 0,
+    betPlanned: 0,
   }),
 })

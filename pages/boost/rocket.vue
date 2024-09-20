@@ -26,7 +26,7 @@
     <RocketMultiplier v-if="running" ref="multiplier" />
   </div>
 
-  <RocketBet :running="running" />
+  <RocketBet :running="running" ref="bet" />
 </template>
 
 <script>
@@ -47,7 +47,6 @@ export default {
   },
 
   mounted() {
-    useRocketStore().$reset()
     this.loop = new Loop(() => {
       this.$refs.game?.run()
       this.$refs.multiplier?.run()
@@ -57,11 +56,13 @@ export default {
 
   methods: {
     run() {
+      this.$refs.bet?.start()
       this.running = true
       this.loop.start()
     },
 
     async end() {
+      this.$refs.bet?.end()
       this.loop.stop()
       await sleep(2000)
       this.running = false
@@ -80,6 +81,7 @@ export default {
   },
 
   beforeUnmount() {
+    useRocketStore().$reset()
     this.loop?.stop()
   },
 }

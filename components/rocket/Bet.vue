@@ -14,6 +14,7 @@
         v-else-if="betPlaced"
         @click="cashOut"
         class="pb-1/2 btn h-14 w-full border-2 border-amber-700 bg-amber-500 text-xl font-bold text-white"
+        ref="cashOut"
         type="button"
       >
         Cash out ( {{ cashOutVal }} )
@@ -30,14 +31,17 @@
     </div>
 
     <BetSize v-model="betSize" :balance="user.balance" />
+
+    <dialog class="modal" ref="infBalance">
+      <ModalsDeposit />
+    </dialog>
   </div>
 </template>
 
 <script>
-import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapWritableState, mapActions } from '~/node_modules/pinia/dist/pinia'
 
 export default {
-  props: ['running'],
   data() {
     return {
       betSize: null,
@@ -48,6 +52,7 @@ export default {
     ...mapState(useUserStore, ['user']),
     ...mapWritableState(useRocketStore, ['betPlaced', 'betPlanned']),
     ...mapState(useRocketStore, ['multiplier']),
+    ...mapState(useUserStore, ['user']),
 
     cashOutVal() {
       return Math.round(this.betPlaced * this.multiplier)
@@ -59,23 +64,32 @@ export default {
   },
 
   methods: {
+    ...mapActions(useWalletStore, ['saveTaps']),
+
     planBet() {
-      this.betPlanned = this.betSize
+      if (this.user.balance < this.betSize) this.$refs.infBalance.showModal()
+      else this.betPlanned = this.betSize
     },
     cancelBet() {
       this.betPlanned = 0
     },
-    cashOut() {},
-  },
-
-  watch: {
-    running(val) {
-      if (!val) {
-        this.betPlaced = 0
-      } else if (this.betPlanned) {
-        this.betPlaced = this.betPlanned
-        this.betPlanned = 0
-      }
+    placeBet() {
+      this.saveTaps(-this.betPlanned)
+      this.betPlaced = this.betPlanned
+      this.betPlanned = 0
+    },
+    cashOut() {
+      this.saveTaps(this.cashOutVal)
+      this.betPlaced = 0
+    },
+    async end() {
+      if (!this.betPlaced) return
+      this.$refs.cashOut.disabled = true
+      await sleep(2000)
+      this.betPlaced = 0
+    },
+    start() {
+      if (this.betPlanned) this.placeBet()
     },
   },
 }

@@ -6,7 +6,7 @@
         <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
         <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
-        <v-line
+        <!-- <v-line
           :config="{
             points,
             // points: messyPoints,
@@ -18,15 +18,15 @@
             // shadowEnabled: true,
             // shadowOffset: { x: 0, y: 0 },
           }"
-        />
-        <!-- <v-line
+        /> -->
+        <v-line
           :config="{
             points,
             // points: messyPoints,
             stroke: 'gold',
             strokeWidth: 4,
           }"
-        /> -->
+        />
 
         <v-line
           :config="{ points: [0, topRateY, stage.width, topRateY], stroke: '#22c55e', ...edgesConfig }"

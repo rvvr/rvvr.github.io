@@ -17,7 +17,7 @@
       <div>
         <input
           @input="$emit('update:modelValue', $event.target.value)"
-          :max="balance"
+          :max="modelValue > balance ? modelValue : balance"
           :min="1"
           :value="modelValue"
           class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 bg-gradient-to-r from-green-300 via-yellow-300 to-red-300 accent-white"

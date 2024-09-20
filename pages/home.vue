@@ -88,7 +88,6 @@ export default {
 
   methods: {
     ...mapActions(useWalletStore, ['saveTaps']),
-    ...mapActions(useUserStore, ['updateUser']),
 
     storeEvent(event) {
       this.event = event
@@ -98,8 +97,7 @@ export default {
       let taps = this.taps
       this.taps = 0
       this.active = false
-      let user = await this.saveTaps(taps)
-      this.updateUser(user)
+      await this.saveTaps(taps)
     }, 300),
 
     tap() {

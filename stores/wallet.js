@@ -41,7 +41,8 @@ export const useWalletStore = defineStore('wallet', {
     },
 
     async saveTaps(taps) {
-      return await api.post('/save_taps', { taps })
+      const { balance } = await api.post('/save_taps', { taps })
+      useUserStore().$patch({ user: { balance } })
     },
 
     async regTonAddress(wallet_address) {

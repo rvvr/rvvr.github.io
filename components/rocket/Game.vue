@@ -263,7 +263,7 @@ $nbmeteors: 6;
 $particles-color: rgba(255, 255, 255, 0.5);
 
 @for $i from 0 to $nbmeteors {
-  $top: (100 / $nbmeteors) * ($i + 1) + '%';
+  $top: calc(100 / $nbmeteors) * ($i + 1) + '%';
   $speed: calc((random(10) + 5) / 15);
 
   .meteors span:nth-child(#{$i + 1}) {

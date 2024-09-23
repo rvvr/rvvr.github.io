@@ -1,13 +1,13 @@
 <template>
-  <!-- <div class="absolute bottom-8 left-0 w-full animate-pulse">
+  <div class="absolute bottom-8 left-0 w-full animate-pulse">
     <div class="font-oswald w-full text-center text-5xl font-bold text-neutral-content">
       {{ multiplier.toFixed(2) }}x
     </div>
-  </div> -->
-
-  <div class="font-oswald absolute bottom-2 z-10 w-full animate-pulse text-center font-bold uppercase">
-    <span class="-mt-5 inline-block py-2 text-sm text-[#f4d56f]">{{ multiplier.toFixed(2) }}x</span>
   </div>
+
+  <!-- <div class="font-oswald absolute bottom-2 z-10 w-full animate-pulse text-center font-bold uppercase">
+    <span class="-mt-5 inline-block py-2 text-sm text-[#f4d56f]">{{ multiplier.toFixed(2) }}x</span>
+  </div> -->
 </template>
 
 <script>

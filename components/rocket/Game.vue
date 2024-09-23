@@ -6,10 +6,12 @@
         <v-line v-for="(xLine, i) in xLines" :key="i" :config="xLine" />
         <v-text v-for="(xLineLabel, i) in xLinesLabels" :key="i" :config="xLineLabel" />
 
-        <!-- <v-line
+        <v-line
+          v-if="multiplier > 1.1"
           :config="{
             points,
-            // points: messyPoints,
+            points: multiplier > 3 ? messyPoints : points,
+
             stroke: '#f4d56f',
             strokeWidth: 8,
 
@@ -18,12 +20,11 @@
             // shadowEnabled: true,
             // shadowOffset: { x: 0, y: 0 },
           }"
-        /> -->
+        />
         <v-line
           :config="{
-            points,
-            // points: messyPoints,
-            stroke: 'gold',
+            points: multiplier > 1.6 ? messyPoints : points,
+            stroke: multiplier > 1.1 ? '#F39C12' : 'gold',
             strokeWidth: 4,
           }"
         />
@@ -38,8 +39,8 @@
         <v-text :config="{ fill: '#22c55e', text: formatRate(topRate), y: topRateY, ...ratesConfig }" />
         <v-text :config="{ fill: '#ef4444', text: formatRate(bottomRate), y: bottomRateY, ...ratesConfig }" />
 
-        <RocketIcon :currentX="currentX" :currentY="currentY" :live="notCrashed" />
-        <!-- <RocketIcon :currentX="messyX" :currentY="messyY" :live="notCrashed" /> -->
+        <RocketIcon v-if="multiplier < 5" :currentX="currentX" :currentY="currentY" :live="notCrashed" />
+        <RocketIcon v-else :currentX="messyX" :currentY="messyY" :live="notCrashed" />
       </v-layer>
     </v-stage>
 
@@ -62,7 +63,7 @@ const ratio = 40 // cent per pixel
 const rateToPixels = ratio / divider
 const pixelsToRate = divider / ratio
 const randomizer = 0.2 * divider
-const range = divider * 3
+const range = divider * 5
 
 export default {
   data() {
@@ -88,6 +89,7 @@ export default {
   computed: {
     ...mapWritableState(useRocketStore, ['rate', 'randomDiff', 'ds']),
     ...mapState(useUserStore, ['user']),
+    ...mapState(useRocketStore, ['multiplier']),
 
     lastPoint() {
       return this.points.slice(-2)

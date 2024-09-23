@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
+import { mapState, mapWritableState, mapActions } from '~/node_modules/pinia/dist/pinia'
 
 export default {
   computed: {
@@ -52,9 +52,12 @@ export default {
       this.$refs.multiplier?.run()
     }, 20)
     this.prepare()
+    this.updateRate()
   },
 
   methods: {
+    ...mapActions(useRocketStore, ['fetchRate']),
+
     run() {
       this.$refs.bet?.start()
       this.running = true
@@ -66,11 +69,15 @@ export default {
       this.loop.stop()
       await sleep(2000)
       this.running = false
-      await this.prepare()
+      await Promise.all([this.prepare(), this.updateRate()])
+    },
+
+    async updateRate() {
+      const rate = await this.fetchRate()
+      this.rate = pad(rate)
     },
 
     async prepare() {
-      this.rate = pad(70000)
       while (this.counter < 100) {
         this.counter++
         await sleep(25)

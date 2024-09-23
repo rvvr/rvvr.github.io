@@ -7,4 +7,11 @@ export const useRocketStore = defineStore('rocket', {
     betPlaced: 0,
     betPlanned: 0,
   }),
+
+  actions: {
+    async fetchRate() {
+      const { current_price } = await api.get('/current_price')
+      return current_price
+    },
+  },
 })

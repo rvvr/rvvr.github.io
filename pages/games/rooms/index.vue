@@ -14,6 +14,7 @@
       <RoomCard
         v-for="(room, i) in rooms"
         :key="i"
+        :gameType="gameType"
         :index="i"
         :join="join"
         :room="room"
@@ -41,6 +42,9 @@ export default {
       if (!this.availableRooms && !this.activeRooms) return null
       const rooms = [...this.activeRooms, ...this.availableRooms]
       return rooms.length ? rooms.sort((a, b) => a.id - b.id) : []
+    },
+    gameType() {
+      return this.$route.query.game_type || 'trade'
     },
   },
 

@@ -46,7 +46,11 @@
           </div>
         </button>
 
-        <NuxtLink v-else-if="room.status === 'running'" :to="`/games/rooms/${room.id}`" class="w-full">
+        <NuxtLink
+          v-else-if="room.status === 'running'"
+          :to="`/games/rooms/${gameType}-${room.id}`"
+          class="w-full"
+        >
           <button class="btn btn-accent w-full">Enter room</button>
         </NuxtLink>
 
@@ -71,7 +75,7 @@ dayjs.extend(timezone)
 dayjs.extend(relativeTime)
 
 export default {
-  props: ['room', 'join', 'index'],
+  props: ['room', 'join', 'index', 'gameType'],
 
   data() {
     return {

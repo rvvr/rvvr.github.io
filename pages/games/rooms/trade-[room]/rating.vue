@@ -5,7 +5,7 @@
       <div class="font-bold text-neutral-content">Room rating</div>
     </template>
     <template #right>
-      <NuxtLink :to="`/games/rooms/${$route.params.room}`"><NavbarClose /></NuxtLink>
+      <NuxtLink :to="`/games/rooms/trade-${$route.params.room}`"><NavbarClose /></NuxtLink>
     </template>
   </NavbarView>
 

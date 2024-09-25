@@ -30,7 +30,7 @@
           <div v-else class="flex justify-between align-bottom">
             <span>Room finished!</span>
             <NuxtLink
-              :to="`/rooms/${$route.params.room}/history`"
+              :to="`/games/rooms/${$route.params.room}/history`"
               class="font-roboto inline pt-1.5 text-sm text-info"
             >
               View history
@@ -116,7 +116,7 @@
 
       <div class="mt-2 text-center">
         <button v-if="roundsLeft" @click="closeModal" class="btn btn-neutral">Close</button>
-        <button v-else @click="navigateTo('/rooms')" class="btn btn-neutral">Leave</button>
+        <button v-else @click="navigateTo('/games/rooms')" class="btn btn-neutral">Leave</button>
       </div>
     </div>
   </dialog>

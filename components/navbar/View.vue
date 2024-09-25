@@ -13,7 +13,7 @@
 
     <div class="justify-self-end">
       <slot v-if="$slots.right" name="right" />
-      <NavbarAvatar class="h-8 w-8" />
+      <NavbarAvatar v-else class="h-8 w-8" />
     </div>
   </div>
 </template>

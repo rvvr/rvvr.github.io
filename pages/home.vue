@@ -7,7 +7,7 @@
 
   <div class="h-full flex-1 p-4">
     <div class="mb-4 grid grid-cols-2 gap-4">
-      <NuxtLink to="/boost">
+      <NuxtLink to="/games">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
           <span class="absolute right-4 top-4 flex h-3 w-3">
             <span
@@ -21,7 +21,7 @@
           </div>
         </div>
       </NuxtLink>
-      <NuxtLink to="/rooms">
+      <NuxtLink to="/games">
         <div class="card card-compact relative bg-white bg-opacity-10 shadow-sm">
           <span class="absolute right-4 top-4 flex h-3 w-3">
             <span

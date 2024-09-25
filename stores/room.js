@@ -54,8 +54,9 @@ export const useRoomStore = defineStore('room', {
       return await api.get('/stats/' + id)
     },
 
-    async getRooms() {
-      return await api.get(`/rooms/`)
+    async getRooms(game_type = null) {
+      console.log(game_type)
+      return await api.get('/rooms/' + (game_type ? `?game_type=${game_type}` : ''))
     },
 
     async joinRoom(room_id) {

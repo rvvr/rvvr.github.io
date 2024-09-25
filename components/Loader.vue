@@ -1,6 +1,6 @@
 <template>
   <slot v-if="data?.length" />
-  <slot name="empty" v-else-if="data" />
+  <slot v-else-if="data" name="empty" />
   <div v-else class="text-center">
     <span class="loading loading-ball loading-lg text-neutral-content"></span>
   </div>

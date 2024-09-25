@@ -5,14 +5,7 @@
     </template>
   </NavbarView>
 
-  <div class="px-4">
-    <NuxtLink to="rooms/rewards">
-      <button class="font-oswald btn btn-neutral my-4 w-full text-lg leading-none">
-        <IconsTrophy class="h-4 w-4 text-neutral-content" />
-        <span>My rewards</span>
-      </button>
-    </NuxtLink>
-
+  <div class="p-4 pb-0">
     <Loader :data="rooms">
       <template #empty>
         <div class="text-center opacity-50">No active rooms yet</div>
@@ -37,25 +30,25 @@ let interval = null
 export default {
   data() {
     return {
-      availableRooms: [],
-      activeRooms: [],
+      availableRooms: null,
+      activeRooms: null,
       interval: null,
     }
   },
 
   computed: {
     rooms() {
+      if (!this.availableRooms && !this.activeRooms) return null
       const rooms = [...this.activeRooms, ...this.availableRooms]
-      return rooms.length ? rooms.sort((a, b) => a.id - b.id) : null
+      return rooms.length ? rooms.sort((a, b) => a.id - b.id) : []
     },
   },
 
   methods: {
     ...mapActions(useRoomStore, ['joinRoom', 'getRooms']),
-    ...mapActions(useUserStore, ['fetchFriends']),
 
     async fetch() {
-      const { active, available } = await this.getRooms()
+      const { active, available } = await this.getRooms(this.$route.query.game_type)
 
       this.activeRooms = active
         .filter((r) => r.status !== 'ended')
@@ -74,7 +67,7 @@ export default {
   },
 
   async mounted() {
-    await Promise.all([this.fetch(), this.fetchFriends()])
+    await this.fetch()
     interval = setInterval(() => this.fetch(), 10000)
   },
 

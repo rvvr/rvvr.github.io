@@ -9,11 +9,14 @@
           </template>
         </div>
 
-        <NuxtLink :to="`/rooms/${$route.params.room}/rating`">
+        <NuxtLink :to="`/games/rooms/${$route.params.room}/rating`">
           <NavbarBalance :balance="userRating.balance" :fake="true" />
         </NuxtLink>
 
-        <NuxtLink :to="`/rooms/${$route.params.room}/rating`" class="font-oswald flex items-center text-sm">
+        <NuxtLink
+          :to="`/games/rooms/${$route.params.room}/rating`"
+          class="font-oswald flex items-center text-sm"
+        >
           <template v-if="userRating.position">
             <IconsTrophy class="mx-1 h-3 w-3 text-neutral-content" />
             {{ userRating.position }}/{{ roomRating.length }}

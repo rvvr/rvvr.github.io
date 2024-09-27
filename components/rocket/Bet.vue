@@ -30,7 +30,7 @@
       </button>
     </div>
 
-    <BetSize v-model="betSize" :balance="user.balance" />
+    <BetSize v-model="betSize" :balance="balance" :fake="room" />
 
     <dialog class="modal" ref="infBalance">
       <ModalsDeposit />
@@ -51,11 +51,14 @@ export default {
   computed: {
     ...mapState(useUserStore, ['user']),
     ...mapWritableState(useRocketStore, ['betPlaced', 'betPlanned']),
-    ...mapState(useRocketStore, ['multiplier', 'room']),
+    ...mapState(useRocketStore, ['multiplier', 'room', 'userRating']),
     ...mapState(useUserStore, ['user']),
 
     cashOutVal() {
       return Math.round(this.betPlaced * this.multiplier)
+    },
+    balance() {
+      return this.room ? this.userRating.balance : this.user.balance
     },
   },
 
@@ -68,7 +71,7 @@ export default {
     ...mapActions(useRocketStore, ['tournamentBet', 'tournamentCashOut']),
 
     planBet() {
-      if (this.user.balance < this.betSize) this.$refs.infBalance.showModal()
+      if (this.balance < this.betSize) this.$refs.infBalance.showModal()
       else this.betPlanned = this.betSize
     },
     cancelBet() {
@@ -76,7 +79,7 @@ export default {
     },
     placeBet() {
       if (this.room) {
-        this.tournamentBet(this.betPlanned, this.$route.params.room)
+        this.tournamentBet(this.betPlanned)
       } else {
         this.saveTaps(-this.betPlanned)
       }
@@ -85,7 +88,7 @@ export default {
     },
     cashOut() {
       if (this.room) {
-        this.tournamentCashOut(this.cashOutVal, this.$route.params.room)
+        this.tournamentCashOut(this.cashOutVal)
       } else {
         this.saveTaps(this.cashOutVal)
       }

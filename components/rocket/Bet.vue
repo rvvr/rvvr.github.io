@@ -51,7 +51,7 @@ export default {
   computed: {
     ...mapState(useUserStore, ['user']),
     ...mapWritableState(useRocketStore, ['betPlaced', 'betPlanned']),
-    ...mapState(useRocketStore, ['multiplier']),
+    ...mapState(useRocketStore, ['multiplier', 'room']),
     ...mapState(useUserStore, ['user']),
 
     cashOutVal() {
@@ -65,6 +65,7 @@ export default {
 
   methods: {
     ...mapActions(useWalletStore, ['saveTaps']),
+    ...mapActions(useRocketStore, ['tournamentBet', 'tournamentCashOut']),
 
     planBet() {
       if (this.user.balance < this.betSize) this.$refs.infBalance.showModal()
@@ -74,12 +75,20 @@ export default {
       this.betPlanned = 0
     },
     placeBet() {
-      this.saveTaps(-this.betPlanned)
+      if (this.room) {
+        this.tournamentBet(this.betPlanned, this.$route.params.room)
+      } else {
+        this.saveTaps(-this.betPlanned)
+      }
       this.betPlaced = this.betPlanned
       this.betPlanned = 0
     },
     cashOut() {
-      this.saveTaps(this.cashOutVal)
+      if (this.room) {
+        this.tournamentCashOut(this.cashOutVal, this.$route.params.room)
+      } else {
+        this.saveTaps(this.cashOutVal)
+      }
       this.betPlaced = 0
     },
     async end() {

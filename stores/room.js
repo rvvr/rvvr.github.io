@@ -55,7 +55,6 @@ export const useRoomStore = defineStore('room', {
     },
 
     async getRooms(game_type = null) {
-      console.log(game_type)
       return await api.get('/rooms/' + (game_type ? `?game_type=${game_type}` : ''))
     },
 

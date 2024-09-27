@@ -1,7 +1,7 @@
 <template>
   <NavbarView>
     <template #center>
-      <div class="font-bold text-neutral-content">Freeroll rooms</div>
+      <div class="font-bold text-neutral-content">Rooms</div>
     </template>
   </NavbarView>
 

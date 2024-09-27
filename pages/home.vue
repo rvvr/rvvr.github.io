@@ -32,7 +32,7 @@
 
           <div class="card-body items-center">
             <img class="mx-auto h-12" src="/money.png" />
-            <p class="font-oswald">Freeroll rooms</p>
+            <p class="font-oswald">Tournaments</p>
           </div>
         </div>
       </NuxtLink>

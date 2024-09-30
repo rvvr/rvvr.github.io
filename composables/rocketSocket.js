@@ -6,12 +6,12 @@ export class RocketSocket {
 
     wss.onmessage = ({ data }) => {
       data = JSON.parse(data)
+
       this.stop()
     }
   }
 
   static stop() {
     wss.close()
-    useNuxtApp().$bus.emit('stopRocket')
   }
 }

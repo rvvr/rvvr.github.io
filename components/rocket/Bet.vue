@@ -49,21 +49,12 @@ export default {
   },
 
   computed: {
-    ...mapState(useUserStore, ['user']),
     ...mapWritableState(useRocketStore, ['betPlaced', 'betPlanned']),
-    ...mapState(useRocketStore, ['multiplier', 'room', 'userRating']),
-    ...mapState(useUserStore, ['user']),
-
-    cashOutVal() {
-      return Math.round(this.betPlaced * this.multiplier)
-    },
-    balance() {
-      return this.room ? this.userRating.balance : this.user.balance
-    },
+    ...mapState(useRocketStore, ['multiplier', 'room', 'userRating', 'cashOutVal', 'balance']),
   },
 
   created() {
-    this.betSize = 1 + Math.floor(this.user.balance * 0.5)
+    this.betSize = 1 + Math.floor(this.balance * 0.5)
   },
 
   methods: {
@@ -87,6 +78,7 @@ export default {
       this.betPlanned = 0
     },
     cashOut() {
+      this.$toast.success(`Cashout ${this.cashOutVal}!`)
       if (this.room) {
         this.tournamentCashOut(this.cashOutVal)
       } else {

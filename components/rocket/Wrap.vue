@@ -19,6 +19,7 @@
   </div>
 
   <RocketBet ref="bet" />
+  <button @click="stop" class="btn btn-accent">stop</button>
 </template>
 
 <script>
@@ -26,12 +27,12 @@ import { mapState, mapWritableState, mapActions } from '~/node_modules/pinia/dis
 
 export default {
   computed: {
-    ...mapState(useUserStore, ['user']),
-    ...mapWritableState(useRocketStore, ['ds', 'rate']),
+    ...mapWritableState(useRocketStore, ['rate']),
   },
 
   data() {
     return {
+      stopped: false,
       running: false,
       counter: 0,
       loop: null,
@@ -56,11 +57,15 @@ export default {
       this.loop.start()
     },
 
-    async end() {
+    async stop() {
       this.$refs.bet?.end()
       this.loop.stop()
       await sleep(2000)
       this.running = false
+    },
+
+    async end() {
+      await this.stop()
       await Promise.all([this.prepare(), this.updateRate()])
     },
 

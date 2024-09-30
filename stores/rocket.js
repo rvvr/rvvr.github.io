@@ -6,14 +6,19 @@ export const useRocketStore = defineStore('rocket', {
     multiplier: 1,
     betPlaced: 0,
     betPlanned: 0,
-    roomBalance: null,
-    rating: [],
+    rating: null,
     room: null,
   }),
 
   getters: {
     userRating() {
-      return this.rating.find((c) => c.user_id === useUserStore().user.user_id) || {}
+      return this.rating?.find((c) => c.user_id === useUserStore().user.user_id) || {}
+    },
+    cashOutVal() {
+      return Math.round(this.betPlaced * this.multiplier)
+    },
+    balance() {
+      return this.room ? this.userRating.balance : useUserStore().user.balance
     },
   },
 

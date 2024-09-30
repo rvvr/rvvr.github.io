@@ -42,9 +42,14 @@ export default {
     ...mapActions(useRocketStore, ['fetchRating']),
   },
 
-  created() {
+  mounted() {
     this.room = this.$route.params.room
+    RocketSocket.start()
     this.fetchRating()
+  },
+
+  beforeUnmount() {
+    RocketSocket.stop()
   },
 }
 </script>

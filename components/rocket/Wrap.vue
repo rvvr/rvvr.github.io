@@ -18,7 +18,7 @@
     <RocketMultiplier v-if="running" ref="multiplier" />
   </div>
 
-  <RocketBet :running="running" ref="bet" />
+  <RocketBet ref="bet" />
 </template>
 
 <script>
@@ -80,8 +80,8 @@ export default {
   },
 
   beforeUnmount() {
-    useRocketStore().$reset()
     this.loop?.stop()
+    useRocketStore().$reset()
   },
 }
 </script>

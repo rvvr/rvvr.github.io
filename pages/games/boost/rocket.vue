@@ -11,16 +11,11 @@
 </template>
 
 <script>
-import { mapState, mapWritableState } from '~/node_modules/pinia/dist/pinia'
+import { mapState } from '~/node_modules/pinia/dist/pinia'
 
 export default {
   computed: {
     ...mapState(useUserStore, ['user']),
-    ...mapWritableState(useRocketStore, ['room']),
-  },
-
-  created() {
-    this.room = false
   },
 }
 </script>

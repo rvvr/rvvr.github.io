@@ -26,7 +26,7 @@
     </template>
   </NavbarView>
 
-  <RocketWrap v-if="rating" />
+  <RocketWrap />
 </template>
 
 <script>

@@ -4,11 +4,6 @@
       <div></div>
       <div class="font-oswald text-center leading-none">
         <span class="opacity-50">Bet:</span>
-        <img
-          :src="`/${fake ? 'point' : 'coin'}.png`"
-          class="align-center mb-1 ml-2 inline-block h-4 w-4"
-          alt=""
-        />
         {{ modelValue }}
       </div>
       <div></div>
@@ -38,6 +33,6 @@
 
 <script>
 export default {
-  props: ['balance', 'modelValue', 'fake'],
+  props: ['balance', 'modelValue'],
 }
 </script>

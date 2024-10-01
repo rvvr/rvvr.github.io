@@ -20,9 +20,6 @@ export default {
       sf: 0.5,
     }
   },
-  methods: {
-    run() {},
-  },
 
   computed: {
     ...mapState(useRocketStore, ['ds', 'rate']),

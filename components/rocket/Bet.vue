@@ -12,7 +12,7 @@
 
       <button
         v-else-if="betPlaced"
-        @click="cashOut"
+        @click="doCashOut"
         class="pb-1/2 btn h-14 w-full border-2 border-amber-700 bg-amber-500 text-xl font-bold text-white"
         ref="cashOut"
         type="button"
@@ -30,7 +30,7 @@
       </button>
     </div>
 
-    <BetSize v-model="betSize" :balance="balance" :fake="room" />
+    <BetSize v-model="betSize" :balance="balance" />
 
     <dialog class="modal" ref="infBalance">
       <ModalsDeposit />
@@ -49,8 +49,8 @@ export default {
   },
 
   computed: {
-    ...mapWritableState(useRocketStore, ['betPlaced', 'betPlanned']),
-    ...mapState(useRocketStore, ['multiplier', 'room', 'userRating', 'cashOutVal', 'balance']),
+    ...mapWritableState(useRocketStore, ['betPlanned']),
+    ...mapState(useRocketStore, ['betPlaced', 'cashOutVal', 'balance']),
   },
 
   created() {
@@ -59,7 +59,7 @@ export default {
 
   methods: {
     ...mapActions(useWalletStore, ['saveTaps']),
-    ...mapActions(useRocketStore, ['tournamentBet', 'tournamentCashOut']),
+    ...mapActions(useRocketStore, ['tournamentBet', 'tournamentCashOut', 'cashOut']),
 
     planBet() {
       if (this.balance < this.betSize) this.$refs.infBalance.showModal()
@@ -68,32 +68,9 @@ export default {
     cancelBet() {
       this.betPlanned = 0
     },
-    placeBet() {
-      if (this.room) {
-        this.tournamentBet(this.betPlanned)
-      } else {
-        this.saveTaps(-this.betPlanned)
-      }
-      this.betPlaced = this.betPlanned
-      this.betPlanned = 0
-    },
-    cashOut() {
+    doCashOut() {
       this.$toast.success(`Cashout ${this.cashOutVal}!`)
-      if (this.room) {
-        this.tournamentCashOut(this.cashOutVal)
-      } else {
-        this.saveTaps(this.cashOutVal)
-      }
-      this.betPlaced = 0
-    },
-    async end() {
-      if (!this.betPlaced) return
-      this.$refs.cashOut.disabled = true
-      await sleep(2000)
-      this.betPlaced = 0
-    },
-    start() {
-      if (this.betPlanned) this.placeBet()
+      this.cashOut()
     },
   },
 }

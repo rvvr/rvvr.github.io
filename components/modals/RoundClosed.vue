@@ -1,5 +1,5 @@
 <template>
-  <dialog class="modal" ref="modalsRoundClosed">
+  <dialog @cancel.prevent class="modal" ref="modalsRoundClosed">
     <div class="modal-box pt-0">
       <div class="mb-6 text-center">
         <IconsMultiGreenArrow v-if="isUp" class="inline-block h-20 w-20" />

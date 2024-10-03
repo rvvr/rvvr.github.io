@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import countdown from 'countdown'
+import * as countdown from 'countdown'
 import dayjs from 'dayjs'
 
 export default {
@@ -25,7 +25,7 @@ export default {
   mounted() {
     const date = dayjs.unix(this.date)
     if (Date.now() > date) return
-    this.timer = countdown(date, (ts) => {
+    this.timer = countdown.default(date, (ts) => {
       if (ts.end < ts.start) this.output = ts.minutes + ':' + `${ts.seconds}`.padStart(2, '0')
       else this.stop()
     })

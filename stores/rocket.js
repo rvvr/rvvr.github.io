@@ -8,6 +8,8 @@ export const useRocketStore = defineStore('rocket', {
     betPlanned: 0,
     rating: null,
     room: null,
+    endTime: null,
+    ended: false,
   }),
 
   getters: {

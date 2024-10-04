@@ -20,7 +20,7 @@ export const useRocketStore = defineStore('rocket', {
       return Math.round(this.betPlaced * this.multiplier)
     },
     balance() {
-      return this.userRating?.balance || useUserStore().user.balance
+      return this.room ? this.userRating?.balance : useUserStore().user.balance
     },
   },
 

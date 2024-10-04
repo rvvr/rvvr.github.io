@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       countdown: null,
-      output: '',
+      output: '00:00',
     }
   },
 

@@ -5,13 +5,15 @@
         <div class="font-oswald flex items-center text-sm">
           <template v-if="endTime">
             <IconsTime class="mr-1 h-3.5 w-3.5 pt-px text-neutral-content" />
-            <span class="w-9">
+            <span class="w-8">
               <Countdown :date="endTime" />
             </span>
           </template>
         </div>
-        <NuxtLink v-if="userRating" :to="`/games/rooms/trade-${$route.params.room}/rating`">
-          <NavbarBalance :balance="userRating.balance" :fake="true" />
+        <NuxtLink :to="`/games/rooms/rocket-${$route.params.room}/rating`">
+          <template v-if="userRating">
+            <NavbarBalance :balance="userRating.balance" :fake="true" />
+          </template>
         </NuxtLink>
 
         <NuxtLink
@@ -36,7 +38,7 @@
     <RocketWait v-else :counter="counter" />
   </div>
 
-  <RocketBet />
+  <RocketBet v-if="userRating" />
 
   <RocketRoomClosed />
 </template>

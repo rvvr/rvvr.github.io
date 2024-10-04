@@ -3,39 +3,41 @@
 </template>
 
 <script>
-import * as countdown from 'countdown'
-import dayjs from 'dayjs'
+import CountDown from 'countdown-pro'
 
 export default {
   props: ['date'],
 
   data() {
     return {
-      timer: null,
-      output: '0:00',
+      countdown: null,
+      output: '',
     }
   },
 
-  methods: {
-    stop() {
-      window.clearInterval(this.timer)
-    },
-  },
-
   mounted() {
-    console.log(countdown)
-    console.log(countdown.default)
+    const end = this.date * 1000
+    const now = +Date.now()
+    if (now > end) return
 
-    const date = dayjs.unix(this.date)
-    if (Date.now() > date) return
-    this.timer = countdown.default(date, (ts) => {
-      if (ts.end < ts.start) this.output = ts.minutes + ':' + `${ts.seconds}`.padStart(2, '0')
-      else this.stop()
+    this.output = CountDown.format(end - now, 'mm:ss')
+    const self = this
+
+    this.countdown = new CountDown({
+      time: end - now,
+      interval: 1000,
+      onChange(time) {
+        self.output = CountDown.format(time, 'mm:ss')
+      },
+      onEnd() {
+        self.countdown.pause()
+      },
     })
+    this.countdown.start()
   },
 
   beforeUnmount() {
-    this.stop()
+    this.countdown?.pause()
   },
 }
 </script>

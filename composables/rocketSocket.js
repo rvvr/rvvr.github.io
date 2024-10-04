@@ -7,7 +7,7 @@ export class RocketSocket {
     wss.onmessage = ({ data }) => {
       data = JSON.parse(data)
 
-      useRocketStore().endTime = data.end_time
+      if (data.end_time) useRocketStore().endTime = data.end_time
       useRocketStore().ended = data.value === 'ended'
     }
   }

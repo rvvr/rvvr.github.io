@@ -5,7 +5,7 @@
         <div class="font-oswald flex items-center text-sm">
           <template v-if="endTime">
             <IconsTime class="mr-1 h-3.5 w-3.5 pt-px text-neutral-content" />
-            <span class="w-6">
+            <span class="w-9">
               <Countdown :date="endTime" />
             </span>
           </template>

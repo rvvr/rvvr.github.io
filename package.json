@@ -16,7 +16,7 @@
     "@tonconnect/ui": "^2.0.2",
     "canvas-confetti": "^1.9.3",
     "copy-to-clipboard": "^3.3.3",
-    "countdown": "^2.6.0",
+    "countdown-pro": "^2.1.0",
     "dayjs": "^1.11.12",
     "konva": "^9.3.6",
     "lodash.debounce": "^4.0.8",

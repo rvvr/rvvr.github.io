@@ -54,7 +54,7 @@ export default {
   },
 
   created() {
-    this.betSize = 1 + Math.floor(this.balance * 0.5)
+    this.betSize = Math.floor(this.balance * 0.5) || 1
   },
 
   methods: {

@@ -23,12 +23,12 @@ export default {
   },
 
   mounted() {
-    console.log('🚀 ~ this.timer=countdown.default ~ countdown:', countdown)
+    console.log(countdown)
+    console.log(countdown.default)
 
     const date = dayjs.unix(this.date)
     if (Date.now() > date) return
-    this.timer = countdown(date, (ts) => {
-      console.log('🚀 ~ this.timer=countdown.default ~ countdown:', countdown)
+    this.timer = countdown.default(date, (ts) => {
       if (ts.end < ts.start) this.output = ts.minutes + ':' + `${ts.seconds}`.padStart(2, '0')
       else this.stop()
     })

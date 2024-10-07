@@ -16,6 +16,9 @@ export const useRocketStore = defineStore('rocket', {
     userRating() {
       return this.rating?.find((c) => c.user_id === useUserStore().user.user_id)
     },
+    isRunning() {
+      return this.userRating?.is_running
+    },
     cashOutVal() {
       return Math.round(this.betPlaced * this.multiplier)
     },

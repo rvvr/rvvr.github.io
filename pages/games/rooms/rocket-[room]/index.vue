@@ -38,7 +38,7 @@
     <RocketWait v-else :counter="counter" />
   </div>
 
-  <RocketBet v-if="userRating" />
+  <RocketBet v-if="userRating && isRunning" />
 
   <RocketRoomClosed />
 </template>
@@ -59,7 +59,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useRocketStore, ['userRating', 'rating', 'endTime', 'ended']),
+    ...mapState(useRocketStore, ['userRating', 'rating', 'endTime', 'ended', 'isRunning']),
   },
 
   methods: {
@@ -69,7 +69,7 @@ export default {
       await Promise.all([this.counterTick(), this.fetchRate(), this.fetchRating()])
       if (this.ended) {
         document.getElementById('rocketRoomEnded').showModal()
-      } else {
+      } else if (this.isRunning) {
         this.run()
       }
     },

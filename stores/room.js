@@ -59,7 +59,9 @@ export const useRoomStore = defineStore('room', {
     },
 
     async joinRoom(room_id) {
-      return await api.post('/room/join', { room_id, user_id: this.user_id })
+      const data = await api.post('/room/join', { room_id, user_id: this.user_id })
+      useUserStore().fetchUser()
+      return data
     },
 
     addPlayer(side) {

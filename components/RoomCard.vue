@@ -30,8 +30,10 @@
       <p class="opacity-50">{{ room.description }}</p>
 
       <div class="card-actions pt-3">
+        <button v-if="!vacancies" class="btn w-full !text-opacity-80" disabled>Tournament is full</button>
+
         <button
-          v-if="!room.active"
+          v-else-if="!room.active"
           @click="join(room.id, $event)"
           :disabled="disabled"
           class="btn btn-neutral relative w-full justify-center !text-white"
@@ -75,7 +77,7 @@ dayjs.extend(timezone)
 dayjs.extend(relativeTime)
 
 export default {
-  props: ['room', 'join', 'index', 'gameType'],
+  props: ['room', 'join', 'index', 'gameType', 'vacancies'],
 
   data() {
     return {

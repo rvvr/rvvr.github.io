@@ -18,6 +18,7 @@
         :index="i"
         :join="join"
         :room="room"
+        :vacancies="room.max_participants - room.current_participants"
         class="carousel-item"
       />
     </Loader>
